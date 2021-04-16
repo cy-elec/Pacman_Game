@@ -4,7 +4,7 @@
 
 //Language Reference:  https://processing.org/reference/
 
-PrintWriter debugoutput = createWriter("debug.log");
+PrintWriter debugoutput;
 
 
 int score;
@@ -12,15 +12,20 @@ boolean keyMap[] = new boolean[256];
 
 /*gameHandler is an instance of Game and used for the general game control*/
 
-Game gameHandler = new Game();
+Game gameHandler;
 
 
 void setup()
 {
-  //display
-  /*DEBUG*/
-  debugoutput.println(hour()+":"+minute()+":"+second()+"Main: Initialized Window");
+  debugoutput = createWriter("debug.log");
 
+  gameHandler=new Game();
+
+
+  /*DEBUG*/
+  debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
+
+  //display
   surface.setResizable(false);
   surface.setSize(600, 600);
 }
