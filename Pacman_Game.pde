@@ -1,4 +1,4 @@
-//Reference:  https://processing.org/reference/
+//Language Reference:  https://processing.org/reference/
 
 int score;
 boolean keyMap[] = new boolean[256];
