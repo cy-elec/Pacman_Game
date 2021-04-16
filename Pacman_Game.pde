@@ -2,7 +2,6 @@
 
 */
 
-
 //Language Reference:  https://processing.org/reference/
 
 int score;
@@ -13,13 +12,16 @@ Game gameHandler = new Game();
 
 void setup()
 {
-  /*Display size, width, height*/
-  size(500, 500);
+
+  //display
+  surface.setResizable(false);
+  surface.setSize(600, 600);
 }
 
 /*Update loop*/
 void draw()
 {
+
   /*renering Map*/
   gameHandler.renderMap();
   /*updating position of pacman and ghost, as well as handling collisions with ghost, coin, etc*/

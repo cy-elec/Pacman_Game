@@ -54,8 +54,8 @@ class Game {
   void renderMap() {
 
     //one box=100*100 pixel --UPDATE: ceil() for screen fill
-    int widthScale = ceil((float)width/this.map[0].length);
-    int heightScale = ceil((float)height/this.map.length);
+    int widthScale = (width/this.map[0].length);
+    int heightScale = (height/this.map.length);
 
     /*loop through x and y axis*/
     for(int i=0; i<this.map[0].length; i++)
@@ -64,12 +64,12 @@ class Game {
       {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
-        rect(i*widthScale-widthScale/5, j*heightScale-heightScale/5, widthScale, heightScale);//rect draws a rect you idiot
+        rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
       }
     }
     //print pacman
     fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.position[0]*widthScale-widthScale/5, player.position[1]*heightScale-heightScale/5, widthScale, heightScale);//rect draws a rect you idiot
+    rect(player.position[0]*widthScale, player.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
   }
 
   /*movement control and collision check*/
