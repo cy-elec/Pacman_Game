@@ -14,21 +14,22 @@ class Game {
 
 
   /*map which will be rendered*/
-  int map[][] = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
-                    {1,1,0,0,0,1,0,1,0,0,0,0,0,0,1},
-                    {1,0,1,1,0,1,0,1,0,1,1,1,1,0,1},
-                    {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
-                    {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
-                    {1,0,1,1,0,1,1,1,1,1,0,1,1,0,1},
-                    {1,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
-                    {1,1,1,1,0,1,1,0,1,1,0,1,1,1,1},
-                    {1,0,0,1,0,0,0,0,0,0,0,1,0,0,1},
-                    {1,0,1,1,0,1,1,1,1,1,0,1,0,0,1},
-                    {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
-                    {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
-                    {1,0,1,0,1,1,0,1,0,1,1,1,0,0,1},
-                    {1,0,0,0,0,1,0,1,0,1,1,0,0,0,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+  int map[][] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,1,0,1,0,0,0,0,0,0,1},
+    {1,0,1,1,0,1,0,1,0,1,1,1,1,0,1},
+    {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
+    {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
+    {1,0,1,1,0,1,1,1,1,1,0,1,1,0,1},
+    {1,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
+    {1,1,1,1,0,1,1,0,1,1,0,1,1,1,1},
+    {1,0,0,1,0,0,0,0,0,0,0,1,0,0,1},
+    {1,0,1,1,0,1,1,1,1,1,0,1,1,0,1},
+    {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
+    {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
+    {1,0,1,0,1,1,0,1,0,1,1,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,1,1,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
   };
   /*color codes for different map features*/
   color colorMap[]= {color(0,0,0),color(0,0,255),color(255,0,255),color(200,200,100),color(255,0,255)};
@@ -63,12 +64,12 @@ class Game {
       {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
-        rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+        rect(i*widthScale-widthScale/5, j*heightScale-heightScale/5, widthScale, heightScale);//rect draws a rect you idiot
       }
     }
     //print pacman
     fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.position[0]*widthScale, player.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+    rect(player.position[0]*widthScale-widthScale/5, player.position[1]*heightScale-heightScale/5, widthScale, heightScale);//rect draws a rect you idiot
   }
 
   /*movement control and collision check*/
