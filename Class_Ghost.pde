@@ -1,4 +1,4 @@
 class Ghost {
-boolean isAlive;
-
+  boolean isAlive;
+  
 }
