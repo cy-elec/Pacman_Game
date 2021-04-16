@@ -9,7 +9,7 @@ class Blinky extends Ghost{
 
   void makeMove(int[] pacmanPosition){
 
-    if (this.position[0]==pacmanPostion[0]&&this.position[1]==pacmanPostion[1])
+    if (this.position[0]==pacmanPosition[0]&&this.position[1]==pacmanPosition[1])
       return;
 
     //just takes the quickest path to pacman
