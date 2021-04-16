@@ -2,7 +2,8 @@ class Game {
   Pacman player = new Pacman();
   Ghost[] Ghosts = new Ghost[2];
 
-  int mil =0, GLOBALDELAY=100;
+  String oldDirection="";
+  int mil =0, GLOBALDELAY=300;
 
   int map[][] = {{1,1,1,1,1,1,1,1,1,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {0,0,0,0,0,0,0,0,0,0}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,1,1,1,1,1,1,1,1,1,1}};
   color colorMap[]= {color(0,0,0),color(0,0,255),color(255,0,255),color(200,200,100),color(255,0,255)};
@@ -46,10 +47,10 @@ class Game {
   void move() 	// diese funktion verändert die position von pacman
   {
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
-
     //delay 500ms
     if((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
       mil=millis();
+
 
 
       //move ghosts
@@ -89,7 +90,34 @@ class Game {
 
       else if(collision!=1){
         player.position=playerNextPos.clone();
-
+        oldDirection=player.direction;
+      }
+      else if(collision==1) {
+        player.direction=oldDirection;
+        playerNextPos=player.position.clone();
+        switch(player.direction) {
+          case "up":
+           playerNextPos[1]--;
+           playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
+           break;
+          case "down":
+            playerNextPos[1]++;
+            playerNextPos[1] %= this.map.length;
+            break;
+          case "left":
+            playerNextPos[0]--;
+            playerNextPos[0]= playerNextPos[0]<0?this.map[0].length-1:playerNextPos[0];
+            break;
+          case "right":
+            playerNextPos[0]++;
+            playerNextPos[0] %= this.map[0].length;
+            break;
+          default:break;
+        }
+        collision = this.checkCollision(playerNextPos);
+        if(collision!=1){
+          player.position=playerNextPos.clone();
+        }
       }
 
 
