@@ -1,2 +1,2 @@
-# ProjectPacman
-PacmanGame
+# Pacman Game
+PacmanGame Readme
