@@ -50,7 +50,7 @@ void bubbleSort(Node[] a) {
     }
 }
 
-boolean IsAinB(Node a, Node[] b){
+boolean isAinB(Node a, Node[] b){
   for (int i=0; i<b.length;i++){
     if(a.equals(b[i]))
       return true;

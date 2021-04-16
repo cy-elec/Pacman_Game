@@ -49,7 +49,7 @@ class Game {
 
   Game(){
     /*DEBUG*/
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler");
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
   }
 
   /*renders the whole map*/
@@ -80,6 +80,9 @@ class Game {
     //print pacman
     fill(player.pacmanColor); //fill changes the colour for all draw functions
     rect(player.position[0]*widthScale, player.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+    //print Blinky
+    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Blinky.position[0]*widthScale, Ghost_Blinky.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
   }
 
   /*movement control and collision check*/
@@ -98,6 +101,7 @@ class Game {
 
 
       //move ghosts
+      Ghost_Blinky.makeMove(player.position);
 
 
       /*copy position*/

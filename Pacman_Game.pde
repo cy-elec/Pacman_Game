@@ -28,6 +28,7 @@ void setup()
   //display
   surface.setResizable(false);
   surface.setSize(600, 600);
+  
 }
 
 /*Update loop*/

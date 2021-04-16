@@ -4,7 +4,7 @@ class Blinky extends Ghost{
 
   Blinky() {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Blinky");
+    super("Blinky",color(255,0,0));
   }
 
   void makeMove(int[] pacmanPosition){
@@ -26,25 +26,35 @@ class Blinky extends Ghost{
 
       for (int i  = 0; i<4; i++){
         int[] newPosition = {oldNode.position[0]+ possibleMoves[i][0], oldNode.position[1]+ possibleMoves[i][1]};
-        Node newNode = new Node(oldNode, oldNode.g+1, newPosition, abs(newPosition[0] - pacmanPosition[0]) + abs(newPosition[1] - pacmanPosition[1]));
-        if ( (0<= newNode.position[0] && newNode.position[0]<gameHandler.map[0].length) && (0<= newNode.position[1] && newNode.position[1]<gameHandler.map.length))
+        int newH = (int)pow(abs(newPosition[0] - pacmanPosition[0]), 2) + (int)pow(abs(newPosition[1] - pacmanPosition[1]), 2);
+        Node newNode = new Node(oldNode, oldNode.g+1, newPosition, newH);
+        if ( (0<= newNode.position[0] && newNode.position[0]<gameHandler.map[0].length) && (0<= newNode.position[1] && newNode.position[1]<gameHandler.map.length)){
           if (gameHandler.map[newNode.position[0]][newNode.position[1]] != 1){
+            if( !(isAinB(newNode, unexplored)||isAinB(newNode, explored))){
+              if(newNode.position[0]==pacmanPosition[0] && newNode.position[1]==pacmanPosition[1]){
+                int[][] path ={};
+                while(newNode.parent!=null){
+                  newNode= newNode.parent;
+                  path = (int[][])append(path, newNode.position);
 
+                }
 
-
-
-
-
+                this.position[0] = path[path.length-2][1];
+                this.position[1] = path[path.length-2][0];
+                return;
+              }
+              unexplored = (Node[]) append(unexplored, newNode);
+            }
           }
-
-
+        }
       }
-
-
+      explored = (Node[]) append(explored, unexplored[0]);
+      unexplored = (Node[]) reverse(unexplored);
+      unexplored = (Node[]) shorten(unexplored);
+      unexplored = (Node[]) reverse(unexplored);
     }
-
-
-    // A*
+  print("A* algorithm failed shame on jakob\n");
+  return;
   }
 
 }
