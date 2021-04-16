@@ -5,7 +5,7 @@
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   Pacman player = new Pacman();
-  Ghost[] Ghosts = new Ghost[4];
+  Ghost[] Ghosts = {Ghost("Blinky"), Ghost("Pinky"), Ghost("Inky"), Ghost("Clyde")};
 
   /*used for new movement control*/
   String oldDirection="";
