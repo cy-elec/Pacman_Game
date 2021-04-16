@@ -5,7 +5,10 @@
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   Pacman player = new Pacman();
-  Ghost[] Ghosts = {new Ghost("Blinky"), new Ghost("Pinky"), new Ghost("Inky"), new Ghost("Clyde")};
+  Blinky Ghost_Blinky = new Blinky();
+  Pinky Ghost_Pinky = new Pinky();
+  Inky Ghost_Inky = new Inky();
+  Clyde Ghost_Clyde = new Clyde();
 
   /*used for new movement control*/
   String oldDirection="";
@@ -45,12 +48,21 @@ class Game {
 
 
   Game(){
-
+    /*DEBUG*/
+    debugoutput.println("Game: Initialized gameHandler");
   }
 
   /*renders the whole map*/
   void renderMap() {
 
+    /*DEBUG*/
+    debugoutput.println(hour()+":"+minute()+":"+second()+"Game: Rendering map:");
+    debugoutput.println(hour()+":"+minute()+":"+second()+"\tPacman position: "+player.position[0]+" "+player.position[1]);
+    /*debugoutput.println(hour()+":"+minute()+":"+second()+"\tBlinky position: "+Blinky.position[0]+" "+Blinky.position[1]);
+    debugoutput.println(hour()+":"+minute()+":"+second()+"\tInky position: "+Inky.position[0]+" "+Inky.position[1]);
+    debugoutput.println(hour()+":"+minute()+":"+second()+"\tPinky position: "+Pinky.position[0]+" "+Pinky.position[1]);
+    debugoutput.println(hour()+":"+minute()+":"+second()+"\tClye position: "+Clyde.position[0]+" "+Clyde.position[1]);
+*/
     //one box=100*100 pixel --UPDATE: ceil() for screen fill
     int widthScale = (width/this.map[0].length);
     int heightScale = (height/this.map.length);
@@ -81,6 +93,8 @@ class Game {
       /*reset counter*/
       mil=millis();
 
+      /*DEBUG*/
+      debugoutput.println(hour()+":"+minute()+":"+second()+"Game: update movement");
 
 
       //move ghosts
@@ -112,6 +126,9 @@ class Game {
       /*get collision*/
       int collision = this.checkCollision(playerNextPos);
 
+      /*DEBUG*/
+      debugoutput.println(hour()+":"+minute()+":"+second()+"Game: Tracked collision: "+collision);
+
       //check for collision and afterwards move
       /*Ghost collision*/
       if(collision==3) {
@@ -119,6 +136,8 @@ class Game {
       }
       /*wall collision -> ignore key*/
       else if(collision==1) {
+        /*DEBUG*/
+        debugoutput.println(hour()+":"+minute()+":"+second()+"Game: reverting input to last valid movement");
         /*restore previous valid direction to cancel out current one and move*/
         player.direction=oldDirection;
 
@@ -151,6 +170,8 @@ class Game {
       }
       /*no wall collision -> move*/
       else if(collision!=1){
+        /*DEBUG*/
+        debugoutput.println(hour()+":"+minute()+":"+second()+"Game: Moving with new valid input");
         /*update position*/
         player.position=playerNextPos.clone();
         /*update last valid direction*/

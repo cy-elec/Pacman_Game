@@ -4,16 +4,23 @@
 
 //Language Reference:  https://processing.org/reference/
 
+PrintWriter debugoutput = createWriter("debug.log");
+
+
 int score;
 boolean keyMap[] = new boolean[256];
 
 /*gameHandler is an instance of Game and used for the general game control*/
+
 Game gameHandler = new Game();
+
 
 void setup()
 {
-
   //display
+  /*DEBUG*/
+  debugoutput.println(hour()+":"+minute()+":"+second()+"Main: Initialized Window");
+
   surface.setResizable(false);
   surface.setSize(600, 600);
 }
@@ -41,4 +48,11 @@ void keyPressed()
 void keyReleased() {
   if(key != CODED)//if a key is released, we remeber the key, so that we can release it in our key map next cycle (1cylce= 1 pacman move)
     keyMap[key]=false;
+}
+
+
+
+void stop() {
+  debugoutput.flush();
+  debugoutput.close();
 }

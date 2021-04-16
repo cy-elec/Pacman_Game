@@ -1,13 +1,14 @@
 class Pacman {
   boolean isAlive=true;
   int[] position = new int[2];
+  color pacmanColor = color(255, 255, 0);
 
   String direction;
-  
-  color pacmanColor = color(255, 255, 0);
 
 
   Pacman(){
+    /*DEBUG*/
+    debugoutput.println(hour()+":"+minute()+":"+second()+"Pacman: Initialized pacman");
     this.direction="";
     this.position[0]=1;
     this.position[1]=1;
