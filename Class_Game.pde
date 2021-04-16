@@ -17,7 +17,7 @@ class Game {
   int map[][] = {{1,1,1,1,1,1,1,1,1,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,1,0,0,1,0,0,1}, {0,0,0,1,0,0,1,0,0,0}, {1,0,0,1,1,1,1,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,1}, {1,1,1,1,1,1,1,1,1,1,1}};
   /*color codes for different map features*/
   color colorMap[]= {color(0,0,0),color(0,0,255),color(255,0,255),color(200,200,100),color(255,0,255)};
-  color pacmanColor = color(255, 255, 0);
+  
   /*
   0 = empty
   1 = wall
@@ -52,7 +52,7 @@ class Game {
       }
     }
     //print pacman
-    fill(this.pacmanColor); //fill changes the colour for all draw functions
+    fill(player.pacmanColor); //fill changes the colour for all draw functions
     rect(player.position[0]*widthScale, player.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
   }
 
@@ -101,7 +101,7 @@ class Game {
       //check for collision and afterwards move
       /*Ghost collision*/
       if(collision==3) {
-
+ä
         //if he colides with a ghost we want to check if he has a power up, else he dies
       }
       /*wall collision -> ignore key*/
