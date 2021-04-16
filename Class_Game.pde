@@ -37,9 +37,7 @@ class Game {
   /*
   0 = empty
   1 = wall
-  2 = Ghost
-  3 = coin
-  4 = coin + Ghost
+  2 = coin
 
   INFO: this.map.length ist die Höhe, this.map[0].length die Breite
   Wir sollten noch mehr Kommentare machen
