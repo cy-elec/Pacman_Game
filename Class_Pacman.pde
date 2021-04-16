@@ -3,6 +3,8 @@ class Pacman {
   int[] position = new int[2];
 
   String direction;
+  
+  color pacmanColor = color(255, 255, 0);
 
 
   Pacman(){
