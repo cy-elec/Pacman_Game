@@ -7,7 +7,7 @@ class Pacman {
 
   Pacman(){
     this.direction="";
-    this.position[0]=4;
-    this.position[1]=5;
+    this.position[0]=1;
+    this.position[1]=1;
   }
 }
