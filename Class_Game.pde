@@ -1,7 +1,7 @@
 /*
   Game class, main gameHandler
  */
-//test
+
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   Pacman player = new Pacman();
