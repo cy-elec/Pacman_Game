@@ -10,6 +10,9 @@ class Game {
   Inky Ghost_Inky = new Inky();
   Clyde Ghost_Clyde = new Clyde();
 
+  int playerScore=0;
+  boolean bootup=true;
+
   /*used for new movement control*/
   String oldDirection="";
   /*delay handler. movement every 200ms*/
@@ -22,11 +25,11 @@ class Game {
     {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
     {1,0,1,1,0,1,0,1,0,1,0,1,1,0,1},
     {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
-    {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
-    {1,0,1,1,0,1,1,1,1,1,0,1,1,0,1},
-    {0,0,0,1,0,0,0,1,0,0,0,1,0,0,0},
-    {1,1,1,1,0,1,1,0,1,1,0,1,1,1,1},
-    {1,0,0,1,0,0,0,0,0,0,0,1,0,0,1},
+    {1,0,0,0,2,1,0,1,0,1,0,0,0,0,1},
+    {1,0,1,1,2,1,1,1,1,1,0,1,1,0,1},
+    {0,0,0,1,2,0,0,1,0,0,0,1,0,0,0},
+    {1,1,1,1,2,1,1,0,1,1,0,1,1,1,1},
+    {1,0,0,1,2,0,0,0,0,0,0,1,0,0,1},
     {1,0,1,1,0,1,1,1,1,1,0,1,1,0,1},
     {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
     {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
@@ -35,12 +38,13 @@ class Game {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
   };
   /*color codes for different map features*/
-  color colorMap[]= {color(0,0,0),color(0,0,255),color(255,0,255)};
+  color colorMap[]= {color(0,0,0),color(0,0,255),color(200,200,100)};
 
   /*
   0 = empty
   1 = wall
   2 = coin
+  3 = ghost (only for return value in checkCollision)
 
   INFO: this.map.length ist die Höhe, this.map[0].length die Breite
   Wir sollten noch mehr Kommentare machen
@@ -50,6 +54,26 @@ class Game {
   Game(){
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
+
+
+  }
+
+  void renderNonPlayableScene() {
+    /*DEBUG*/
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering nonplayableScene");
+    background(0);
+
+    /*here we need to decide if the game is booting up or already over*/
+    /*BootScreen*/
+    if(this.bootup) {
+      //start Game
+      this.bootup=false;
+      player.isAlive=true;
+    }
+    /*EndScreen*/
+    else {
+
+    }
   }
 
   /*renders the whole map*/
@@ -83,6 +107,15 @@ class Game {
     //print Blinky
     fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Blinky.position[0]*widthScale, Ghost_Blinky.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+
+    //draw playerScore
+    fill(255);
+    textSize(30);
+    text("Score: "+playerScore,5,35);
+    textSize(20);
+    if(player.isAlive) fill(0,255,0);
+    else fill(255,0,0);
+    text("[status]",2,height-2);
   }
 
   /*movement control and collision check*/
@@ -103,6 +136,10 @@ class Game {
       //move ghosts
       Ghost_Blinky.makeMove(player.position);
 
+      //check if ghost is on Pacman
+      /*End the game*/
+      if(this.checkCollision(player.position)==3) { player.isAlive=false; return;};
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
 
       /*copy position*/
       int playerNextPos[] = player.position.clone();
@@ -137,6 +174,9 @@ class Game {
       /*Ghost collision*/
       if(collision==3) {
         //if he colides with a ghost we want to check if he has a power up, else he dies
+        player.isAlive=false;
+        return;
+        /*END GAME*/
       }
       /*wall collision -> ignore key*/
       else if(collision==1) {
@@ -182,12 +222,19 @@ class Game {
         oldDirection=player.direction;
       }
 
-
+      if(collision==2) {
+        playerScore++;
+        map[player.position[1]][player.position[0]]=0;
+      }
 
     }
   }
   /*returns map marker at coordinate*/
   int checkCollision(int[] coords){
+    if(Ghost_Blinky.position[0]==coords[0]&&Ghost_Blinky.position[1]==coords[1]) return 3;
+    if(Ghost_Inky.position[0]==coords[0]&&Ghost_Inky.position[1]==coords[1]) return 3;
+    if(Ghost_Pinky.position[0]==coords[0]&&Ghost_Pinky.position[1]==coords[1]) return 3;
+    if(Ghost_Clyde.position[0]==coords[0]&&Ghost_Clyde.position[1]==coords[1]) return 3;
 
     return this.map[coords[1]][coords[0]];
   }

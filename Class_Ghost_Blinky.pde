@@ -28,9 +28,9 @@ class Blinky extends Ghost{
       String[] possibleMoves = {"up", "down", "left", "right"};
 
       for (int i  = 0; i<4; i++){
-        
+
          int[] newPosition = {oldNode.position[0], oldNode.position[1]};
-         
+
         switch(possibleMoves[i]) {
         case "up":
          oldNode.position[1]--;
@@ -50,7 +50,7 @@ class Blinky extends Ghost{
           break;
         default:break;
         }
-        
+
 
         int newH = (int)pow(abs(newPosition[0] - pacmanPosition[0]), 2) + (int)pow(abs(newPosition[1] - pacmanPosition[1]), 2);
         Node newNode = new Node(oldNode, oldNode.g+1, newPosition, newH);
@@ -66,8 +66,8 @@ class Blinky extends Ghost{
 
                 }
 
-                this.position[0] = path[path.length-2][0];
-                this.position[1] = path[path.length-2][1];
+                this.position[0] = path[(path.length-2)<0?0:path.length-2][0];
+                this.position[1] = path[(path.length-2)<0?0:path.length-2][1];
                 return;
               }
               unexplored = (Node[]) append(unexplored, newNode);

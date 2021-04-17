@@ -7,7 +7,6 @@
 PrintWriter debugoutput;
 
 
-int score;
 boolean keyMap[] = new boolean[256];
 
 /*gameHandler is an instance of Game and used for the general game control*/
@@ -28,17 +27,22 @@ void setup()
   //display
   surface.setResizable(false);
   surface.setSize(600, 600);
-  
+
 }
 
 /*Update loop*/
 void draw()
 {
-
-  /*renering Map*/
-  gameHandler.renderMap();
-  /*updating position of pacman and ghost, as well as handling collisions with ghost, coin, etc*/
-  gameHandler.move(keyMap);
+  if(gameHandler.player.isAlive) {
+    /*renering Map*/
+    gameHandler.renderMap();
+    /*updating position of pacman and ghost, as well as handling collisions with ghost, coin, etc*/
+    gameHandler.move(keyMap);
+  }
+  /*End screen or boot up screen*/
+  else {
+    gameHandler.renderNonPlayableScene();
+  }
 }
 
 
