@@ -140,9 +140,11 @@ int main(int argc, char *argv[]) {
         if(img_raw[i][j][0]==refTable[k][0]&&img_raw[i][j][1]==refTable[k][1]&&img_raw[i][j][2]==refTable[k][2]) {
           found=1;
           fprintf(out_p, "%ld", refTable[k][3]);
+          fprintf(stderr, "Mapping: at(%d %d) - %ld\n", j, i, refTable[k][3]);
+          break;
         }
       }
-      if(found==0) fprintf(out_p, "%ld", refTable[0][3]);
+      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping: at(%d %d) - %ld\n", j, i, refTable[0][3]);}
       found=0;
       fprintf(out_p, OUTPUT_SEPS);
     }

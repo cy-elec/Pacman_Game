@@ -5,3 +5,6 @@
 	#three values Blue Green Red for the lookup color and then the 4th Value which will be the result for the previously described case
 	#Example: "; 255 0 255 2" -> the output file will contain a '2' for a magenta pixel
 	#The first value of the lookup table is the default value and will be placed in the file in case of mismatching color
+;0 0 0 0
+;255 0 0 1
+;100 200 200 2
