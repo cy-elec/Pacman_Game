@@ -1,7 +1,7 @@
 /*
   Game class, main gameHandler
  */
-
+//test
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   Pacman player = new Pacman();
@@ -23,20 +23,20 @@ class Game {
 
   /*map which will be rendered*/
   int map[][] = {
-    {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1}, 
-    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1}, 
-    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
-    {1, 0, 0, 0, 2, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1}, 
-    {1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1}, 
-    {0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0}, 
-    {1, 1, 1, 1, 2, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1}, 
-    {1, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1}, 
-    {1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1}, 
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1}, 
-    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1}, 
-    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1}, 
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1}, 
+    {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
+    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1},
+    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+    {1, 0, 0, 0, 2, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
+    {1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1},
+    {0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+    {1, 1, 1, 1, 2, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1},
+    {1, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+    {1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1},
+    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
+    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
+    {1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
     {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
   };
   int teleporters[][][] = {};
@@ -48,7 +48,7 @@ class Game {
    1 = wall
    2 = coin
    3 = ghost (only for return value in checkCollision)
-   
+
    INFO: this.map.length ist die Höhe, this.map[0].length die Breite
    Wir sollten noch mehr Kommentare machen
    */
@@ -63,8 +63,8 @@ class Game {
 /*
     for (int i =0; i<this.teleporters.length; i++) {
       print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
-*/    
-    } 
+*/
+    }
   }
 
   void findTeleporters() {
@@ -161,8 +161,8 @@ class Game {
 
       //check if ghost is on Pacman
       /*End the game*/
-      if (this.checkCollision(player.position)==3) { 
-        player.isAlive=false; 
+      if (this.checkCollision(player.position)==3) {
+        player.isAlive=false;
         return;
       };
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
