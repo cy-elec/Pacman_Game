@@ -78,7 +78,7 @@ boolean isAinB(Node a, Node[] b){
 }
 
 
-int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
+int[][] AStar(int[] position1, int[] position2, int[][] map, int[][][] teleporters){
 
 
   //the A* algorithm (it finds the best path from position1 to position2)
@@ -124,21 +124,21 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
       switch(possibleMoves[i]) {
       case "up":
        newPosition[1]--;
-       newPosition[1]= newPosition[1]<0?gameHandler.map.length-1:newPosition[1];
+       newPosition[1]= newPosition[1]<0?map.length-1:newPosition[1];
        break;
       case "down":
         newPosition[1]++;
-        newPosition[1] %= gameHandler.map.length;
+        newPosition[1] %= map.length;
         break;
       case "left":
         newPosition[0]--;
-        newPosition[0]= newPosition[0]<0?gameHandler.map[0].length-1:newPosition[0];
+        newPosition[0]= newPosition[0]<0?map[0].length-1:newPosition[0];
 
         break;
 
       case "right":
         newPosition[0]++;
-        newPosition[0] %= gameHandler.map[0].length;
+        newPosition[0] %= map[0].length;
         break;
       default:break;
       }
@@ -147,7 +147,7 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
 
 
       //first we check if our new Nodes position is a wall
-      if (gameHandler.map[newPosition[1]][newPosition[0]] != 1){
+      if (map[newPosition[1]][newPosition[0]] != 1){
 
         //with the new position we then create a new evaluation consisting of the length that we are away from our goal (a**2 + b**2 = c**2)
         int newH = (int)pow((int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2), 0.5);
