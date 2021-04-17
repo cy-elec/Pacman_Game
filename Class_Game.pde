@@ -78,7 +78,6 @@ class Game {
 
   /*renders the whole map*/
   void renderMap() {
-
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering map:");
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
@@ -86,6 +85,8 @@ class Game {
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tInky position: "+Ghost_Inky.position[0]+" "+Ghost_Inky.position[1]);
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPinky position: "+Ghost_Pinky.position[0]+" "+Ghost_Pinky.position[1]);
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tClyde position: "+Ghost_Clyde.position[0]+" "+Ghost_Clyde.position[1]);
+
+    background(0);
 
     //one box=100*100 pixel --UPDATE: ceil() for screen fill
     int widthScale = (width/this.map[0].length);
@@ -98,7 +99,8 @@ class Game {
       {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
-        rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+        if(this.map[j][i]==2) ellipse(i*widthScale+widthScale/2, j*heightScale+heightScale/2, widthScale, heightScale);
+        else rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
       }
     }
     //print pacman
