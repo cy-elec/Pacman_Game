@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 
   char signature[3];
   fread(signature, 2, sizeof(char), img_p);
-  signature[2]='\n';
+  signature[2]=0;
   if(strcmp(signature,"BM")!=0) {
     fprintf(stderr, "The file is either not a bmp or corrupted: signature 0x%x%x (%s)\n",signature[0],signature[1], signature);
     return 1;
