@@ -11,34 +11,34 @@ class Game {
   Clyde Ghost_Clyde = new Clyde();
 
   int playerScore=0;
-  boolean bootup=true;
+  boolean bootup=false;
 
-  /*used for new movement control*/
-  String oldDirection="";
+
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0;
+  int mil=0, mil2=0, mil3 = 0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
 
 
   /*map which will be rendered*/
   int map[][] = {
-    {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-    {1, 0, 0, 0, 2, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1},
-    {0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-    {1, 1, 1, 1, 2, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1},
-    {1, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1},
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    {1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 1},
+    {1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1},
+    {1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1},
+    {1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 1},
+    {1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1},
+    {2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2},
+    {1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1},
+    {1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1},
+    {1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1},
+    {1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 1},
+    {1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1},
+    {1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1},
+    {1, 2, 2, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 2, 1},
+    {1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
   };
+
   int teleporters[][][] = {};
   /*color codes for different map features*/
   color colorMap[]= {color(0, 0, 0), color(0, 0, 255), color(200, 200, 100)};
@@ -84,23 +84,31 @@ class Game {
     }
   }
 
+  void endScreen(){
+    background(0);
+
+  }
 
   void renderNonPlayableScene() {
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering nonplayableScene");
-    background(0);
+
+    if (mil3 ==0)
+      mil3 = millis();
 
     /*here we need to decide if the game is booting up or already over*/
     /*BootScreen*/
-    if (this.bootup) {
-      //start Game
-      this.bootup=false;
-      player.isAlive=true;
-    }
-    /*EndScreen*/
-    else {
+    if (player.lives > 1){
       this.renderMap();
-    }
+      if (millis()-mil3 > 1000)
+        this.reset();
+}
+      /*EndScreen*/
+    else
+      this.endScreen();
+
+
+
   }
 
   /*renders the whole map*/
@@ -126,7 +134,7 @@ class Game {
       {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
-        if (this.map[j][i]==2) ellipse(i*widthScale+widthScale/2, j*heightScale+heightScale/2, widthScale, heightScale);
+        if (this.map[j][i]==2) ellipse(i*widthScale+widthScale/2, j*heightScale+heightScale/2, widthScale/2, heightScale/2);
         else rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
       }
     }
@@ -141,6 +149,7 @@ class Game {
     fill(255);
     textSize(30);
     text("Score: "+playerScore, 5, 35);
+    text("Lives:"+player.lives, 150, 35);
     textSize(20);
     if (player.isAlive) fill(0, 255, 0);
     else fill(255, 0, 0);
@@ -148,7 +157,7 @@ class Game {
   }
 
   /*movement control and collision check*/
-  void move(boolean keyMap[]) {	// diese funktion verändert die position von pacman
+  void move(boolean keyMap[]) {
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 
@@ -223,7 +232,7 @@ class Game {
 
         /*calculate next position again and check for collision*/
         playerNextPos=player.position.clone();
-        switch(oldDirection) {
+        switch(player.oldDirection) {
         case "up":
           playerNextPos[1]--;
           playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
@@ -256,7 +265,7 @@ class Game {
         /*update position*/
         player.position=playerNextPos.clone();
         /*update last valid direction*/
-        oldDirection=player.direction;
+        player.oldDirection=player.direction;
       }
 
       if (collision==2) {
@@ -265,6 +274,7 @@ class Game {
       }
     }
   }
+
   /*returns map marker at coordinate*/
   int checkCollision(int[] coords) {
     if (Ghost_Blinky.position[0]==coords[0]&&Ghost_Blinky.position[1]==coords[1]) return 3;
@@ -273,5 +283,25 @@ class Game {
     if (Ghost_Clyde.position[0]==coords[0]&&Ghost_Clyde.position[1]==coords[1]) return 3;
 
     return this.map[coords[1]][coords[0]];
+  }
+
+
+  void reset(){
+
+    this.Ghost_Blinky = new Blinky();
+    this.Ghost_Pinky = new Pinky();
+    this.Ghost_Inky = new Inky();
+    this.Ghost_Clyde = new Clyde();
+    this.mil=0;
+    this.mil2=0;
+    this.mil3 = 0;
+
+    this.player.reset();
+    this.player.lives--;
+
+
+
+
+
   }
 }

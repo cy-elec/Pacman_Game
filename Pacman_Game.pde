@@ -10,7 +10,7 @@ PrintWriter debugoutput;
 
 
 boolean keyMap[] = new boolean[256];
-
+boolean fullReset = true;
 /*gameHandler is an instance of Game and used for the general game control*/
 
 Game gameHandler;
@@ -20,7 +20,7 @@ void setup()
 {
   debugoutput = createWriter("debug.log");
 
-  gameHandler=new Game();
+
 
 
   /*DEBUG*/
@@ -33,8 +33,11 @@ void setup()
 }
 
 /*Update loop*/
-void draw()
-{
+void draw(){
+  if (fullReset){
+      fullReset = false;
+      gameHandler=new Game();
+  }
   if(gameHandler.player.isAlive) {
     /*renering Map*/
     gameHandler.renderMap();
@@ -44,6 +47,7 @@ void draw()
   /*End screen or boot up screen*/
   else {
     gameHandler.renderNonPlayableScene();
+
   }
 }
 
