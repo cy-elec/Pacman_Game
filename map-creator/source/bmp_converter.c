@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 
   fprintf(stderr, "Reading %s:\n\tpixelOffset:0x%x\n\tsizeWidth: 0x%x ~ pixel:%d\n\tsizeHeight: 0x%x ~ pixel:%d\n\tBits per Pixel:%d\n\tPadding size: %d byte\n",argv[1], img_pixelOffset, img_width, img_width, img_height, img_height, img_bitsPerPixel, img_paddingsize);
 
-  uint32_t img_raw[img_height][img_width][img_bitsPerPixel/8];
+  int64_t img_raw[img_height][img_width][img_bitsPerPixel/8];
 
   fseek(img_p, img_pixelOffset, SEEK_SET);
   for(int64_t i=img_height-1; i>=0; i--) {
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
   for(int64_t i=0; i<img_height; i++) {
     for(uint32_t j=0; j<img_width; j++) {
       for(uint16_t k=0; k<img_bitsPerPixel/8; k++)
-        fprintf(stderr, "0x%02x ", img_raw[i][j][k]);
+        fprintf(stderr, "0x%02lx ", img_raw[i][j][k]);
       fprintf(stderr, "| ");
     }
     fprintf(stderr, "\n" );
@@ -140,11 +140,11 @@ int main(int argc, char *argv[]) {
         if(img_raw[i][j][0]==refTable[k][0]&&img_raw[i][j][1]==refTable[k][1]&&img_raw[i][j][2]==refTable[k][2]) {
           found=1;
           fprintf(out_p, "%ld", refTable[k][3]);
-          fprintf(stderr, "Mapping: at(%d %d) - %ld\n", j, i, refTable[k][3]);
+          fprintf(stderr, "Mapping: at(%d %d)[%ld %ld %ld for k=%d] - %ld\n", j, i, refTable[k][0], refTable[k][1], refTable[k][2], k, refTable[0][3]);
           break;
         }
       }
-      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping: at(%d %d) - %ld\n", j, i, refTable[0][3]);}
+      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping: at(%d %d)[%ld %ld %ld for k=%d] - %ld\n", j, i, refTable[0][0], refTable[0][1], refTable[0][2], 0, refTable[0][3]);}
       found=0;
       fprintf(out_p, OUTPUT_SEPS);
     }
