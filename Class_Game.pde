@@ -16,7 +16,9 @@ class Game {
   /*used for new movement control*/
   String oldDirection="";
   /*delay handler. movement every 200ms*/
-  int mil=0, GLOBALDELAY=200;
+  int mil=0,mil2=0;
+  int GLOBALDELAY=200;
+  int GHOSTDELAY=300;
 
 
   /*map which will be rendered*/
@@ -125,6 +127,19 @@ class Game {
   {
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
+
+    //every 500ms
+    if(mil2==0||millis()-mil2>=GHOSTDELAY) {
+      mil2=millis();
+      //move ghosts
+      Ghost_Blinky.makeMove(player.position);
+
+      //check if ghost is on Pacman
+      /*End the game*/
+      if(this.checkCollision(player.position)==3) { player.isAlive=false; return;};
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
+    }
+
     //every 500ms
     if((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
       /*reset counter*/
@@ -133,14 +148,6 @@ class Game {
       /*DEBUG*/
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: update movement");
 
-
-      //move ghosts
-      Ghost_Blinky.makeMove(player.position);
-
-      //check if ghost is on Pacman
-      /*End the game*/
-      if(this.checkCollision(player.position)==3) { player.isAlive=false; return;};
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
 
       /*copy position*/
       int playerNextPos[] = player.position.clone();
