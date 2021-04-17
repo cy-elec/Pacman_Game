@@ -105,7 +105,7 @@ class Game {
     /*BootScreen*/
     if (player.lives > 1){
       this.renderMap();
-      if (millis()-mil3 > 1000)
+      if (millis()-mil3 > 2000)
         this.reset();
 }
       /*EndScreen*/
@@ -170,7 +170,7 @@ class Game {
     if (mil2==0||millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
       //move ghosts
-      Ghost_Blinky.makeMove(player.position, this.teleporters);
+      Ghost_Blinky.makeMove(player.position);
 
       //check if ghost is on Pacman
       /*End the game*/
