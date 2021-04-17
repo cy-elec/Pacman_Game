@@ -136,7 +136,7 @@ class Game {
 
 
       //move ghosts
-      //Ghost_Blinky.makeMove(player.position);
+      Ghost_Blinky.makeMove(player.position);
 
       //check if ghost is on Pacman
       /*End the game*/
