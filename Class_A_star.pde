@@ -152,7 +152,7 @@ int[][] AStar(int[] position1, int[] position2){
         //with the new position we then create a new evaluation consisting of the length from pacman
         //Note that this means that the ghosts dont like taking teleporters, as it means that you have to increase your distance from pacman first, to reach said teleporter
         //this is a huge flaw that results in the algorithm being kinda ineffective
-        int newH = (int)abs(newPosition[0] - position2[0]) + (int)abs(newPosition[1] - position2[1]);
+        int newH = (int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2);
 
         // now that we have the new position and the new evalutaion we can create a new node
         //the parent node is our old node and our distance from the start increases by 1
