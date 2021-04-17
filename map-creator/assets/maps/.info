@@ -1,2 +1,2 @@
-/assets/maps contains all the map ideas and converted arrays:
+/assets/maps/*/* contains all the map ideas and converted arrays:
 	-source: <mapName>.bmp + <mapName>.txt (or any other text file)
