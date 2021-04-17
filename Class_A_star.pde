@@ -192,7 +192,7 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
               path = (int[][])append(path, newNode.position);
             }
             //return the final and (hopefully) best path
-            return path;
+            return (int[][]) reverse(path);
           }
           //if we havent found our goal, we just add the newNode to our unexplored list, so that it can be explored later
           unexplored = (Node[]) append(unexplored, newNode);
