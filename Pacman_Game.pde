@@ -1,4 +1,5 @@
-/*  Pacman_Game.pde - Project by Elec42, TheJa937 and Flooxxxyy;
+/*  Pacman_Game.pde - Project by Elec42, TheJa937, Flooxxxyy and Optirat;
+
 
 
 */
