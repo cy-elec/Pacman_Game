@@ -125,7 +125,6 @@ class Game {
   {
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
-    print(player.direction+"\n");
     //every 500ms
     if((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
       /*reset counter*/
