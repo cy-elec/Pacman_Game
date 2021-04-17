@@ -78,7 +78,7 @@ boolean isAinB(Node a, Node[] b){
 }
 
 
-int[][] AStar(int[] position1, int[] position2){
+int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
 
 
     //the A* algorithm (it finds the best path to pacman)
@@ -152,7 +152,28 @@ int[][] AStar(int[] position1, int[] position2){
         //with the new position we then create a new evaluation consisting of the length from pacman
         //Note that this means that the ghosts dont like taking teleporters, as it means that you have to increase your distance from pacman first, to reach said teleporter
         //this is a huge flaw that results in the algorithm being kinda ineffective
-        int newH = (int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2);
+        int newH = (int)pow((int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2), 0.5);
+
+        for (int j=0; j<teleporters.length; j++){
+          //we loop through every teleporter and check, if the distance from ghost to teleporter 1 plus the distance from teleporter2 to pacman is lower than the normal distance
+          //(each teleporter consists of two sides teleporter1 and 2)
+          int newHTeleporter =(int) pow( (int)pow(abs(newPosition[0] - teleporters[j][0][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][0][1]), 2), 0.5)
+                              +
+                              (int) pow( (int)pow(abs(teleporters[j][1][0] - position2[0]), 2) + (int)pow(abs(teleporters[j][1][1] - position2[1]), 2), 0.5);
+          if (newHTeleporter<newH)
+            newH=newHTeleporter;
+
+          //then we check the opposite: ghost -> teleporter2 + teleporter1 -> Pacman
+          newHTeleporter = (int) pow((int) pow( (int)pow(abs(newPosition[0] - teleporters[j][1][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][1][1]), 2), 0.5) + (int)pow( (int)pow(abs(teleporters[j][0][0] - position2[0]), 2) + (int)pow(abs(teleporters[j][0][1] - position2[1]), 2), 0.5), 2);
+
+          if (newHTeleporter<newH)
+            newH=newHTeleporter;
+
+
+        }
+
+
+
 
         // now that we have the new position and the new evalutaion we can create a new node
         //the parent node is our old node and our distance from the start increases by 1

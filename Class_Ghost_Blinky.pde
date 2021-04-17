@@ -7,9 +7,10 @@ class Blinky extends Ghost{
     super("Blinky",color(255,0,0));
   }
 
-  void makeMove(int[] pacmanPosition){
+  void makeMove(int[] pacmanPosition, int[][][] teleporters){
 
-    int[][] path = AStar(pacmanPosition, this.position);
-    this.position = path[1].clone();
+    int[][] path = AStar(pacmanPosition, this.position, teleporters);
+    if (path!=null)
+      this.position = path[1].clone();
   }
 }

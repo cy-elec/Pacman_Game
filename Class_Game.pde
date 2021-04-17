@@ -39,6 +39,7 @@ class Game {
     {1,0,0,0,0,1,0,1,0,0,1,0,0,0,1},
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
   };
+  int teleporters[][][] = {{{6, 0}, {6, 14}}};
   /*color codes for different map features*/
   color colorMap[]= {color(0,0,0),color(0,0,255),color(200,200,100)};
 
@@ -132,7 +133,7 @@ class Game {
     if(mil2==0||millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
       //move ghosts
-      Ghost_Blinky.makeMove(player.position);
+      Ghost_Blinky.makeMove(player.position, this.teleporters);
 
       //check if ghost is on Pacman
       /*End the game*/
