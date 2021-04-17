@@ -17,7 +17,7 @@ class Game {
   String oldDirection="";
   /*delay handler. movement every 200ms*/
   int mil=0,mil2=0;
-  int GLOBALDELAY=200;
+  int GLOBALDELAY=250;
   int GHOSTDELAY=300;
 
 
