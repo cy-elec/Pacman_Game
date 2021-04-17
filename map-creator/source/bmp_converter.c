@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   fseek(ref_p, 0, SEEK_END);
-  int ref_size = ftell(ref_p);
+  long long int ref_size = ftell(ref_p);
   fseek(ref_p, 0, SEEK_SET);
   if(ref_size==0) {
     fprintf(stderr, "File %s is empty. Writing default entry\n", REFNAME);
@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  int refNum=0;
-  for(int i=0; i<ref_size; i++) {
+  long int refNum=0;
+  for(long long int i=0; i<ref_size; i++) {
     char c=0;
     fscanf(ref_p,"%c",&c);
     if(c=='#') while(c!='\n')fscanf(ref_p, "%c", &c);
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   fseek(ref_p, 0, SEEK_SET);
-  int refTable[refNum][4];
+  long int refTable[refNum][4];
   for(long int i=0; i<refNum; i++) {
     char c=0;
     while(c!=';') {
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 
   fprintf(stderr, "Reading %s:\n\tpixelOffset:0x%x\n\tsizeWidth: 0x%lx ~ pixel:%ld\n\tsizeHeight: 0x%lx ~ pixel:%ld\n\tBits per Pixel:%d\n\tPadding size: %ld byte\n",argv[1], img_pixelOffset, img_width, img_width, img_height, img_height, img_bitsPerPixel, img_paddingsize);
 
-  int img_raw[img_height][img_width][img_bitsPerPixel/8];
+  long int img_raw[img_height][img_width][img_bitsPerPixel/8];
 
   fseek(img_p, img_pixelOffset, SEEK_SET);
   for(long int i=img_height-1; i>=0; i--) {
@@ -136,15 +136,15 @@ int main(int argc, char *argv[]) {
   for(long int i=0; i<img_height; i++) {
     fprintf(out_p, OUTPUT_SEPB);
     for(long int j=0; j<img_width; j++) {
-      for(int k=0; k<refNum; k++) {
+      for(long int k=0; k<refNum; k++) {
         if(img_raw[i][j][0]==refTable[k][0]&&img_raw[i][j][1]==refTable[k][1]&&img_raw[i][j][2]==refTable[k][2]) {
           found=1;
-          fprintf(out_p, "%d", refTable[k][3]);
-          fprintf(stderr, "Mapping: at(%d %d)[%d %d %d for k=%ld] - %d\n", j, i, refTable[k][0], refTable[k][1], refTable[k][2], k, refTable[0][3]);
+          fprintf(out_p, "%ld", refTable[k][3]);
+          fprintf(stderr, "Mapping: at(%ld %ld)[%ld %ld %ld for k=%ld] - %ld\n", j, i, refTable[k][0], refTable[k][1], refTable[k][2], k, refTable[k][3]);
           break;
         }
       }
-      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping default: at(%d %d)[%d %d %d for k=%ld] - %d\n", j, i, refTable[0][0], refTable[0][1], refTable[0][2], 0, refTable[0][3]);}
+      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping default: at(%ld %ld)[%ld %ld %ld for k=%ld] - %ld\n", j, i, refTable[0][0], refTable[0][1], refTable[0][2], 0, refTable[0][3]);}
       found=0;
       fprintf(out_p, OUTPUT_SEPS);
     }
