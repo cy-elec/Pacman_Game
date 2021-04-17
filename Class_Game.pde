@@ -64,8 +64,8 @@ class Game {
     for (int i =0; i<this.teleporters.length; i++) {
       print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
 */
-    }
-  }
+}
+
 
   void findTeleporters() {
 
@@ -148,8 +148,7 @@ class Game {
   }
 
   /*movement control and collision check*/
-  void move(boolean keyMap[]) 	// diese funktion verändert die position von pacman
-  {
+  void move(boolean keyMap[]) {	// diese funktion verändert die position von pacman
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 

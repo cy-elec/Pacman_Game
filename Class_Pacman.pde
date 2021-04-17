@@ -1,7 +1,8 @@
 class Pacman {
-  boolean isAlive=false;
+  boolean isAlive = false;
   int[] position = new int[2];
   color pacmanColor = color(255, 255, 0);
+  int lives = 3;
 
   String direction;
 
