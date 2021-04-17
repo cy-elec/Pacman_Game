@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
   while(img_paddingsize%4) img_paddingsize++;
   img_paddingsize-=img_width*img_bitsPerPixel/8;
 
-  fprintf(stderr, "Reading %s:\n\tpixelOffset:0x%x\n\tsizeWidth: 0x%lx ~ pixel:%ld\n\tsizeHeight: 0x%lx ~ pixel:%ld\n\tBits per Pixel:%d\n\tPadding size: %ld byte\n",argv[1], img_pixelOffset, img_width, img_width, img_height, img_height, img_bitsPerPixel, img_paddingsize);
+  fprintf(stderr, "Reading %s:\n\tpixelOffset:0x%lx\n\tsizeWidth: 0x%lx ~ pixel:%ld\n\tsizeHeight: 0x%lx ~ pixel:%ld\n\tBits per Pixel:%d\n\tPadding size: %ld byte\n",argv[1], img_pixelOffset, img_width, img_width, img_height, img_height, img_bitsPerPixel, img_paddingsize);
 
   long int img_raw[img_height][img_width][img_bitsPerPixel/8];
 
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
   for(long int i=0; i<img_height; i++) {
     for(long int j=0; j<img_width; j++) {
       for(int k=0; k<img_bitsPerPixel/8; k++)
-        fprintf(stderr, "0x%02x ", img_raw[i][j][k]);
+        fprintf(stderr, "0x%02lx ", img_raw[i][j][k]);
       fprintf(stderr, "| ");
     }
     fprintf(stderr, "\n" );
@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
           break;
         }
       }
-      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping default: at(%ld %ld)[%ld %ld %ld for k=%ld] - %ld\n", j, i, refTable[0][0], refTable[0][1], refTable[0][2], 0, refTable[0][3]);}
+      if(found==0) {fprintf(out_p, "%ld", refTable[0][3]); fprintf(stderr, "Mapping default: at(%ld %ld)[%ld %ld %ld for k=%ld] - %ld\n", j, i, refTable[0][0], refTable[0][1], refTable[0][2], (long int)0, refTable[0][3]);}
       found=0;
       fprintf(out_p, OUTPUT_SEPS);
     }
