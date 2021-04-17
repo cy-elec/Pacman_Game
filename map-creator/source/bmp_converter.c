@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
     fprintf(out_p, OUTPUT_SEPB);
     for(int j=0; j<img_width; j++) {
       for(int k=0; k<refNum; k++) {
-        if(img_raw[i][j][0]==refTable[k][0]&&img_raw[i][j][1]==refTable[k][1]&&img_raw[i][j][2]==refTable[k][2]) {
+        if((uint64_t)img_raw[i][j][0]==(uint64_t)refTable[k][0]&&(uint64_t)img_raw[i][j][1]==(uint64_t)refTable[k][1]&&(uint64_t)img_raw[i][j][2]==refTable[k][2]) {
           found=1;
           fprintf(out_p, "%ld", refTable[k][3]);
           fprintf(stderr, "Mapping: at(%d %d)[%ld %ld %ld for k=%d] - %ld\n", j, i, refTable[k][0], refTable[k][1], refTable[k][2], k, refTable[0][3]);
