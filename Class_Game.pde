@@ -57,7 +57,9 @@ class Game {
   Game(){
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
+
     findTeleporters();
+
     for (int i =0; i<this.teleporters.length ; i++){
       print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
     }
@@ -67,20 +69,16 @@ class Game {
   void findTeleporters(){
 
     for (int i=0; i<this.map[0].length; i++){
-      if (this.map[0][i]!= 1){
-        if (this.map[this.map.length-1][i]!=1){
-          int[][] coords = {{i, 0}, {i, this.map.length-1}};
-          this.teleporters = (int[][][]) append(this.teleporters, coords);
-        }
+      if (this.map[0][i]!= 1 && this.map[this.map.length-1][i]!=1){
+        int[][] coords = {{i, 0}, {i, this.map.length-1}};
+        this.teleporters = (int[][][]) append(this.teleporters, coords);
       }
     }
 
     for (int i=0; i<this.map.length; i++){
-      if (this.map[i][0]!= 1){
-        if (this.map[i][this.map[0].length-1]!=1){
-          int[][] coords = {{0, i}, {this.map[0].length-1, i}};
-          this.teleporters = (int[][][]) append(this.teleporters, coords);
-        }
+      if (this.map[i][0]!= 1 && this.map[i][this.map[0].length-1]!=1){
+        int[][] coords = {{0, i}, {this.map[0].length-1, i}};
+        this.teleporters = (int[][][]) append(this.teleporters, coords);
       }
     }
   }
