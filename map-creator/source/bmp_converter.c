@@ -75,8 +75,9 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "\t%ld %ld %ld %ld\n", refTable[i][0], refTable[i][1], refTable[i][2], refTable[i][3]);
   }
 
-  char signature[2];
+  char signature[3];
   fread(signature, 2, sizeof(char), img_p);
+  signature[2]='\n';
   if(strcmp(signature,"BM")!=0) {
     fprintf(stderr, "The file is either not a bmp or corrupted: signature 0x%x%x (%s)\n",signature[0],signature[1], signature);
     return 1;
