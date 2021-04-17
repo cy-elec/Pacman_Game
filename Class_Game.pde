@@ -23,7 +23,7 @@ class Game {
 
   /*map which will be rendered*/
   int map[][] = {
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {1,0,0,0,0,1,0,1,0,1,0,0,0,0,1},
     {1,0,1,1,0,1,0,1,0,1,0,1,1,0,1},
     {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
@@ -37,9 +37,9 @@ class Game {
     {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
     {1,0,1,0,1,1,0,1,1,0,1,0,1,0,1},
     {1,0,0,0,0,1,0,1,0,0,1,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1}
   };
-  int teleporters[][][] = {{{6, 0}, {6, 14}}};
+  int teleporters[][][] = {};
   /*color codes for different map features*/
   color colorMap[]= {color(0,0,0),color(0,0,255),color(200,200,100)};
 
@@ -57,9 +57,34 @@ class Game {
   Game(){
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
-
+    findTeleporters();
+    for (int i =0; i<this.teleporters.length ; i++){
+      print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
+    }
 
   }
+
+  void findTeleporters(){
+
+    for (int i=0; i<this.map[0].length; i++){
+      if (this.map[0][i]!= 1){
+        if (this.map[this.map.length-1][i]!=1){
+          int[][] coords = {{i, 0}, {i, this.map.length-1}};
+          this.teleporters = (int[][][]) append(this.teleporters, coords);
+        }
+      }
+    }
+
+    for (int i=0; i<this.map.length; i++){
+      if (this.map[i][0]!= 1){
+        if (this.map[i][this.map[0].length-1]!=1){
+          int[][] coords = {{0, i}, {this.map[0].length-1, i}};
+          this.teleporters = (int[][][]) append(this.teleporters, coords);
+        }
+      }
+    }
+  }
+
 
   void renderNonPlayableScene() {
     /*DEBUG*/
