@@ -65,7 +65,7 @@ void bubbleSort(Node[] a) {
 
 
 // i just translated a python A* algorithm so im recreating python functions
-//the function does basically exactly what it says: it checks wether a is in break;
+//the function does basically exactly what it says: it checks wether a is in b;
 //Note that a has to be a Node and b an array of Nodes
 boolean isAinB(Node a, Node[] b){
   for (int i=0; i<b.length;i++){
@@ -81,13 +81,11 @@ boolean isAinB(Node a, Node[] b){
 int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
 
 
-    //the A* algorithm (it finds the best path to pacman)
-    // Im thinking of moving this into the A* file and making it a public functioin, so that all ghosts have acces to it
+  //the A* algorithm (it finds the best path from position1 to position2)
 
 
-    // if we are already on pacman we quit the function
-    //basically just a failsave
-
+  // if the two positions are the same we quit the function
+  //basically just a failsave
   if (position1[0]==position2[0]&&position1[1]==position2[1])
     return null;
 
@@ -97,17 +95,18 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
   //Note that Nodes which are not adjacent to the explored Nodes are present in neither list
   //they will be added to our unexplored list if we find a path to this node ie a node next to it is explored
   Node[] explored = {};
-  // the only node so far is our starting point, it has no parent and both its distance from the start and from the end are 0
+  // the only node so far is our starting point, it has no parent and both its distance from the start and from the end are set to a default value of 0
   //this is because no matter what, it will be explored as it is the only node we have
   Node[] unexplored = {new Node(null, 0, position1,0)};
 
 
   // we will loop until there are no unexplored nodes left,
   //if this happens then there is no path to pacman and the ghost does not move
-  //this should never happen as our maze is built in a way which connects all empty squares with each otherNode
+  //this should never happen as our maze is built in a way which connects all empty squares with each other
   while( unexplored.length != 0){
 
     //first of we sort our unexplored list according to the evaluation we give each node
+    //so that the node with the lowest evalutaion ie the node most likely to lead to our goal ist first
     bubbleSort(unexplored);
 
     // we then save the node to be explored
@@ -121,6 +120,7 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
 
        int[] newPosition = {oldNode.position[0], oldNode.position[1]};
 
+      //this is a slightly altered version of the game.move() code
       switch(possibleMoves[i]) {
       case "up":
        newPosition[1]--;
@@ -149,13 +149,11 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
       //first we check if our new Nodes position is a wall
       if (gameHandler.map[newPosition[1]][newPosition[0]] != 1){
 
-        //with the new position we then create a new evaluation consisting of the length from pacman
-        //Note that this means that the ghosts dont like taking teleporters, as it means that you have to increase your distance from pacman first, to reach said teleporter
-        //this is a huge flaw that results in the algorithm being kinda ineffective
+        //with the new position we then create a new evaluation consisting of the length that we are away from our goal (a**2 + b**2 = c**2)
         int newH = (int)pow((int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2), 0.5);
 
         for (int j=0; j<teleporters.length; j++){
-          //we loop through every teleporter and check, if the distance from ghost to teleporter 1 plus the distance from teleporter2 to pacman is lower than the normal distance
+          //we loop through every teleporter and check, if the distance from position1 to teleporter 1 plus the distance from teleporter2 to position2 is lower than the normal distance
           //(each teleporter consists of two sides teleporter1 and 2)
           int newHTeleporter =(int) pow( (int)pow(abs(newPosition[0] - teleporters[j][0][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][0][1]), 2), 0.5)
                               +
@@ -163,7 +161,7 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
           if (newHTeleporter<newH)
             newH=newHTeleporter;
 
-          //then we check the opposite: ghost -> teleporter2 + teleporter1 -> Pacman
+          //then we check the opposite: position1 -> teleporter2 + teleporter1 -> positon2
           newHTeleporter = (int) pow((int) pow( (int)pow(abs(newPosition[0] - teleporters[j][1][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][1][1]), 2), 0.5) + (int)pow( (int)pow(abs(teleporters[j][0][0] - position2[0]), 2) + (int)pow(abs(teleporters[j][0][1] - position2[1]), 2), 0.5), 2);
 
           if (newHTeleporter<newH)
@@ -183,7 +181,6 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
         if( !(isAinB(newNode, unexplored)||isAinB(newNode, explored))){
 
           //if our new Node has the position of our end destination, then we are almost done
-          //otherwise we just add the newNode to our unexplored list
           if(newNode.position[0]==position2[0] && newNode.position[1]==position2[1]){
 
             //if we find the end then we just backtrack back to the start
@@ -194,20 +191,23 @@ int[][] AStar(int[] position1, int[] position2, int[][][] teleporters){
               newNode= newNode.parent;
               path = (int[][])append(path, newNode.position);
             }
-
-
+            //return the final and (hopefully) best path
             return path;
           }
+          //if we havent found our goal, we just add the newNode to our unexplored list, so that it can be explored later
           unexplored = (Node[]) append(unexplored, newNode);
         }
       }
     }
-                //remove the old node from our unexplored list and add it to our explored list as all its neighbors are not the end position
+    //remove the old node from our unexplored list and add it to our explored list as all its neighbors have been checked
     explored = (Node[]) append(explored, unexplored[0]);
     unexplored = (Node[]) reverse(unexplored);
     unexplored = (Node[]) shorten(unexplored);
     unexplored = (Node[]) reverse(unexplored);
   }
-print("A* algorithm could not find a path");
+
+//if we could not find a path we print an error message and return null
+//we should not reach this point as we should find a path and leave the function with the return statement in line 195
+print("A* algorithm could not find a path \n");
 return null;
 }
