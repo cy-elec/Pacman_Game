@@ -125,7 +125,7 @@ class Game {
   {
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
-
+    print(player.direction+"\n");
     //every 500ms
     if((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
       /*reset counter*/
@@ -136,7 +136,7 @@ class Game {
 
 
       //move ghosts
-      Ghost_Blinky.makeMove(player.position);
+      //Ghost_Blinky.makeMove(player.position);
 
       //check if ghost is on Pacman
       /*End the game*/
@@ -185,11 +185,11 @@ class Game {
         /*DEBUG*/
         debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: reverting input to last valid movement");
         /*restore previous valid direction to cancel out current one and move*/
-        player.direction=oldDirection;
+
 
         /*calculate next position again and check for collision*/
         playerNextPos=player.position.clone();
-        switch(player.direction) {
+        switch(oldDirection) {
           case "up":
            playerNextPos[1]--;
            playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
