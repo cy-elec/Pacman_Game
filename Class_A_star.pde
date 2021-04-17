@@ -47,6 +47,7 @@ class Node {
 //this bubbleSort function was copied from the internet, basically it just sorts stuff
 //i only kinda understand how it works so youll just have to google bubble Sort
 //Note that this function returns void and changes the array passed to it
+/*Edit by Felix: Top index 0 equals the least Node.f value --> best node at top*/
 void bubbleSort(Node[] a) {
     boolean sorted = false;
     Node temp;
@@ -81,7 +82,7 @@ boolean isAinB(Node a, Node[] b){
 int[][] AStar(int[] position1, int[] position2, int[][] map, int[][][] teleporters){
 
 
-  //the A* algorithm (it finds the best path from position1 to position2)
+  //the A* algorithm (it tries to find the best path from position1 to position2)
 
 
   // if the two positions are the same we quit the function
