@@ -51,8 +51,9 @@ class Game {
   /*
   0 = empty
    1 = wall
-   2 = coin
-   3 = ghost (only for return value in checkCollision)
+   2 = pellets
+   3 = power pellets (same color as coins)
+   4 = ghost (only for return value in checkCollision)
 
    INFO: this.map.length ist die Höhe, this.map[0].length die Breite
    Wir sollten noch mehr Kommentare machen
@@ -98,7 +99,7 @@ class Game {
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering nonplayableScene");
 
-    if (mil3 ==0)
+    if (mil3 == 0)
       mil3 = millis();
 
     /*here we need to decide if the game is booting up or already over*/
@@ -107,7 +108,7 @@ class Game {
       this.renderMap();
       if (millis()-mil3 > 2000)
         this.reset();
-}
+    }
       /*EndScreen*/
     else
       this.endScreen();
@@ -174,7 +175,7 @@ class Game {
 
       //check if ghost is on Pacman
       /*End the game*/
-      if (this.checkCollision(player.position)==3) {
+      if (this.checkCollision(player.position)==4) {
         player.isAlive=false;
         return;
       };
@@ -222,7 +223,7 @@ class Game {
 
       //check for collision and afterwards move
       /*Ghost collision*/
-      if (collision==3) {
+      if (collision==4) {
         //if he colides with a ghost we want to check if he has a power up, else he dies
         player.isAlive=false;
         return;
@@ -282,10 +283,10 @@ class Game {
 
   /*returns map marker at coordinate*/
   int checkCollision(int[] coords) {
-    if (Ghost_Blinky.position[0]==coords[0]&&Ghost_Blinky.position[1]==coords[1]) return 3;
-    if (Ghost_Inky.position[0]==coords[0]&&Ghost_Inky.position[1]==coords[1]) return 3;
-    if (Ghost_Pinky.position[0]==coords[0]&&Ghost_Pinky.position[1]==coords[1]) return 3;
-    if (Ghost_Clyde.position[0]==coords[0]&&Ghost_Clyde.position[1]==coords[1]) return 3;
+    if (Ghost_Blinky.position[0]==coords[0]&&Ghost_Blinky.position[1]==coords[1]) return 4;
+    if (Ghost_Inky.position[0]==coords[0]&&Ghost_Inky.position[1]==coords[1]) return 4;
+    if (Ghost_Pinky.position[0]==coords[0]&&Ghost_Pinky.position[1]==coords[1]) return 4;
+    if (Ghost_Clyde.position[0]==coords[0]&&Ghost_Clyde.position[1]==coords[1]) return 4;
 
     return this.map[coords[1]][coords[0]];
   }
