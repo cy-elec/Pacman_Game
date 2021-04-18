@@ -1,5 +1,5 @@
 # Pacman Game
-The well known game pacman coded in processing. Status [WIP]
+The well known game coded in processing. Status [WIP]
 
 ## Installation
 [WIP]
