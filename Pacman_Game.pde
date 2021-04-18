@@ -18,7 +18,7 @@ Game gameHandler;
 
 void setup()
 {
-  debugoutput = createWriter("debug.log");
+  debugoutput = createWriter(".debug.log");
 
 
 
