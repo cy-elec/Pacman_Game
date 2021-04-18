@@ -11,11 +11,11 @@ class Game {
   Clyde Ghost_Clyde = new Clyde();
 
   int playerScore=0;
-  boolean bootup=false;
+  boolean bootup=true;
 
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3 = 0;
+  int mil=0, mil2=0, mil3 = 0, mil4=0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
 
@@ -73,38 +73,19 @@ class Game {
 }
 
 
-  void findTeleporters() {
-
-    for (int i=0; i<this.map[0].length; i++) {
-      if (this.map[0][i]!= 1 && this.map[this.map.length-1][i]!=1) {
-        int[][] coords = {{i, 0}, {i, this.map.length-1}};
-        this.teleporters = (int[][][]) append(this.teleporters, coords);
-      }
-    }
-
-    for (int i=0; i<this.map.length; i++) {
-      if (this.map[i][0]!= 1 && this.map[i][this.map[0].length-1]!=1) {
-        int[][] coords = {{0, i}, {this.map[0].length-1, i}};
-        this.teleporters = (int[][][]) append(this.teleporters, coords);
-      }
-    }
-  }
-
-  void endScreen(){
-    background(0);
-
-  }
 
   void renderNonPlayableScene() {
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering nonplayableScene");
 
-    if (mil3 == 0)
-      mil3 = millis();
-
     /*here we need to decide if the game is booting up or already over*/
     /*BootScreen*/
-    if (player.lives > 1){
+    if(this.bootup) {
+      this.bootupScreen();
+    }
+    else if (player.lives > 1){
+      if (mil3 == 0)
+        mil3 = millis();
       this.renderMap();
       if (millis()-mil3 > 2000)
         this.reset();
@@ -161,6 +142,49 @@ class Game {
     else fill(255, 0, 0);
     text("[status]", 2, height-2);
   }
+
+
+  void bootupScreen() {
+    renderMap();
+    fill(255);
+    textFont(createFont("Arial Bold", 18));
+    textSize(50);
+    textAlign(CENTER);
+    text("Pacman",width/2, height/2);
+    textAlign(LEFT);
+    textFont(createFont("Arial", 18));
+    if(mil4==0) mil4=millis();
+
+    if(millis()-mil4>4000) {
+      textFont(createFont("Arial", 18));
+      player.isAlive=true;
+      this.bootup=false;
+    }
+  }
+  void endScreen(){
+    background(0);
+
+  }
+
+
+  void findTeleporters() {
+
+    for (int i=0; i<this.map[0].length; i++) {
+      if (this.map[0][i]!= 1 && this.map[this.map.length-1][i]!=1) {
+        int[][] coords = {{i, 0}, {i, this.map.length-1}};
+        this.teleporters = (int[][][]) append(this.teleporters, coords);
+      }
+    }
+
+    for (int i=0; i<this.map.length; i++) {
+      if (this.map[i][0]!= 1 && this.map[i][this.map[0].length-1]!=1) {
+        int[][] coords = {{0, i}, {this.map[0].length-1, i}};
+        this.teleporters = (int[][][]) append(this.teleporters, coords);
+      }
+    }
+  }
+
+
 
   /*movement control and collision check*/
   void move(boolean keyMap[]) {
@@ -301,12 +325,10 @@ class Game {
     this.mil=0;
     this.mil2=0;
     this.mil3 = 0;
+    this.mil4 = 0;
 
     this.player.reset();
     this.player.lives--;
-
-
-
 
 
   }

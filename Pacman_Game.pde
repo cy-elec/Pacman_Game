@@ -8,7 +8,6 @@
 
 PrintWriter debugoutput;
 
-
 boolean keyMap[] = new boolean[256];
 boolean fullReset = true;
 /*gameHandler is an instance of Game and used for the general game control*/
@@ -19,7 +18,6 @@ Game gameHandler;
 void setup()
 {
   debugoutput = createWriter(".debug.log");
-
 
 
 
@@ -68,7 +66,9 @@ void keyReleased() {
 
 
 
-void stop() {
+void exit() {
+  debugoutput.println("Exiting...");
   debugoutput.flush();
   debugoutput.close();
+  super.exit();
 }
