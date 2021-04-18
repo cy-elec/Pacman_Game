@@ -151,19 +151,19 @@ int[][] AStar(int[] position1, int[] position2, int[][] map, int[][][] teleporte
       if (map[newPosition[1]][newPosition[0]] != 1){
 
         //with the new position we then create a new evaluation consisting of the length that we are away from our goal (a**2 + b**2 = c**2)
-        int newH = (int)pow((int)pow(abs(newPosition[0] - position2[0]), 2) + (int)pow(abs(newPosition[1] - position2[1]), 2), 0.5);
+        int newH = (int)pow((int)pow(newPosition[0] - position2[0], 2) + (int)pow(newPosition[1] - position2[1], 2), 0.5);
 
         for (int j=0; j<teleporters.length; j++){
           //we loop through every teleporter and check, if the distance from position1 to teleporter 1 plus the distance from teleporter2 to position2 is lower than the normal distance
           //(each teleporter consists of two sides teleporter1 and 2)
-          int newHTeleporter =(int) pow( (int)pow(abs(newPosition[0] - teleporters[j][0][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][0][1]), 2), 0.5)
+          int newHTeleporter =(int) pow( (int)pow(newPosition[0] - teleporters[j][0][0], 2) + (int)pow(newPosition[1] - teleporters[j][0][1], 2), 0.5)
                               +
-                              (int) pow( (int)pow(abs(teleporters[j][1][0] - position2[0]), 2) + (int)pow(abs(teleporters[j][1][1] - position2[1]), 2), 0.5);
+                              (int) pow( (int)pow(teleporters[j][1][0] - position2[0], 2) + (int)pow(teleporters[j][1][1] - position2[1], 2), 0.5);
           if (newHTeleporter<newH)
             newH=newHTeleporter;
 
           //then we check the opposite: position1 -> teleporter2 + teleporter1 -> positon2
-          newHTeleporter = (int) pow((int) pow( (int)pow(abs(newPosition[0] - teleporters[j][1][0]), 2) + (int)pow(abs(newPosition[1] - teleporters[j][1][1]), 2), 0.5) + (int)pow( (int)pow(abs(teleporters[j][0][0] - position2[0]), 2) + (int)pow(abs(teleporters[j][0][1] - position2[1]), 2), 0.5), 2);
+          newHTeleporter = (int) pow((int) pow( (int)pow(newPosition[0] - teleporters[j][1][0], 2) + (int)pow(newPosition[1] - teleporters[j][1][1], 2), 0.5) + (int)pow( (int)pow(teleporters[j][0][0] - position2[0], 2) + (int)pow(teleporters[j][0][1] - position2[1], 2), 0.5), 2);
 
           if (newHTeleporter<newH)
             newH=newHTeleporter;
