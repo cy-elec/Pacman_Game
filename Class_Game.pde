@@ -145,7 +145,7 @@ class Game {
     fill(255);
     textSize(30);
     text("Score: "+playerScore, 5, 35);
-    text("Lives:"+player.lives, 150, 35);
+    text("Lives:"+player.lives, width-100, 35);
     textSize(20);
     if (player.isAlive) fill(0, 255, 0);
     else fill(255, 0, 0);
