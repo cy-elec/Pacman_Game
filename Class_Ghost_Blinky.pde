@@ -2,9 +2,9 @@
 
 class Blinky extends Ghost{
 
-  Blinky() {
+  Blinky(int position[]) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Blinky",color(255,0,0));
+    super("Blinky",color(255,0,0), position);
   }
 
   void makeMove(int[] pacmanPosition){

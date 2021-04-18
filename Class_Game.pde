@@ -4,15 +4,16 @@
 
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
-  Pacman player = new Pacman();
-  Blinky Ghost_Blinky = new Blinky();
-  Pinky Ghost_Pinky = new Pinky();
-  Inky Ghost_Inky = new Inky();
-  Clyde Ghost_Clyde = new Clyde();
+  //will be Initialized in setAllStartPosition()
+  Pacman player;
+  Blinky Ghost_Blinky;
+  Pinky Ghost_Pinky;
+  Inky Ghost_Inky;
+  Clyde Ghost_Clyde;
 
   int playerScore=0;
   boolean bootup=true;
-
+  int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
   int mil=0, mil2=0, mil3 = 0, mil4=0;
@@ -20,33 +21,39 @@ class Game {
   int GHOSTDELAY=300;
 
 
-  /*map which will be rendered*/
+  /*map which will be rendered
+    -currently: square:25x25:sym_001.bmp -Felix*/
   int map[][] = {
-  	{1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,},
-  	{1,2,2,2,2,2,1,1,2,2,1,1,0,1,2,2,2,2,2,1,},
-  	{1,2,1,1,2,2,1,2,2,1,1,2,2,2,2,1,1,1,2,1,},
-  	{1,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,1,},
-  	{1,2,1,2,2,2,2,1,1,1,1,1,2,1,2,2,1,2,2,1,},
-  	{0,2,2,2,1,1,2,1,2,2,2,2,2,1,2,2,2,2,2,0,},
-  	{1,1,1,2,1,1,2,2,2,1,2,2,1,1,2,1,1,1,1,1,},
-  	{1,2,2,2,2,1,2,2,2,1,2,2,2,2,2,2,2,2,2,1,},
-  	{0,2,1,1,2,1,2,1,2,1,2,1,2,1,1,1,2,2,2,0,},
-  	{1,2,1,1,2,2,2,1,2,2,2,1,2,1,2,1,1,1,2,1,},
-  	{1,2,2,2,2,2,2,1,2,1,2,1,2,1,2,1,1,1,2,1,},
-  	{1,2,2,2,1,2,2,1,1,1,1,1,2,2,2,1,2,2,2,1,},
-  	{1,2,1,1,1,2,2,2,2,2,2,2,2,1,1,1,2,2,2,1,},
-  	{1,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,},
-  	{1,2,2,1,2,2,2,1,2,2,1,2,2,1,2,2,2,1,2,1,},
-  	{1,2,2,1,2,2,2,1,1,1,1,2,2,1,2,2,1,1,2,1,},
-  	{1,2,1,1,2,1,2,2,2,2,2,2,1,1,2,2,1,1,2,1,},
-  	{1,2,2,2,2,1,1,1,2,1,1,2,1,2,2,2,1,2,2,1,},
-  	{1,2,2,2,2,2,1,1,2,2,1,2,2,2,2,1,1,1,2,1,},
-  	{1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,},
+  	{1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,},
+  	{1,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,1,},
+  	{1,2,1,1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,1,2,1,},
+  	{1,2,1,1,2,1,2,1,3,2,2,1,2,1,2,2,3,1,2,1,2,1,1,2,1,},
+  	{1,2,2,2,2,1,2,1,1,1,2,1,2,1,2,1,1,1,2,1,2,2,2,2,1,},
+  	{1,1,1,1,2,1,2,2,1,1,2,1,2,1,2,1,1,2,2,1,2,1,1,1,1,},
+  	{0,2,2,1,2,1,1,2,1,2,2,2,2,2,2,2,1,2,1,1,2,1,2,2,0,},
+  	{1,1,2,2,2,2,2,2,2,2,1,1,2,1,1,2,2,2,2,2,2,2,2,1,1,},
+  	{1,2,2,1,1,1,1,2,1,2,1,0,0,0,1,2,1,2,1,1,1,1,2,2,1,},
+  	{1,2,1,1,1,2,2,2,1,2,1,0,4,0,1,2,1,2,2,2,1,1,1,2,1,},
+  	{1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,},
+  	{1,2,1,2,2,2,2,2,2,2,2,1,2,1,2,2,2,2,2,2,2,2,1,2,1,},
+  	{1,2,1,2,1,1,1,1,2,1,2,1,2,1,2,1,2,1,1,1,1,2,1,2,1,},
+  	{1,2,2,2,2,2,2,2,2,1,2,1,2,1,2,1,2,2,2,2,2,2,2,2,1,},
+  	{1,2,1,1,1,1,2,1,2,1,1,1,2,1,1,1,2,1,2,1,1,1,1,2,1,},
+  	{1,2,1,3,1,1,2,1,2,2,2,2,2,2,2,2,2,1,2,1,1,3,1,2,1,},
+  	{1,2,2,2,1,2,2,1,1,1,2,1,2,1,2,1,1,1,2,2,1,2,2,2,1,},
+  	{1,2,1,1,1,2,1,1,2,2,2,1,2,1,2,2,2,1,1,2,1,1,1,2,1,},
+  	{0,2,2,2,2,2,1,2,2,1,2,1,1,1,2,1,2,2,1,2,2,2,2,2,0,},
+  	{1,1,1,1,1,2,2,2,1,1,2,2,2,2,2,1,1,2,2,2,1,1,1,1,1,},
+  	{1,2,2,2,1,1,1,2,1,1,2,1,1,1,2,1,1,2,1,1,1,2,2,2,1,},
+  	{1,2,1,2,2,2,2,2,2,2,2,1,5,1,2,2,2,2,2,2,2,2,1,2,1,},
+  	{1,2,1,2,1,1,1,1,1,1,2,1,2,1,2,1,1,1,1,1,1,2,1,2,1,},
+  	{1,2,1,2,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1,2,1,},
+  	{1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,},
   };
 
   int teleporters[][][] = {};
   /*color codes for different map features*/
-  color colorMap[]= {color(0, 0, 0), color(0, 0, 255), color(200, 200, 100)};
+  color colorMap[]= {color(0, 0, 0), color(0, 0, 255), color(200, 200, 100), color(200, 200, 100)};
 
   /*
   0 = empty
@@ -54,6 +61,7 @@ class Game {
    2 = pellets
    3 = power pellets (same color as coins)
    4 = ghost (only for return value in checkCollision)
+   5 = pacman (only for init)
 
    INFO: this.map.length ist die Höhe, this.map[0].length die Breite
    Wir sollten noch mehr Kommentare machen
@@ -65,12 +73,13 @@ class Game {
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
 
     findTeleporters();
+    setAllStartPosition(); //also creates instances
 
-/*
-    for (int i =0; i<this.teleporters.length; i++) {
-      print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
-*/
-}
+  /*
+      for (int i =0; i<this.teleporters.length; i++) {
+        print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
+  */
+  }
 
 
 
@@ -184,6 +193,40 @@ class Game {
     }
   }
 
+  void setAllStartPosition() {
+    this.ghost_default_position[0] = -1;
+    this.ghost_default_position[1] = -1;
+    int pac_default_position[] = {-1,-1};
+      //search map for "4"
+      for (int i=0; i<this.map[0].length; i++) {
+        for(int j=0; j<this.map.length; j++) {
+          if(this.map[j][i]==4) {
+            this.map[j][i]=0;
+            this.ghost_default_position[0] = i;
+            this.ghost_default_position[1] = j;
+          }
+          if(this.map[j][i]==5) {
+            this.map[j][i]=0;
+            pac_default_position[0] = i;
+            pac_default_position[1] = j;
+          }
+        }
+      }
+      if(this.ghost_default_position[0]==-1||this.ghost_default_position[1]==-1) {
+        debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Couldn't locate ghost position, quitting");
+        exit();
+      }
+      if(pac_default_position[0]==-1||pac_default_position[1]==-1) {
+        debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Couldn't locate pacman position, quitting");
+        exit();
+      }
+
+      this.player = new Pacman(pac_default_position);
+      this.Ghost_Blinky = new Blinky(this.ghost_default_position);
+      this.Ghost_Pinky = new Pinky(this.ghost_default_position);
+      this.Ghost_Inky = new Inky(this.ghost_default_position);
+      this.Ghost_Clyde = new Clyde(this.ghost_default_position);
+  }
 
 
   /*movement control and collision check*/
@@ -192,7 +235,8 @@ class Game {
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 
     //every 500ms
-    if (mil2==0||millis()-mil2>=GHOSTDELAY) {
+    if(mil2==0) mil2=millis();
+    if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
       //move ghosts
       Ghost_Blinky.makeMove(player.position);
@@ -318,10 +362,10 @@ class Game {
 
   void reset(){
 
-    this.Ghost_Blinky = new Blinky();
-    this.Ghost_Pinky = new Pinky();
-    this.Ghost_Inky = new Inky();
-    this.Ghost_Clyde = new Clyde();
+    this.Ghost_Blinky = new Blinky(this.ghost_default_position);
+    this.Ghost_Pinky = new Pinky(this.ghost_default_position);
+    this.Ghost_Inky = new Inky(this.ghost_default_position);
+    this.Ghost_Clyde = new Clyde(this.ghost_default_position);
     this.mil=0;
     this.mil2=0;
     this.mil3 = 0;

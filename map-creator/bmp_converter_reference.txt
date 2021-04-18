@@ -1,5 +1,5 @@
 #This is the default entry:
-#Syntax: 
+#Syntax:
 	#";" B G R V
 	#";"to start new entry
 	#three values Blue Green Red for the lookup color and then the 4th Value which will be the result for the previously described case
@@ -8,3 +8,6 @@
 ;0 0 0 0
 ;255 0 0 1
 ;100 200 200 2
+;200 200 200 3
+;0 255 0 5
+;0 0 255 4
