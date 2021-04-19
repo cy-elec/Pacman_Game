@@ -23,6 +23,10 @@ class Game {
 
   int widthScale, heightScale;
 
+
+  int frameRate;
+  int oldFrames=0;
+  int frameCnt=0;
   /*map which will be rendered
     -currently: square:25x25:sym_001.bmp -Felix*/
   int map[][] = {
@@ -73,7 +77,7 @@ class Game {
   Game() {
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
-
+    this.frameCnt=millis();
     findTeleporters();
     setAllStartPosition(); //also creates instances
 
@@ -155,11 +159,18 @@ class Game {
 
   void smartRender(){
 
+    //frameRate
+    if(millis()-this.frameCnt>500) {
+      this.frameRate=(frameCount-this.oldFrames)*2;
+      this.oldFrames=frameCount;
+      this.frameCnt=millis();
+    }
+
+    //first render here to avoid leftovers
     if (!this.rendered){
       this.rendered = true;
       this.renderMap();
     }
-
 
     int[][] squaresToUpdate = {player.position, player.renderPosition, player.oldPosition, Ghost_Blinky.position, Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition, Ghost_Inky.position, Ghost_Inky.renderPosition, Ghost_Inky.oldPosition};
 
@@ -184,6 +195,35 @@ class Game {
       }
     }
 
+    /*SmartText pt1*/
+    //draw playerScore
+    //clear background (factor width/47,2 * letterNum to get pixels and then this divided by widthScale : (width/47,2 * letterNum)/widthScale for the number of map indices to update )
+
+    //score: (12 Letters for: "Score: xxxxx")
+    int score_clear_width = (int)((width/47.2f*12)/widthScale+0.5);
+    int score_clear_pos[] = {0,score_clear_width,0};
+    //lives: (8 Letters for: "Lives: x")
+    int lives_clear_width = (int)((width/47.2f*8)/widthScale+0.5);
+    int lives_clear_pos[] = {this.map[0].length-lives_clear_width,this.map[0].length,0};
+    //status: (8 Letters for: "[status]" -> *4 because half the size)
+    int status_clear_width = (int)((width/47.2f*4)/widthScale+0.5);
+    int status_clear_pos[] = {0,status_clear_width,this.map.length-1};
+    //framerate: (9 Letters for: "FPS: xxxx" -> *5 because half the size)
+    int framerate_clear_width = (int)((width/47.2f*4)/widthScale+0.5);
+    int framerate_clear_pos[] = {this.map[0].length-framerate_clear_width-1,this.map[0].length,this.map.length-1};
+
+    //list of positions to clear (only horizontal clear)
+    int toClear[][] = {score_clear_pos, lives_clear_pos, status_clear_pos, framerate_clear_pos};
+
+    for(int i=0; i<toClear.length; i++) {
+      for(int j=toClear[i][0]; j<toClear[i][1]; j++) {
+        fill(this.colorMap[map[toClear[i][2]][j]]);//fill changes the colour for all draw functions
+        if (this.map[toClear[i][2]][j]==2) ellipse(i*this.widthScale+this.widthScale/2, j*this.heightScale+this.heightScale/2, this.widthScale/2, this.heightScale/2);
+        else rect(j*this.widthScale, toClear[i][2]*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
+      }
+    }
+
+
 
     this.updateSmoothPosition();
 
@@ -198,15 +238,17 @@ class Game {
     rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
 
 
-    //draw playerScore
+    /*SmartText pt2*/
     fill(255);
-    textSize(30);
-    text("Score: "+playerScore, 5, 35);
-    text("Lives:"+player.lives, width-100, 35);
-    textSize(20);
+    textSize(this.heightScale);
+    text("Score: "+playerScore, width/250, this.heightScale-height/200);
+    text("Lives:"+player.lives, width-width/7.7f, this.heightScale-height/200);
+    textSize(this.heightScale/2);
+    text("FPS: "+this.frameRate, width-width/10, height-height/500);
     if (player.isAlive) fill(0, 255, 0);
     else fill(255, 0, 0);
-    text("[status]", 2, height-2);
+    text("[status]", 2, height-height/500);
+
   }
 
 
@@ -496,7 +538,7 @@ class Game {
 
     this.player.reset();
     this.player.lives--;
-
+    this.frameCnt=millis();
 
   }
 }

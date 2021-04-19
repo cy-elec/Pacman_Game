@@ -3,7 +3,9 @@
 
 
 */
-int frames = 60;
+int frames = 100;
+int sizeX = 1000;
+int sizeY = 1000;
 
 //Language Reference:  https://processing.org/reference/
 
@@ -20,14 +22,14 @@ void setup()
 {
   debugoutput = createWriter(".debug.log");
 
-  frameRate(60);
+  frameRate(frames);
 
   /*DEBUG*/
   debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
 
   //display
   surface.setResizable(false);
-  surface.setSize(1400, 1400);
+  surface.setSize(sizeX, sizeY);
 
 }
 
