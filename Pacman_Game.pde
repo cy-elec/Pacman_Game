@@ -3,7 +3,7 @@
 
 
 */
-boolean DEBUGMODE = false;
+boolean DEBUGMODE = true;
 
 int frames = 60;
 int sizeX = 1000;
