@@ -22,4 +22,10 @@ class Ghost {
     this.renderFactor[1] = 0;
   }
 
+  void updateSmooth() {
+    this.renderPosition=this.position.clone();
+    this.renderFactor[0]=0;
+    this.renderFactor[1]=0;
+  }
+
 }
