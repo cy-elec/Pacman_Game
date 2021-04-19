@@ -34,9 +34,9 @@ class Pacman {
     this.oldPosition = this.spawnpoint.clone();
     this.renderFactor[0] = 0;
     this.renderFactor[1] = 0;
-    direction = "";
-    oldDirection = "";
-
+    this.direction = "";
+    this.oldDirection = "";
+    this.renderDirection="";
   }
 
 }

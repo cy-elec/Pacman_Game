@@ -16,7 +16,7 @@ class Inky extends Ghost{
   }
     //least predictable of the ghosts (probably just random moves)
 
-  void makeMove(int[] pacmanPosition){
+  void makeMove(){
     updateSmooth();
 
     if(this.position[0]==inkiesGoal[0]&&this.position[1]==inkiesGoal[1])

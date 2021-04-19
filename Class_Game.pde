@@ -172,7 +172,11 @@ class Game {
       this.renderMap();
     }
 
-    int[][] squaresToUpdate = {player.position, player.renderPosition, player.oldPosition, Ghost_Blinky.position, Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition, Ghost_Inky.position, Ghost_Inky.renderPosition, Ghost_Inky.oldPosition};
+    int[][] squaresToUpdate = {
+        player.position, player.renderPosition, player.oldPosition,
+        Ghost_Blinky.position, Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition,
+        Ghost_Inky.position, Ghost_Inky.renderPosition, Ghost_Inky.oldPosition,
+      };
 
 
 
@@ -345,7 +349,7 @@ class Game {
       Ghost_Blinky.makeMove(player.position);
 
       Ghost_Inky.oldPosition = Ghost_Inky.renderPosition;
-      Ghost_Inky.makeMove(player.position);
+      Ghost_Inky.makeMove();
 
 
       //check if ghost is on Pacman
