@@ -242,7 +242,7 @@ class Game {
     if(mil2==0) mil2=millis();
     if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
-      
+
       //move ghosts
       Ghost_Blinky.makeMove(player.position);
 
