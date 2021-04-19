@@ -76,6 +76,10 @@ class Game {
     findTeleporters();
     setAllStartPosition(); //also creates instances
 
+    this.widthScale = (width/this.map[0].length);
+    this.heightScale = (height/this.map.length);
+    if(width/height != this.map[0].length/this.map.length) debugoutput.println(hour()+":"+minute()+":"+second()+": "+"############\nMAP RATIO IS NOT MATCHING SCREEN RATIO\n############\n");
+
   /*
       for (int i =0; i<this.teleporters.length; i++) {
         print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
@@ -122,9 +126,7 @@ class Game {
     background(0);
 
     //one box=100*100 pixel --UPDATE: ceil() for screen fill
-    this.widthScale = (width/this.map[0].length);
-    this.heightScale = (height/this.map.length);
-    if(this.widthScale!=this.heightScale) debugoutput.println(hour()+":"+minute()+":"+second()+": "+"############\nMAP RATIO IS NOT MATCHING SCREEN RATIO\n############\n");
+
 
     /*loop through x and y axis*/
     for (int i=0; i<this.map[0].length; i++)
