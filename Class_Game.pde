@@ -5,6 +5,7 @@
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   //will be Initialized in setAllStartPosition()
+  boolean rendered = false;
   Pacman player;
   Blinky Ghost_Blinky;
   Pinky Ghost_Pinky;
@@ -160,6 +161,53 @@ class Game {
     else fill(255, 0, 0);
     text("[status]", 2, height-2);
   }
+
+void smartRender(){
+  if (!this.rendered){
+    this.rendered = true;
+    this.renderMap();
+  }
+  this.updateSmoothPosition();
+
+  int[][] squaresToUpdate = {player.position, Ghost_Blinky.position, Ghost_Inky.position};
+
+
+
+  for (int i = 0; i< squaresToUpdate.length; i++){
+    if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
+      fill(200,200,10);
+        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+
+    }
+    else{
+      fill(0);
+      rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+
+      if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]] == 2){
+        fill(200,200,10);
+        ellipse(this.widthScale*squaresToUpdate[i][0] + this.widthScale/2, this.heightScale*squaresToUpdate[i][1] +this.heightScale/2 , this.widthScale/2, this.heightScale/2);
+
+      }
+
+    }
+  }
+
+
+  fill(0);
+
+
+  fill(player.pacmanColor); //fill changes the colour for all draw functions
+  rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+  //print Blinky
+  fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
+  rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+  //print Inky
+  fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
+  rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+
+
+}
+
 
 
   void bootupScreen() {
@@ -369,9 +417,14 @@ class Game {
     }
   }
 
+
+int mili = 0;
   void updateSmoothPosition() {
 
     /*UPDATE PLAYER*/
+    println(millis()-mili);
+    mili = millis();
+
     if(mil5==0)mil5=millis();
     float delay=0;
 
