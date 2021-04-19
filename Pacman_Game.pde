@@ -3,7 +3,9 @@
 
 
 */
-int frames = 100;
+boolean DEBUGMODE = false;
+
+int frames = 60;
 int sizeX = 1000;
 int sizeY = 1000;
 

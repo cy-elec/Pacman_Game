@@ -217,7 +217,9 @@ class Game {
     int framerate_clear_pos[] = {this.map[0].length-framerate_clear_width-1,this.map[0].length,this.map.length-1};
 
     //list of positions to clear (only horizontal clear)
-    int toClear[][] = {score_clear_pos, lives_clear_pos, status_clear_pos, framerate_clear_pos};
+    int toClear[][] = {score_clear_pos, lives_clear_pos, status_clear_pos};
+
+    if(DEBUGMODE) toClear = (int[][])append(toClear, framerate_clear_pos);
 
     for(int i=0; i<toClear.length; i++) {
       for(int j=toClear[i][0]; j<toClear[i][1]; j++) {
@@ -248,6 +250,7 @@ class Game {
     text("Score: "+playerScore, width/250, this.heightScale-height/200);
     text("Lives:"+player.lives, width-width/7.7f, this.heightScale-height/200);
     textSize(this.heightScale/2);
+    if(DEBUGMODE)
     text("FPS: "+this.frameRate, width-width/10, height-height/500);
     if (player.isAlive) fill(0, 255, 0);
     else fill(255, 0, 0);
