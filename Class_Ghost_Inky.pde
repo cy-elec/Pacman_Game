@@ -2,7 +2,7 @@
 
 class Inky extends Ghost{
 
-  int[][] leereFelder;
+  int[][] leereFelder = {};
 
 
 
@@ -10,56 +10,51 @@ class Inky extends Ghost{
 
   Inky(int position[]) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Inky",color(0,0,255), position);
+    super("Inky",color(0,100,255), position);
 
-    leereFelder = this.findeleereFelder();
 
-    
-
-    
   }
     //least predictable of the ghosts (probably just random moves)
 
   void makeMove(int[] pacmanPosition){
-    
+    updateSmooth();
+
     if(this.position[0]==inkiesGoal[0]&&this.position[1]==inkiesGoal[1])
     {
-      this.inkiesGoal = leereFelder[random(leereFelder.length)];
+      while(leereFelder.length>0)leereFelder=(int[][])shorten(leereFelder);
+      findeleereFelder();
+      this.inkiesGoal = (int[])leereFelder[(int)random(leereFelder.length)];
     }
-    
+
+
     int[][] path = AStar(this.position, this.inkiesGoal, gameHandler.map, gameHandler.teleporters);
     if (path!=null) {
       int nPos[] = path[1].clone();
-      
+
+      if(nPos[0]-this.position[0]==-1) {this.renderDirection="left";}
+      else if(nPos[0]-this.position[0]==1) {this.renderDirection="right";}
+
+      if(nPos[1]-this.position[1]==-1) {this.renderDirection="up";}
+      else if(nPos[1]-this.position[1]==1) {this.renderDirection="down";}
 
       this.position = nPos.clone();
-
+    }
 
   }
 
-}
 
-
-
-
-
-int[][] findeleereFelder()
-{
-  map = gameHandler.map;
-    for(int i=0; i<= map.length; i++) 
-    {
-      for(int j=0; j<= map[0].length; j++)
+  void findeleereFelder()
+  {
+      for(int i=0; i< gameHandler.map.length; i++)
       {
-        if(map[i][j]!=1)
+        for(int j=0; j< gameHandler.map[0].length; j++)
         {
-          leereFelder = append(leereFelder, {j, i} );
-        }
+          if(gameHandler.map[i][j]!=1)
+          {
+            this.leereFelder = (int[][])append(this.leereFelder, new int[] {j,i});
+          }
+      }
     }
   }
-}
-    
 
-
-  
-}
 }

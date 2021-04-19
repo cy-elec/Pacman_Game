@@ -144,6 +144,9 @@ class Game {
     //print Blinky
     fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Inky
+    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
 
     //draw playerScore
     fill(255);
@@ -245,6 +248,7 @@ class Game {
 
       //move ghosts
       Ghost_Blinky.makeMove(player.position);
+      Ghost_Inky.makeMove(player.position);
 
 
       //check if ghost is on Pacman
@@ -399,6 +403,13 @@ class Game {
       case "right":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
       default:break;
     }
+    switch(Ghost_Inky.renderDirection) {
+      case "up":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
+      case "down":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
+      case "left":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
+      case "right":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
+      default:break;
+    }
 
     if(millis()-mil6>(delay)) {
       switch(Ghost_Blinky.renderDirection) {
@@ -407,8 +418,16 @@ class Game {
         case "left":Ghost_Blinky.renderFactor[0]-=1;break;
         case "right":Ghost_Blinky.renderFactor[0]+=1;break;
       }
+      switch(Ghost_Inky.renderDirection) {
+        case "up":Ghost_Inky.renderFactor[1]-=1;break;
+        case "down":Ghost_Inky.renderFactor[1]+=1;break;
+        case "left":Ghost_Inky.renderFactor[0]-=1;break;
+        case "right":Ghost_Inky.renderFactor[0]+=1;break;
+      }
       Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
       Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
+      Ghost_Inky.renderFactor[0]=Ghost_Inky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Inky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Inky.renderFactor[0];
+      Ghost_Inky.renderFactor[1]=Ghost_Inky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Inky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Inky.renderFactor[1];
       mil6=millis();
     }
 

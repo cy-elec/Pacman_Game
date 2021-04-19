@@ -19,7 +19,7 @@ void setup()
 {
   debugoutput = createWriter(".debug.log");
 
-
+  frameRate(80);
 
   /*DEBUG*/
   debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
