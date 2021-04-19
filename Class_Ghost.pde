@@ -3,6 +3,7 @@ class Ghost {
   protected String name;
   protected int[] position = new int[2];
 
+  int[] oldPosition = new int[2];
   int[] renderPosition = new int[2];
   float[] renderFactor = new float[2];
   String renderDirection="";
@@ -15,8 +16,8 @@ class Ghost {
 
     ghostColor=c1;
     this.name = name;
+    this.oldPosition = position.clone();
     this.position = position.clone();
-    this.renderPosition = position.clone();
     this.renderPosition = position.clone();
     this.renderFactor[0] = 0;
     this.renderFactor[1] = 0;

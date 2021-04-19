@@ -17,7 +17,7 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3 = 0, mil4=0, mil5=0, mil6=0;
+  int mil=0, mil2=0, mil3 = 0, mil4=0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
 
@@ -101,7 +101,7 @@ class Game {
     else if (player.lives > 1){
       if (mil3 == 0)
         mil3 = millis();
-      this.renderMap();
+      this.smartRender();
       if (millis()-mil3 > 2000)
         this.reset();
     }
@@ -151,6 +151,53 @@ class Game {
     fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
 
+  }
+
+  void smartRender(){
+
+    if (!this.rendered){
+      this.rendered = true;
+      this.renderMap();
+    }
+
+
+    int[][] squaresToUpdate = {player.position, player.renderPosition, player.oldPosition, Ghost_Blinky.position, Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition, Ghost_Inky.position, Ghost_Inky.renderPosition, Ghost_Inky.oldPosition};
+
+
+
+
+    for (int i = 0; i< squaresToUpdate.length; i++){
+      if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
+        fill(200,200,100);
+        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+      }
+      else{
+        fill(0);
+        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+
+        if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]] == 2){
+          fill(200,200,100);
+          ellipse(this.widthScale*squaresToUpdate[i][0] + this.widthScale/2, this.heightScale*squaresToUpdate[i][1] +this.heightScale/2 , this.widthScale/2, this.heightScale/2);
+
+        }
+
+      }
+    }
+
+
+    this.updateSmoothPosition();
+
+
+    fill(player.pacmanColor); //fill changes the colour for all draw functions
+    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Blinky
+    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Inky
+    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+
+
     //draw playerScore
     fill(255);
     textSize(30);
@@ -161,54 +208,6 @@ class Game {
     else fill(255, 0, 0);
     text("[status]", 2, height-2);
   }
-
-void smartRender(){
-
-  if (!this.rendered){
-    this.rendered = true;
-    this.renderMap();
-  }
-
-
-  int[][] squaresToUpdate = {player.position, player.oldPosition, player.renderPosition, Ghost_Blinky.position, Ghost_Inky.position};
-
-
-
-
-  for (int i = 0; i< squaresToUpdate.length; i++){
-    if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
-      fill(200,200,10);
-        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
-
-    }
-    else{
-      fill(0);
-      rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
-
-      if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]] == 2){
-        fill(200,200,10);
-        ellipse(this.widthScale*squaresToUpdate[i][0] + this.widthScale/2, this.heightScale*squaresToUpdate[i][1] +this.heightScale/2 , this.widthScale/2, this.heightScale/2);
-
-      }
-
-    }
-  }
-
-
-  this.updateSmoothPosition();
-
-
-  fill(player.pacmanColor); //fill changes the colour for all draw functions
-  rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-  //print Blinky
-  fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
-  rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-  //print Inky
-  fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
-  rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-
-
-}
 
 
 
@@ -290,7 +289,7 @@ void smartRender(){
 
   /*movement control and collision check*/
   void move(boolean keyMap[]) {
-    player.oldPosition = player.position.clone();
+
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 
@@ -300,7 +299,10 @@ void smartRender(){
       mil2=millis();
 
       //move ghosts
+      Ghost_Blinky.oldPosition = Ghost_Blinky.renderPosition;
       Ghost_Blinky.makeMove(player.position);
+
+      Ghost_Inky.oldPosition = Ghost_Inky.renderPosition;
       Ghost_Inky.makeMove(player.position);
 
 
@@ -392,12 +394,7 @@ void smartRender(){
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
         if (collision!=1) {
-          player.renderDirection=player.oldDirection;
-          player.renderPosition=player.position.clone();
-
-          player.position=playerNextPos.clone();
-          player.renderFactor[0]=0;
-          player.renderFactor[1]=0;
+          this.updatePosition(playerNextPos);
         }
       }
       /*no wall collision -> move*/
@@ -405,13 +402,10 @@ void smartRender(){
         /*DEBUG*/
         debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Moving with new valid input");
         /*update position*/
-        player.renderDirection=player.direction;
-        player.renderPosition=player.position.clone();
-
-        player.position=playerNextPos.clone();
-        player.renderFactor[0]=0;
-        player.renderFactor[1]=0;
+        this.updatePosition(playerNextPos);
         /*update last valid direction*/
+
+        player.renderDirection=player.direction;
         player.oldDirection=player.direction;
       }
 
@@ -421,6 +415,17 @@ void smartRender(){
       }
     }
   }
+  void updatePosition(int[] playerNextPos){
+    /*update position*/
+    player.oldPosition = player.renderPosition.clone();
+
+
+    player.renderPosition=player.position.clone();
+
+    player.position=playerNextPos.clone();
+    player.renderFactor[0]=0;
+    player.renderFactor[1]=0;
+  }
 
 
 
@@ -429,7 +434,6 @@ void smartRender(){
     /*UPDATE PLAYER*/
 
 
-    if(mil5==0)mil5=millis();
     float delay=0;
 
 
@@ -442,49 +446,31 @@ void smartRender(){
       }
       player.renderFactor[0]=player.renderFactor[0]<(-this.heightScale)?-this.heightScale:player.renderFactor[0]>(this.heightScale)?this.heightScale:player.renderFactor[0];
       player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
-      mil5=millis();
 
 
     /*UPDATE BLINKY*/
-    if(mil6==0)mil6=millis();
+
 
     switch(Ghost_Blinky.renderDirection) {
-      case "up":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
-      case "down":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
-      case "left":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
-      case "right":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
-      default:break;
+      case "up":Ghost_Blinky.renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "down":Ghost_Blinky.renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "left":Ghost_Blinky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "right":Ghost_Blinky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
     }
     switch(Ghost_Inky.renderDirection) {
-      case "up":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
-      case "down":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
-      case "left":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
-      case "right":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
-      default:break;
+      case "up":Ghost_Inky.renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "down":Ghost_Inky.renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "left":Ghost_Inky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "right":Ghost_Inky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
     }
-
-    if(millis()-mil6>(int)(delay+0.5)) {
-      switch(Ghost_Blinky.renderDirection) {
-        case "up":Ghost_Blinky.renderFactor[1]-=1;break;
-        case "down":Ghost_Blinky.renderFactor[1]+=1;break;
-        case "left":Ghost_Blinky.renderFactor[0]-=1;break;
-        case "right":Ghost_Blinky.renderFactor[0]+=1;break;
-      }
-      switch(Ghost_Inky.renderDirection) {
-        case "up":Ghost_Inky.renderFactor[1]-=1;break;
-        case "down":Ghost_Inky.renderFactor[1]+=1;break;
-        case "left":Ghost_Inky.renderFactor[0]-=1;break;
-        case "right":Ghost_Inky.renderFactor[0]+=1;break;
-      }
-      Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
-      Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
-      Ghost_Inky.renderFactor[0]=Ghost_Inky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Inky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Inky.renderFactor[0];
-      Ghost_Inky.renderFactor[1]=Ghost_Inky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Inky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Inky.renderFactor[1];
-      mil6=millis();
-    }
-
-
+    Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
+    Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
+    Ghost_Inky.renderFactor[0]=Ghost_Inky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Inky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Inky.renderFactor[0];
+    Ghost_Inky.renderFactor[1]=Ghost_Inky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Inky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Inky.renderFactor[1];
   }
+
+
+
 
   /*returns map marker at coordinate*/
   int checkCollision(int[] coords) {
@@ -498,7 +484,7 @@ void smartRender(){
 
 
   void reset(){
-
+    this.rendered = false;
     this.Ghost_Blinky = new Blinky(this.ghost_default_position);
     this.Ghost_Pinky = new Pinky(this.ghost_default_position);
     this.Ghost_Inky = new Inky(this.ghost_default_position);
@@ -507,8 +493,6 @@ void smartRender(){
     this.mil2=0;
     this.mil3 = 0;
     this.mil4 = 0;
-    this.mil5 = 0;
-    this.mil6 = 0;
 
     this.player.reset();
     this.player.lives--;

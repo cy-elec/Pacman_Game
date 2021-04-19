@@ -31,6 +31,7 @@ class Pacman {
     this.isAlive = true;
     this.position = this.spawnpoint.clone();
     this.renderPosition = this.spawnpoint.clone();
+    this.oldPosition = this.spawnpoint.clone();
     this.renderFactor[0] = 0;
     this.renderFactor[1] = 0;
     direction = "";
