@@ -167,9 +167,10 @@ void smartRender(){
     this.rendered = true;
     this.renderMap();
   }
-  this.updateSmoothPosition();
 
-  int[][] squaresToUpdate = {player.position, Ghost_Blinky.position, Ghost_Inky.position};
+
+  int[][] squaresToUpdate = {player.position, player.oldPosition, Ghost_Blinky.position, Ghost_Inky.position};
+
 
 
 
@@ -193,7 +194,7 @@ void smartRender(){
   }
 
 
-  fill(0);
+  this.updateSmoothPosition();
 
 
   fill(player.pacmanColor); //fill changes the colour for all draw functions
@@ -288,6 +289,7 @@ void smartRender(){
 
   /*movement control and collision check*/
   void move(boolean keyMap[]) {
+    player.oldPosition = player.position.clone();
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 
@@ -391,6 +393,7 @@ void smartRender(){
         if (collision!=1) {
           player.renderDirection=player.oldDirection;
           player.renderPosition=player.position.clone();
+
           player.position=playerNextPos.clone();
           player.renderFactor[0]=0;
           player.renderFactor[1]=0;
@@ -403,6 +406,7 @@ void smartRender(){
         /*update position*/
         player.renderDirection=player.direction;
         player.renderPosition=player.position.clone();
+
         player.position=playerNextPos.clone();
         player.renderFactor[0]=0;
         player.renderFactor[1]=0;
@@ -418,35 +422,27 @@ void smartRender(){
   }
 
 
-int mili = 0;
+
   void updateSmoothPosition() {
 
     /*UPDATE PLAYER*/
-    println(millis()-mili);
-    mili = millis();
+
 
     if(mil5==0)mil5=millis();
     float delay=0;
 
-    switch(player.renderDirection) {
-      case "up":delay=(float)this.GLOBALDELAY/(this.heightScale/0.5);break;
-      case "down":delay=(float)this.GLOBALDELAY/(this.heightScale/0.5);break;
-      case "left":delay=(float)this.GLOBALDELAY/(this.widthScale/0.5);break;
-      case "right":delay=(float)this.GLOBALDELAY/(this.widthScale/0.5);break;
-      default:break;
-    }
 
-    if(millis()-mil5>(int)(delay+0.5)) {
+
       switch(player.renderDirection) {
-        case "up":player.renderFactor[1]-=1;break;
-        case "down":player.renderFactor[1]+=1;break;
-        case "left":player.renderFactor[0]-=1;break;
-        case "right":player.renderFactor[0]+=1;break;
+        case "up":player.renderFactor[1]-=this.heightScale/(frames*this.GLOBALDELAY*0.001);break;
+        case "down":player.renderFactor[1]+=this.heightScale/(frames*this.GLOBALDELAY*0.001);break;
+        case "left":player.renderFactor[0]-=this.widthScale/(frames*this.GLOBALDELAY*0.001);break;
+        case "right":player.renderFactor[0]+=this.widthScale/(frames*this.GLOBALDELAY*0.001);break;
       }
       player.renderFactor[0]=player.renderFactor[0]<(-this.heightScale)?-this.heightScale:player.renderFactor[0]>(this.heightScale)?this.heightScale:player.renderFactor[0];
       player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
       mil5=millis();
-    }
+
 
     /*UPDATE BLINKY*/
     if(mil6==0)mil6=millis();

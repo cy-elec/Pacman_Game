@@ -1,6 +1,7 @@
 class Pacman {
   boolean isAlive = false;
   int[] position = new int[2];
+  int[] oldPosition = new int[2];
 
   int[] renderPosition = new int[2];
   float[] renderFactor = new float[2];
@@ -20,6 +21,7 @@ class Pacman {
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Pacman: Initialized pacman");
     this.direction="";
     this.position = this.spawnpoint.clone();
+    this.oldPosition = this.spawnpoint.clone();
     this.renderPosition = this.spawnpoint.clone();
 
   }

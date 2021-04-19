@@ -3,6 +3,7 @@
 
 
 */
+int frames = 60;
 
 //Language Reference:  https://processing.org/reference/
 
@@ -19,14 +20,14 @@ void setup()
 {
   debugoutput = createWriter(".debug.log");
 
-  frameRate(1000);
+  frameRate(60);
 
   /*DEBUG*/
   debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
 
   //display
   surface.setResizable(false);
-  surface.setSize(600, 600);
+  surface.setSize(1400, 1400);
 
 }
 
@@ -38,7 +39,7 @@ void draw(){
   }
   if(gameHandler.player.isAlive) {
     /*renering Map*/
-    gameHandler.renderMap();
+    gameHandler.smartRender();
     /*updating position of pacman and ghost, as well as handling collisions with ghost, coin, etc*/
     gameHandler.move(keyMap);
   }
