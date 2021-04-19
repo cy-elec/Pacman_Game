@@ -16,10 +16,11 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3 = 0, mil4=0;
+  int mil=0, mil2=0, mil3 = 0, mil4=0, mil5=0, mil6=0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
 
+  int widthScale, heightScale;
 
   /*map which will be rendered
     -currently: square:25x25:sym_001.bmp -Felix*/
@@ -109,6 +110,7 @@ class Game {
 
   /*renders the whole map*/
   void renderMap() {
+
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering map:");
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
@@ -120,8 +122,9 @@ class Game {
     background(0);
 
     //one box=100*100 pixel --UPDATE: ceil() for screen fill
-    int widthScale = (width/this.map[0].length);
-    int heightScale = (height/this.map.length);
+    this.widthScale = (width/this.map[0].length);
+    this.heightScale = (height/this.map.length);
+    if(this.widthScale!=this.heightScale) debugoutput.println(hour()+":"+minute()+":"+second()+": "+"############\nMAP RATIO IS NOT MATCHING SCREEN RATIO\n############\n");
 
     /*loop through x and y axis*/
     for (int i=0; i<this.map[0].length; i++)
@@ -130,16 +133,17 @@ class Game {
       {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
-        if (this.map[j][i]==2) ellipse(i*widthScale+widthScale/2, j*heightScale+heightScale/2, widthScale/2, heightScale/2);
-        else rect(i*widthScale, j*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+        if (this.map[j][i]==2) ellipse(i*this.widthScale+this.widthScale/2, j*this.heightScale+this.heightScale/2, this.widthScale/2, this.heightScale/2);
+        else rect(i*this.widthScale, j*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
+    this.updateSmoothPosition();
     //print pacman
     fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.position[0]*widthScale, player.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
     //print Blinky
     fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Blinky.position[0]*widthScale, Ghost_Blinky.position[1]*heightScale, widthScale, heightScale);//rect draws a rect you idiot
+    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
 
     //draw playerScore
     fill(255);
@@ -239,7 +243,11 @@ class Game {
     if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
       //move ghosts
+      Ghost_Blinky.renderPosition=Ghost_Blinky.position.clone();
+      Ghost_Blinky.renderFactor[0]=0;
+      Ghost_Blinky.renderFactor[1]=0;
       Ghost_Blinky.makeMove(player.position);
+
 
       //check if ghost is on Pacman
       /*End the game*/
@@ -329,7 +337,11 @@ class Game {
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
         if (collision!=1) {
+          player.renderDirection=player.oldDirection;
+          player.renderPosition=player.position.clone();
           player.position=playerNextPos.clone();
+          player.renderFactor[0]=0;
+          player.renderFactor[1]=0;
         }
       }
       /*no wall collision -> move*/
@@ -337,7 +349,11 @@ class Game {
         /*DEBUG*/
         debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Moving with new valid input");
         /*update position*/
+        player.renderDirection=player.direction;
+        player.renderPosition=player.position.clone();
         player.position=playerNextPos.clone();
+        player.renderFactor[0]=0;
+        player.renderFactor[1]=0;
         /*update last valid direction*/
         player.oldDirection=player.direction;
       }
@@ -347,6 +363,58 @@ class Game {
         map[player.position[1]][player.position[0]]=0;
       }
     }
+  }
+
+  void updateSmoothPosition() {
+
+    /*UPDATE PLAYER*/
+    if(mil5==0)mil5=millis();
+    float delay=0;
+
+    switch(player.renderDirection) {
+      case "up":delay=(float)this.GLOBALDELAY/(this.heightScale/0.5);break;
+      case "down":delay=(float)this.GLOBALDELAY/(this.heightScale/0.5);break;
+      case "left":delay=(float)this.GLOBALDELAY/(this.widthScale/0.5);break;
+      case "right":delay=(float)this.GLOBALDELAY/(this.widthScale/0.5);break;
+      default:break;
+    }
+
+    if(millis()-mil5>(delay)) {
+      switch(player.renderDirection) {
+        case "up":player.renderFactor[1]-=1;break;
+        case "down":player.renderFactor[1]+=1;break;
+        case "left":player.renderFactor[0]-=1;break;
+        case "right":player.renderFactor[0]+=1;break;
+      }
+      player.renderFactor[0]=player.renderFactor[0]<(-this.heightScale)?-this.heightScale:player.renderFactor[0]>(this.heightScale)?this.heightScale:player.renderFactor[0];
+      player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
+      mil5=millis();
+    }
+
+    /*UPDATE BLINKY*/
+    if(mil6==0)mil6=millis();
+
+    switch(Ghost_Blinky.renderDirection) {
+      case "up":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
+      case "down":delay=(float)this.GHOSTDELAY/(this.heightScale/0.5);break;
+      case "left":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
+      case "right":delay=(float)this.GHOSTDELAY/(this.widthScale/0.5);break;
+      default:break;
+    }
+
+    if(millis()-mil6>(delay)) {
+      switch(Ghost_Blinky.renderDirection) {
+        case "up":Ghost_Blinky.renderFactor[1]-=1;break;
+        case "down":Ghost_Blinky.renderFactor[1]+=1;break;
+        case "left":Ghost_Blinky.renderFactor[0]-=1;break;
+        case "right":Ghost_Blinky.renderFactor[0]+=1;break;
+      }
+      Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
+      Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
+      mil6=millis();
+    }
+
+
   }
 
   /*returns map marker at coordinate*/
@@ -370,6 +438,8 @@ class Game {
     this.mil2=0;
     this.mil3 = 0;
     this.mil4 = 0;
+    this.mil5 = 0;
+    this.mil6 = 0;
 
     this.player.reset();
     this.player.lives--;
