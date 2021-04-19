@@ -381,7 +381,7 @@ class Game {
       default:break;
     }
 
-    if(millis()-mil5>(delay)) {
+    if(millis()-mil5>(int)(delay+0.5)) {
       switch(player.renderDirection) {
         case "up":player.renderFactor[1]-=1;break;
         case "down":player.renderFactor[1]+=1;break;
@@ -411,7 +411,7 @@ class Game {
       default:break;
     }
 
-    if(millis()-mil6>(delay)) {
+    if(millis()-mil6>(int)(delay+0.5)) {
       switch(Ghost_Blinky.renderDirection) {
         case "up":Ghost_Blinky.renderFactor[1]-=1;break;
         case "down":Ghost_Blinky.renderFactor[1]+=1;break;
