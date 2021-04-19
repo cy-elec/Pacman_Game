@@ -163,13 +163,14 @@ class Game {
   }
 
 void smartRender(){
+
   if (!this.rendered){
     this.rendered = true;
     this.renderMap();
   }
 
 
-  int[][] squaresToUpdate = {player.position, player.oldPosition, Ghost_Blinky.position, Ghost_Inky.position};
+  int[][] squaresToUpdate = {player.position, player.oldPosition, player.renderPosition, Ghost_Blinky.position, Ghost_Inky.position};
 
 
 
