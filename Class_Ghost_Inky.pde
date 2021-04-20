@@ -3,6 +3,8 @@
 class Inky extends Ghost{
 
   int[][] leereFelder = {};
+  int[][] path = {};
+  int count = 0;
 
 
 
@@ -22,12 +24,13 @@ class Inky extends Ghost{
     if(this.position[0]==inkiesGoal[0]&&this.position[1]==inkiesGoal[1])
     {
       this.inkiesGoal = (int[])leereFelder[(int)random(leereFelder.length)];
+      this.path = AStar(this.position, this.inkiesGoal, gameHandler.map, gameHandler.teleporters);
+      count = 0;
     }
 
-
-    int[][] path = AStar(this.position, this.inkiesGoal, gameHandler.map, gameHandler.teleporters);
     if (path!=null) {
-      int nPos[] = path[1].clone();
+      count++;
+      int nPos[] = path[count].clone();
 
       if(nPos[0]-this.position[0]==-1) {this.renderDirection="left";}
       else if(nPos[0]-this.position[0]==1) {this.renderDirection="right";}

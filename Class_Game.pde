@@ -354,6 +354,8 @@ class Game {
   }
 
 
+
+
   /*movement control and collision check*/
   void move(boolean keyMap[]) {
 
@@ -365,12 +367,17 @@ class Game {
     if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
 
+
       //move ghosts
       Ghost_Blinky.oldPosition = Ghost_Blinky.renderPosition;
       Ghost_Blinky.makeMove(player.position);
 
+
+
+
       Ghost_Inky.oldPosition = Ghost_Inky.renderPosition;
       Ghost_Inky.makeMove();
+
 
 
       //check if ghost is on Pacman
@@ -386,6 +393,7 @@ class Game {
     if ((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
       /*reset counter*/
       mil=millis();
+
 
       /*DEBUG*/
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: update movement");

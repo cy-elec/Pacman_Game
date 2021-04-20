@@ -9,6 +9,8 @@ int frames = 60;
 int sizeX = 1000;
 int sizeY = 1000;
 
+
+
 //Language Reference:  https://processing.org/reference/
 
 PrintWriter debugoutput;
@@ -44,16 +46,17 @@ void draw(){
   if(gameHandler.player.isAlive) {
     /*renering Map*/
     gameHandler.smartRender();
+
     /*updating position of pacman and ghost, as well as handling collisions with ghost, coin, etc*/
     gameHandler.move(keyMap);
+
   }
+
   /*End screen or boot up screen*/
   else {
     gameHandler.renderNonPlayableScene();
-
   }
 }
-
 
 /*
   Keyboard functions
