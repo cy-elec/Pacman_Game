@@ -511,6 +511,16 @@ class Game {
     float delay=0;
 
 
+    /*
+    @ Jakob lass das mal drinnen als Kommentar
+    switch(player.renderDirection) {
+      case "up":player.renderFactor[1]-=this.heightScale/(this.GLOBALDELAY/(1f/frames*1000));break;
+      case "down":player.renderFactor[1]+=this.heightScale/(this.GLOBALDELAY/(1f/frames*1000));break;
+      case "left":player.renderFactor[0]-=this.widthScale/(this.GLOBALDELAY/(1f/frames*1000));break;
+      case "right":player.renderFactor[0]+=this.widthScale/(this.GLOBALDELAY/(1f/frames*1000));break;
+    }
+
+    */
 
       switch(player.renderDirection) {
         case "up":player.renderFactor[1]-=this.heightScale/(frames*this.GLOBALDELAY*0.001);break;
