@@ -147,11 +147,6 @@ class Game {
 
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering map:");
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tBlinky position: "+Ghost_Blinky.position[0]+" "+Ghost_Blinky.position[1]);
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tInky position: "+Ghost_Inky.position[0]+" "+Ghost_Inky.position[1]);
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPinky position: "+Ghost_Pinky.position[0]+" "+Ghost_Pinky.position[1]);
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tClyde position: "+Ghost_Clyde.position[0]+" "+Ghost_Clyde.position[1]);
 
     background(0);
 
@@ -169,20 +164,17 @@ class Game {
         else rect(i*this.widthScale, j*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
-    this.updateSmoothPosition();
-    //print pacman
-    fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Blinky
-    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Inky
-    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-
   }
 
   void smartRender(){
+
+
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tBlinky position: "+Ghost_Blinky.position[0]+" "+Ghost_Blinky.position[1]);
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tInky position: "+Ghost_Inky.position[0]+" "+Ghost_Inky.position[1]);
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPinky position: "+Ghost_Pinky.position[0]+" "+Ghost_Pinky.position[1]);
+      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tClyde position: "+Ghost_Clyde.position[0]+" "+Ghost_Clyde.position[1]);
 
     //frameRate
     if(millis()-this.frameCnt>500) {
@@ -198,9 +190,9 @@ class Game {
     }
 
     int[][] squaresToUpdate = {
-        player.position, player.renderPosition, player.oldPosition,
-        Ghost_Blinky.position, Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition,
-        Ghost_Inky.position, Ghost_Inky.renderPosition, Ghost_Inky.oldPosition,
+        player.renderPosition, player.oldPosition,
+        Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition,
+        Ghost_Inky.renderPosition, Ghost_Inky.oldPosition,
       };
 
 
@@ -286,7 +278,7 @@ class Game {
 
 
   void bootupScreen() {
-    renderMap();
+    this.smartRender();
     fill(255);
     textFont(createFont("Arial Bold", 18));
     textSize(50);
@@ -299,6 +291,7 @@ class Game {
     if(millis()-mil4>4000) {
       textFont(createFont("Arial", 18));
       player.isAlive=true;
+      this.rendered = false;
       this.bootup=false;
     }
   }
