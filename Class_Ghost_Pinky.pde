@@ -14,9 +14,54 @@ class Pinky extends Ghost{
 
   void makeMove(int[] pacmanPosition, String pacmanDirection){
 
-    //immer schauen, wo pacman in 4 schritten ist und da das neue ziel hinsetzen
+    this.goal = findGoal(pacmanPosition, pacmanDirection);
 
+
+
+
+    int[][] path = AStar(this.position, this.goal, gameHandler.map, gameHandler.teleporters);
+
+    if (path!=null)
+      this.position = path[1].clone();
+
+}
+
+  int[] findGoal(int[] pacmanPosition, String pacmanDirection){
     int[] goal = pacmanPosition.clone();
+
+    //if pinky is infront of pacman, corner him with blinky by chasing him down
+    switch(pacmanDirection) {
+    case "up":
+      if (this.position[1] <= pacmanPosition[1]){
+        return goal;
+      }
+      break;
+
+    case "down":
+      if (this.position[1] >= pacmanPosition[1]){
+        return goal;
+      }
+      break;
+
+    case "left":
+      if (this.position[0] <= pacmanPosition[0]){
+        return goal;
+      }
+      break;
+
+    case "right":
+      if (this.position[0] >= pacmanPosition[0]){
+        return goal;
+      }
+      break;
+
+    default:
+      break;
+    }
+
+
+
+    //immer schauen, wo pacman in 4 schritten ist und da das neue ziel hinsetzen
 
     switch(pacmanDirection) {
     case "up":
@@ -41,12 +86,9 @@ class Pinky extends Ghost{
 
     goal = this.getValidPos(goal.clone(), pacmanDirection, false);
 
-  this.goal = goal;
+    return goal;
 
-  int[][] path = AStar(this.position, goal, gameHandler.map, gameHandler.teleporters);
 
-  if (path!=null)
-    this.position = path[1].clone();
 
   }
 
