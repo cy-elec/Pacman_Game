@@ -195,21 +195,6 @@ class Game {
 
 
 
-    this.updateSmoothPosition();
-
-
-    fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Blinky
-    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Inky
-    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Pinky
-    fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Pinky.renderPosition[0]*this.widthScale+Ghost_Pinky.renderFactor[0], Ghost_Pinky.renderPosition[1]*this.heightScale+Ghost_Pinky.renderFactor[1], this.widthScale, this.heightScale);
-
 
     /*SmartText pt1*/
     //draw playerScore
@@ -240,6 +225,22 @@ class Game {
         else rect(j*this.widthScale, toClear[i][2]*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
+
+    this.updateSmoothPosition();
+
+
+    fill(player.pacmanColor); //fill changes the colour for all draw functions
+    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Blinky
+    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Inky
+    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Pinky
+    fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Pinky.renderPosition[0]*this.widthScale+Ghost_Pinky.renderFactor[0], Ghost_Pinky.renderPosition[1]*this.heightScale+Ghost_Pinky.renderFactor[1], this.widthScale, this.heightScale);
+
 
     /*SmartText pt2*/
     fill(255);
