@@ -12,6 +12,7 @@ class Pinky extends Ghost{
   //tries to cut off your path off by coming in front of you
 
   void makeMove(int[] pacmanPosition, String pacmanDirection){
+    updateSmooth();
 
     this.goal = findGoal(pacmanPosition, pacmanDirection);
 
@@ -20,8 +21,18 @@ class Pinky extends Ghost{
 
     int[][] path = AStar(this.position, this.goal, gameHandler.map, gameHandler.teleporters);
 
-    if (path!=null)
-      this.position = path[1].clone();
+    if (path!=null) {
+      int nPos[] = path[1].clone();
+
+      if(nPos[0]-this.position[0]==-1) {this.renderDirection="left";}
+      else if(nPos[0]-this.position[0]==1) {this.renderDirection="right";}
+
+      if(nPos[1]-this.position[1]==-1) {this.renderDirection="up";}
+      else if(nPos[1]-this.position[1]==1) {this.renderDirection="down";}
+
+
+      this.position = nPos.clone();
+    }
 
 }
 

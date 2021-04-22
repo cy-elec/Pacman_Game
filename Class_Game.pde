@@ -143,7 +143,6 @@ class Game {
 
   void smartRender(){
 
-      this.renderMap();
 
 
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
@@ -170,6 +169,7 @@ class Game {
         player.renderPosition, player.oldPosition,
         Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition,
         Ghost_Inky.renderPosition, Ghost_Inky.oldPosition,
+        Ghost_Pinky.renderPosition, Ghost_Pinky.oldPosition,
       };
 
 
@@ -208,7 +208,7 @@ class Game {
     rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
     //print Pinky
     fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Pinky.position[0]*this.widthScale, Ghost_Pinky.position[1]*this.heightScale, this.widthScale, this.heightScale);
+    rect(Ghost_Pinky.renderPosition[0]*this.widthScale+Ghost_Pinky.renderFactor[0], Ghost_Pinky.renderPosition[1]*this.heightScale+Ghost_Pinky.renderFactor[1], this.widthScale, this.heightScale);
 
 
     /*SmartText pt1*/
@@ -354,11 +354,10 @@ class Game {
       Ghost_Blinky.makeMove(player.position.clone());
 
 
-
-
       Ghost_Inky.oldPosition = Ghost_Inky.renderPosition;
       Ghost_Inky.makeMove();
 
+      Ghost_Pinky.oldPosition = Ghost_Pinky.renderPosition;
       Ghost_Pinky.makeMove(player.position.clone(), player.renderDirection);
 
 
@@ -528,10 +527,18 @@ class Game {
       case "left":Ghost_Inky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
       case "right":Ghost_Inky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
     }
+    switch(Ghost_Pinky.renderDirection) {
+      case "up":Ghost_Pinky.renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "down":Ghost_Pinky.renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "left":Ghost_Pinky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "right":Ghost_Pinky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+    }
     Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
     Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
     Ghost_Inky.renderFactor[0]=Ghost_Inky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Inky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Inky.renderFactor[0];
     Ghost_Inky.renderFactor[1]=Ghost_Inky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Inky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Inky.renderFactor[1];
+    Ghost_Pinky.renderFactor[0]=Ghost_Pinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Pinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Pinky.renderFactor[0];
+    Ghost_Pinky.renderFactor[1]=Ghost_Pinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Pinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Pinky.renderFactor[1];
   }
 
 
