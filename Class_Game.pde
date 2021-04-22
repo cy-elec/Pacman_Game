@@ -168,6 +168,8 @@ class Game {
 
   void smartRender(){
 
+      this.renderMap();
+
 
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
@@ -216,6 +218,26 @@ class Game {
       }
     }
 
+
+
+    this.updateSmoothPosition();
+
+
+    fill(player.pacmanColor); //fill changes the colour for all draw functions
+    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Blinky
+    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Inky
+    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+    //print Pinky
+    fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Pinky.position[0]*this.widthScale, Ghost_Pinky.position[1]*this.heightScale, this.widthScale, this.heightScale);
+
+    fill(200,0,200);
+    rect(Ghost_Pinky.goal[0]*this.widthScale, Ghost_Pinky.goal[1]*this.heightScale, this.widthScale, this.heightScale);
+
     /*SmartText pt1*/
     //draw playerScore
     //clear background (factor width/47,2 * letterNum to get pixels and then this divided by widthScale : (width/47,2 * letterNum)/widthScale for the number of map indices to update )
@@ -245,21 +267,6 @@ class Game {
         else rect(j*this.widthScale, toClear[i][2]*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
-
-
-
-    this.updateSmoothPosition();
-
-
-    fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Blinky
-    fill(Ghost_Blinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Blinky.renderPosition[0]*this.widthScale+Ghost_Blinky.renderFactor[0], Ghost_Blinky.renderPosition[1]*this.heightScale+Ghost_Blinky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-    //print Inky
-    fill(Ghost_Inky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Inky.renderPosition[0]*this.widthScale+Ghost_Inky.renderFactor[0], Ghost_Inky.renderPosition[1]*this.heightScale+Ghost_Inky.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
-
 
     /*SmartText pt2*/
     fill(255);
@@ -364,13 +371,14 @@ class Game {
 
     //every 500ms
     if(mil2==0) mil2=millis();
+
     if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
 
 
       //move ghosts
       Ghost_Blinky.oldPosition = Ghost_Blinky.renderPosition;
-      Ghost_Blinky.makeMove(player.position);
+      Ghost_Blinky.makeMove(player.position.clone());
 
 
 
@@ -378,6 +386,7 @@ class Game {
       Ghost_Inky.oldPosition = Ghost_Inky.renderPosition;
       Ghost_Inky.makeMove();
 
+      Ghost_Pinky.makeMove(player.position.clone(), player.renderDirection);
 
 
       //check if ghost is on Pacman
@@ -469,7 +478,7 @@ class Game {
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
         if (collision==4) {
-          //if he colides with a ghost we want to check if he has a power up, else he dies
+          //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
           player.isAlive=false;
           return;
         }
@@ -496,6 +505,7 @@ class Game {
       }
     }
   }
+
   void updatePosition(int[] playerNextPos){
     /*update position*/
     player.oldPosition = player.renderPosition.clone();
