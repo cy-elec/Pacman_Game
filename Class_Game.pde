@@ -468,10 +468,16 @@ class Game {
         }
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
-        if (collision!=1) {
+        if (collision==4) {
+          //if he colides with a ghost we want to check if he has a power up, else he dies
+          player.isAlive=false;
+          return;
+        }
+        else if (collision!=1) {
           this.updatePosition(playerNextPos);
         }
       }
+
       /*no wall collision -> move*/
       else if (collision!=1) {
         /*DEBUG*/
