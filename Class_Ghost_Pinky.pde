@@ -144,13 +144,13 @@ class Pinky extends Ghost{
 
     }
     else if(coord[0]>=gameHandler.map[0].length){
-      coord[0]=gameHandler.map[0].length-1;
+      coord[0]=gameHandler.map[0].length;
       hitWall = true;
       return this.getValidPos(coord.clone(), pacmanDirection, hitWall);
 
     }
     else if(coord[1]>=gameHandler.map.length){
-      coord[1]=gameHandler.map.length-1;
+      coord[1]=gameHandler.map.length;
       hitWall = true;
       return this.getValidPos(coord.clone(), pacmanDirection, hitWall);
     }
@@ -191,13 +191,13 @@ class Pinky extends Ghost{
 
         }
         else if(coord[0]>=gameHandler.map[0].length){
-          coord[0]=gameHandler.map[0].length-1;
+          coord[0]=gameHandler.map[0].length;
           hitWall = true;
           return this.getValidPos(coord.clone(), pacmanDirection, hitWall);
 
         }
         else if(coord[1]>=gameHandler.map.length){
-          coord[1]=gameHandler.map.length-1;
+          coord[1]=gameHandler.map.length;
           hitWall = true;
           return this.getValidPos(coord.clone(), pacmanDirection, hitWall);
         }
