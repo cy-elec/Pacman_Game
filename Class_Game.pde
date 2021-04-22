@@ -210,8 +210,6 @@ class Game {
     fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Pinky.position[0]*this.widthScale, Ghost_Pinky.position[1]*this.heightScale, this.widthScale, this.heightScale);
 
-    fill(200,0,200);
-    rect(Ghost_Pinky.goal[0]*this.widthScale, Ghost_Pinky.goal[1]*this.heightScale, this.widthScale, this.heightScale);
 
     /*SmartText pt1*/
     //draw playerScore
