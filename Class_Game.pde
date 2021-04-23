@@ -11,6 +11,7 @@ class Game {
   Pinky Ghost_Pinky;
   Inky Ghost_Inky;
   Clyde Ghost_Clyde;
+  Kinky Ghost_Kinky;
 
   int playerScore=0;
   boolean bootup=true;
@@ -143,7 +144,7 @@ class Game {
 
   void smartRender(){
 
-
+    renderMap();
 
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
@@ -170,6 +171,7 @@ class Game {
         Ghost_Blinky.renderPosition, Ghost_Blinky.oldPosition,
         Ghost_Inky.renderPosition, Ghost_Inky.oldPosition,
         Ghost_Pinky.renderPosition, Ghost_Pinky.oldPosition,
+        Ghost_Kinky.renderPosition, Ghost_Kinky.oldPosition,
       };
 
 
@@ -240,6 +242,12 @@ class Game {
     //print Pinky
     fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Pinky.renderPosition[0]*this.widthScale+Ghost_Pinky.renderFactor[0], Ghost_Pinky.renderPosition[1]*this.heightScale+Ghost_Pinky.renderFactor[1], this.widthScale, this.heightScale);
+    //print Kinky
+    fill(Ghost_Kinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Kinky.renderPosition[0]*this.widthScale+Ghost_Kinky.renderFactor[0], Ghost_Kinky.renderPosition[1]*this.heightScale+Ghost_Kinky.renderFactor[1], this.widthScale, this.heightScale);
+
+    fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
+    rect(Ghost_Kinky.target[0]*this.widthScale, Ghost_Kinky.target[1]*this.heightScale, this.widthScale, this.heightScale);
 
 
     /*SmartText pt2*/
@@ -332,6 +340,7 @@ class Game {
       this.Ghost_Pinky = new Pinky(this.ghost_default_position);
       this.Ghost_Inky = new Inky(this.ghost_default_position);
       this.Ghost_Clyde = new Clyde(this.ghost_default_position);
+      this.Ghost_Kinky = new Kinky(this.ghost_default_position);
   }
 
 
@@ -360,6 +369,9 @@ class Game {
 
       Ghost_Pinky.oldPosition = Ghost_Pinky.renderPosition;
       Ghost_Pinky.makeMove(player.position.clone(), player.renderDirection);
+
+      Ghost_Kinky.oldPosition = Ghost_Kinky.renderPosition;
+      Ghost_Kinky.makeMove(player.position.clone(), player.renderDirection);
 
 
       //check if ghost is on Pacman
@@ -534,12 +546,20 @@ class Game {
       case "left":Ghost_Pinky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
       case "right":Ghost_Pinky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
     }
+    switch(Ghost_Kinky.renderDirection) {
+      case "up":Ghost_Kinky.renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "down":Ghost_Kinky.renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "left":Ghost_Kinky.renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+      case "right":Ghost_Kinky.renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+    }
     Ghost_Blinky.renderFactor[0]=Ghost_Blinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Blinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Blinky.renderFactor[0];
     Ghost_Blinky.renderFactor[1]=Ghost_Blinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Blinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Blinky.renderFactor[1];
     Ghost_Inky.renderFactor[0]=Ghost_Inky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Inky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Inky.renderFactor[0];
     Ghost_Inky.renderFactor[1]=Ghost_Inky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Inky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Inky.renderFactor[1];
     Ghost_Pinky.renderFactor[0]=Ghost_Pinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Pinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Pinky.renderFactor[0];
     Ghost_Pinky.renderFactor[1]=Ghost_Pinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Pinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Pinky.renderFactor[1];
+    Ghost_Kinky.renderFactor[0]=Ghost_Kinky.renderFactor[0]<(-this.heightScale)?-this.heightScale:Ghost_Kinky.renderFactor[0]>(this.heightScale)?this.heightScale:Ghost_Kinky.renderFactor[0];
+    Ghost_Kinky.renderFactor[1]=Ghost_Kinky.renderFactor[1]<(-this.widthScale)?-this.widthScale:Ghost_Kinky.renderFactor[1]>(this.widthScale)?this.widthScale:Ghost_Kinky.renderFactor[1];
   }
 
 
@@ -551,6 +571,7 @@ class Game {
     if (Ghost_Inky.position[0]==coords[0]&&Ghost_Inky.position[1]==coords[1]) return 4;
     if (Ghost_Pinky.position[0]==coords[0]&&Ghost_Pinky.position[1]==coords[1]) return 4;
     if (Ghost_Clyde.position[0]==coords[0]&&Ghost_Clyde.position[1]==coords[1]) return 4;
+    if (Ghost_Kinky.position[0]==coords[0]&&Ghost_Kinky.position[1]==coords[1]) return 4;
 
     return this.map[coords[1]][coords[0]];
   }
@@ -562,6 +583,7 @@ class Game {
     this.Ghost_Pinky = new Pinky(this.ghost_default_position);
     this.Ghost_Inky = new Inky(this.ghost_default_position);
     this.Ghost_Clyde = new Clyde(this.ghost_default_position);
+    this.Ghost_Kinky = new Kinky(this.ghost_default_position);
     this.mil=0;
     this.mil2=0;
     this.mil3 = 0;
