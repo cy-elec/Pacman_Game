@@ -327,7 +327,7 @@ class Game {
       this.player = new Pacman(pac_default_position);
 
 
-      ghosts = new Ghost[] {new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position)};
+      ghosts = new Ghost[] {new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position), new Kinky(this.ghost_default_position)};
   }
 
 
@@ -356,6 +356,8 @@ class Game {
           ghosts[i].makeMove();
         else if(ghosts[i] instanceof Pinky)
           ghosts[i].makeMove(player.position.clone(), player.renderDirection);
+        else if(ghosts[i] instanceof Kinky)
+          ghosts[i].makeMove(player.position.clone(), player.direction);
         else
           print("a ghost didnt move");
 
@@ -553,7 +555,7 @@ class Game {
   void reset(){
     this.rendered = false;
 
-    ghosts = new Ghost[]{new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position)};
+    ghosts = new Ghost[]{new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position), new Kinky(this.ghost_default_position)};
 
     this.mil=0;
     this.mil2=0;
