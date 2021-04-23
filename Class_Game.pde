@@ -142,8 +142,6 @@ class Game {
 
   void smartRender(){
 
-    renderMap();
-
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
 
