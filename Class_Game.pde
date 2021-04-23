@@ -246,10 +246,6 @@ class Game {
     fill(Ghost_Kinky.ghostColor); //fill changes the colour for all draw functions
     rect(Ghost_Kinky.renderPosition[0]*this.widthScale+Ghost_Kinky.renderFactor[0], Ghost_Kinky.renderPosition[1]*this.heightScale+Ghost_Kinky.renderFactor[1], this.widthScale, this.heightScale);
 
-    fill(Ghost_Pinky.ghostColor); //fill changes the colour for all draw functions
-    rect(Ghost_Kinky.target[0]*this.widthScale, Ghost_Kinky.target[1]*this.heightScale, this.widthScale, this.heightScale);
-
-
     /*SmartText pt2*/
     fill(255);
     textSize(this.heightScale);
@@ -371,7 +367,7 @@ class Game {
       Ghost_Pinky.makeMove(player.position.clone(), player.renderDirection);
 
       Ghost_Kinky.oldPosition = Ghost_Kinky.renderPosition;
-      Ghost_Kinky.makeMove(player.position.clone(), player.renderDirection);
+      Ghost_Kinky.makeMove(player.position.clone(), player.direction);
 
 
       //check if ghost is on Pacman
