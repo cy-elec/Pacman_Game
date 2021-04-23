@@ -39,6 +39,6 @@ class Ghost {
   }
   void makeMove(int[] position, String direction){
     println("overriding pinky or kinky didnt work");
-
+    //kinky isnt in this file yet, will be updated probably later today when felix replies to my discord dms
   }
 }
