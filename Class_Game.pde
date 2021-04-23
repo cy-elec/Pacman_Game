@@ -326,7 +326,7 @@ class Game {
       this.player = new Pacman(pac_default_position);
 
 
-      this.reset();
+      ghosts = new Ghost[] {new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position)};
   }
 
 
