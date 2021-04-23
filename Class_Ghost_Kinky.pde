@@ -50,7 +50,11 @@ class Kinky extends Ghost{
       sPos[0] = sPos[0]<0?gameHandler.map[0].length-1:sPos[0];
       sPos[1] = sPos[1]<0?gameHandler.map.length-1:sPos[1];
 
-      if(gameHandler.map[sPos[1]][sPos[0]]==1) {
+      if(sPos[0]==this.position[0]&&sPos[1]==this.position[1]) {
+        loop = false;
+        sPos = pacmanPosition.clone();
+      }
+      else if(gameHandler.map[sPos[1]][sPos[0]]==1) {
         sPos[0]-=directionVector[0];
         sPos[1]-=directionVector[1];
         sPos[0] %= gameHandler.map[0].length;
