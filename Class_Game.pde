@@ -383,7 +383,7 @@ class Game {
         else if(ghosts[i] instanceof Kinky)
           ghosts[i].makeMove(player.position.clone(), player.oldDirection);
         else
-          print("a ghost didnt move");
+          print("ghost", ghosts[i].name,"didnt move");
 
       }
 
