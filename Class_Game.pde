@@ -189,12 +189,13 @@ class Game {
     }
 
     int[][] squaresToUpdate = {
-        player.renderPosition, player.oldPosition,
+        player.oldPosition, player.renderPosition, player.position
       };
 
     for (int i=0; i<this.ghosts.length; i++){
-      squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].renderPosition);
       squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].oldPosition);
+      squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].renderPosition);
+      squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].position);
     }
 
 
@@ -378,9 +379,9 @@ class Game {
         else if(ghosts[i] instanceof Inky)
           ghosts[i].makeMove();
         else if(ghosts[i] instanceof Pinky)
-          ghosts[i].makeMove(player.position.clone(), player.renderDirection);
+          ghosts[i].makeMove(player.position.clone(), player.oldDirection);
         else if(ghosts[i] instanceof Kinky)
-          ghosts[i].makeMove(player.position.clone(), player.direction);
+          ghosts[i].makeMove(player.position.clone(), player.oldDirection);
         else
           print("a ghost didnt move");
 
