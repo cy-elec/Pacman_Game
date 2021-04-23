@@ -143,14 +143,15 @@ class Game {
   void smartRender(){
 
     renderMap();
-/*
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tBlinky position: "+Ghost_Blinky.position[0]+" "+Ghost_Blinky.position[1]);
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tInky position: "+Ghost_Inky.position[0]+" "+Ghost_Inky.position[1]);
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPinky position: "+Ghost_Pinky.position[0]+" "+Ghost_Pinky.position[1]);
-      debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tClyde position: "+Ghost_Clyde.position[0]+" "+Ghost_Clyde.position[1]);
-*/
+
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
+
+    for (int i=0; i<this.ghosts.length;i++){
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tghost"+i+" position: "+ghosts[i].position[0]+" "+ghosts[i].position[1]);
+    }
+
+
     //frameRate
     if(millis()-this.frameCnt>500) {
       this.frameRate=(frameCount-this.oldFrames)*2;
