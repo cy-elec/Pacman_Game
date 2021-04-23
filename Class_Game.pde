@@ -171,7 +171,7 @@ class Game {
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
 
     for (int i=0; i<this.ghosts.length;i++){
-    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tghost"+i+" position: "+ghosts[i].position[0]+" "+ghosts[i].position[1]);
+    debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\t"+ghosts[i].name+" position: "+ghosts[i].position[0]+" "+ghosts[i].position[1]);
     }
 
 
