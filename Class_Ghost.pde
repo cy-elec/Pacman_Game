@@ -29,4 +29,16 @@ class Ghost {
     this.renderFactor[1]=0;
   }
 
+  void makeMove(){
+    println("overriding inky didnt work");
+
+  }
+  void makeMove(int[] position){
+    println("overriding blinky didnt work");
+
+  }
+  void makeMove(int[] position, String direction){
+    println("overriding pinky or kinky didnt work");
+
+  }
 }
