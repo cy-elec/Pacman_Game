@@ -10,21 +10,33 @@ class Kinky extends Ghost{
   }
 
   void makeMove(int[] pacmanPosition, String pacmanDirection){
-    updateSmooth();
-    findTarget(pacmanPosition, pacmanDirection);
 
-    int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
-    if (path!=null) {
-      int nPos[] = path[1].clone();
+    if(super.isAlive){
 
-      if(nPos[0]-this.position[0]==-1) {this.renderDirection="left";}
-      else if(nPos[0]-this.position[0]==1) {this.renderDirection="right";}
+      updateSmooth();
+      findTarget(pacmanPosition, pacmanDirection);
 
-      if(nPos[1]-this.position[1]==-1) {this.renderDirection="up";}
-      else if(nPos[1]-this.position[1]==1) {this.renderDirection="down";}
+      int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
+      if (path!=null) {
+        int nPos[] = path[1].clone();
+
+        if(nPos[0]-this.position[0]==-1) {this.renderDirection="left";}
+        else if(nPos[0]-this.position[0]==1) {this.renderDirection="right";}
+
+        if(nPos[1]-this.position[1]==-1) {this.renderDirection="up";}
+        else if(nPos[1]-this.position[1]==1) {this.renderDirection="down";}
 
 
-      this.position = nPos.clone();
+        this.position = nPos.clone();
+      }
+    }
+    else{
+      if(super.deadCount>=super.deadTime){
+        super.deadCount = 0;
+        super.isAlive = true;
+      }
+      else
+        super.deadCount++;
     }
   }
 

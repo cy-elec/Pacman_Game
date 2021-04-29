@@ -1,12 +1,18 @@
 class Ghost {
-  protected boolean isAlive;
+  protected boolean isAlive=true;
   protected String name;
+  protected int[] spawnpoint = new int[2];
   protected int[] position = new int[2];
 
   int[] oldPosition = new int[2];
   int[] renderPosition = new int[2];
   float[] renderFactor = new float[2];
   String renderDirection="";
+
+  int deadTime = 6;
+  int deadCount = 0;
+
+  boolean frightened=false;
 
   protected color ghostColor;
 
@@ -16,6 +22,7 @@ class Ghost {
 
     ghostColor=c1;
     this.name = name;
+    this.spawnpoint = position.clone();
     this.oldPosition = position.clone();
     this.position = position.clone();
     this.renderPosition = position.clone();
@@ -41,4 +48,16 @@ class Ghost {
     println("overriding pinky or kinky didnt work");
     //kinky isnt in this file yet, will be updated probably later today when felix replies to my discord dms
   }
+
+  void kill(){
+
+    this.isAlive = false;
+    this.oldPosition = this.position.clone();
+    this.renderPosition = this.spawnpoint.clone();
+    this.renderDirection="";
+    this.renderFactor=new float[2];
+    this.position = this.spawnpoint.clone();
+
+  }
+
 }

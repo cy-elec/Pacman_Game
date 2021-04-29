@@ -16,9 +16,10 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3 = 0, mil4=0;
+  int mil=0, mil2=0, mil3 = 0, mil4=0, frMil=0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
+  int FRIGHTENED_TIME=-1;
 
   int widthScale, heightScale;
 
@@ -77,7 +78,7 @@ class Game {
     	{1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,2,1,2,1,2,1,5,0,1,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,1,2,1,},
     	{1,2,1,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,1,2,1,2,1,0,0,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,2,1,},
     	{1,2,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,2,1,2,1,2,1,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,1,},
-    	{1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,},
+    	{1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,3,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,},
     	{1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,},
     };
 
@@ -109,10 +110,10 @@ class Game {
     this.heightScale = (height/this.map.length);
     if(width/height != this.map[0].length/this.map.length) debugoutput.println(hour()+":"+minute()+":"+second()+": "+"############\nMAP RATIO IS NOT MATCHING SCREEN RATIO\n############\n");
 
-  /*
+    /*
       for (int i =0; i<this.teleporters.length; i++) {
         print("teleporter1:"+teleporters[i][0][0]+","+teleporters[i][0][1]+"teleporter2:"+teleporters[i][1][0]+","+teleporters[i][1][1]+"\n");
-  */
+    */
   }
 
 
@@ -160,6 +161,7 @@ class Game {
         //replace by image source and scale
         fill(this.colorMap[map[j][i]]);//fill changes the colour for all draw functions
         if (this.map[j][i]==2) ellipse(i*this.widthScale+this.widthScale/2, j*this.heightScale+this.heightScale/2, this.widthScale/2, this.heightScale/2);
+        else if (this.map[j][i]==3) ellipse (i*this.widthScale+this.widthScale/2, j*this.heightScale+this.heightScale/2, this.widthScale, this.heightScale);
         else rect(i*this.widthScale, j*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
@@ -204,7 +206,7 @@ class Game {
     for (int i = 0; i< squaresToUpdate.length; i++){
       if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
         fill(200,200,100);
-        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+        ellipse(this.widthScale*squaresToUpdate[i][0]+this.widthScale/2, this.heightScale*squaresToUpdate[i][1]+this.heightScale/2, this.widthScale, this.heightScale);
       }
       else{
         fill(0);
@@ -259,20 +261,23 @@ class Game {
     rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
 
     for (int i=0; i<this.ghosts.length; i++){
-      fill(ghosts[i].ghostColor); //fill changes the colour for all draw functions
-      rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+      if (ghosts[i].isAlive){
+        fill(ghosts[i].ghostColor); //fill changes the colour for all draw functions
+        rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+      }
     }
 
     /*SmartText pt2*/
     fill(255);
     textSize(this.heightScale);
-    text("Score: "+playerScore, width/250, this.heightScale-height/200);
+    text("Score: "+this.playerScore, width/250, this.heightScale-height/200);
     text("Lives:"+player.lives, width-this.heightScale*3.125-2, this.heightScale-height/200);
     textSize(this.heightScale/2);
     if(DEBUGMODE)
     text("FPS: "+this.frameRate, width-this.heightScale*2, height-height/500);
     if (player.isAlive) fill(0, 255, 0);
     else fill(255, 0, 0);
+    if(frMil!=0) fill(255,255,0);
     text("[status]", 2, height-height/500);
 
   }
@@ -366,6 +371,7 @@ class Game {
     //every 500ms
     if(mil2==0) mil2=millis();
 
+
     if (millis()-mil2>=GHOSTDELAY) {
       mil2=millis();
 
@@ -389,14 +395,21 @@ class Game {
 
 
 
-
+      int collision=this.checkCollision(player.position);
 
       //check if ghost is on Pacman
       /*End the game*/
-      if (this.checkCollision(player.position)==4) {
-        player.isAlive=false;
-        return;
-      };
+      if (collision>=4) {
+        //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
+        if(!ghosts[collision-4].frightened) {
+          player.isAlive=false;
+          return;
+        }
+        else {
+          this.playerScore+=200;
+          ghosts[collision-4].kill();
+        }
+      }
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
     }
 
@@ -442,14 +455,20 @@ class Game {
 
       //check for collision and afterwards move
       /*Ghost collision*/
-      if (collision==4) {
+      if (collision>=4) {
         //if he colides with a ghost we want to check if he has a power up, else he dies
-        player.isAlive=false;
-        return;
+        if(!ghosts[collision-4].frightened) {
+          player.isAlive=false;
+          return;
+        }
+        else {
+          this.playerScore+=200;
+          ghosts[collision-4].kill();
+        }
         /*END GAME*/
       }
       /*wall collision -> ignore key*/
-      else if (collision==1) {
+      if (collision==1) {
         /*DEBUG*/
         debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: reverting input to last valid movement");
         /*restore previous valid direction to cancel out current one and move*/
@@ -479,12 +498,18 @@ class Game {
         }
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
-        if (collision==4) {
+        if (collision>=4) {
           //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
-          player.isAlive=false;
-          return;
+          if(!ghosts[collision-4].frightened) {
+            player.isAlive=false;
+            return;
+          }
+          else {
+            this.playerScore+=200;
+            ghosts[collision-4].kill();
+          }
         }
-        else if (collision!=1) {
+        if (collision!=1) {
           this.updatePosition(playerNextPos);
         }
       }
@@ -501,9 +526,30 @@ class Game {
         player.oldDirection=player.direction;
       }
 
+      /*
+        COIN
+      */
       if (collision==2) {
-        playerScore++;
+        this.playerScore++;
         map[player.position[1]][player.position[0]]=0;
+      }
+      /*
+        POWER PALLET
+      */
+      else if(collision==3) {
+        this.playerScore+=10;
+        map[player.position[1]][player.position[0]]=0;
+        for(int i=0; i<ghosts.length; i++) {
+          ghosts[i].frightened=true;
+        }
+        frMil=millis();
+      }
+
+      if(FRIGHTENED_TIME>0&&frMil!=0&&millis()-frMil>=FRIGHTENED_TIME) {
+        for(int i=0; i<ghosts.length; i++) {
+          ghosts[i].frightened=false;
+        }
+        frMil=0;
       }
     }
   }
@@ -569,7 +615,7 @@ class Game {
 
     for (int i = 0; i<this.ghosts.length;i++){
 
-    if (ghosts[i].position[0]==coords[0]&&ghosts[i].position[1]==coords[1]) return 4;
+    if (ghosts[i].position[0]==coords[0]&&ghosts[i].position[1]==coords[1]&&ghosts[i].isAlive) return 4+i;
 
     }
     return this.map[coords[1]][coords[0]];
