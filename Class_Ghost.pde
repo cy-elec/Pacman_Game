@@ -52,7 +52,6 @@ class Ghost {
   void kill(){
 
     this.isAlive = false;
-    this.oldPosition = this.position.clone();
     this.renderPosition = this.spawnpoint.clone();
     this.renderDirection="";
     this.renderFactor=new float[2];

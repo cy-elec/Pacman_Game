@@ -527,10 +527,10 @@ class Game {
         player.oldDirection=player.direction;
       }
 
-      collision = this.checkCollision(player.position);
       /*
         COIN
       */
+      collision=this.map[this.player.position[1]][this.player.position[0]];
       if (collision==2) {
         this.playerScore++;
         map[player.position[1]][player.position[0]]=0;
@@ -596,7 +596,7 @@ class Game {
     /*UPDATE BLINKY*/
 
     for (int i = 0; i<this.ghosts.length;i++){
-
+      if(!ghosts[i].isAlive) continue;
       switch(ghosts[i].renderDirection) {
         case "up":ghosts[i].renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
         case "down":ghosts[i].renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
