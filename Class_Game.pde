@@ -16,10 +16,10 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3 = 0, mil4=0, frMil=0;
+  int mil=0, mil2=0, mil3=0, mil4=0, frMil=0;
   int GLOBALDELAY=250;
   int GHOSTDELAY=300;
-  int FRIGHTENED_TIME=-1;
+  int FRIGHTENED_TIME=10000;
 
   int widthScale, heightScale;
 
@@ -428,24 +428,24 @@ class Game {
 
       /*calculate next coordinate*/
       switch(player.direction) {
-      case "up":
-        playerNextPos[1]--;
-        playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
-        break;
-      case "down":
-        playerNextPos[1]++;
-        playerNextPos[1] %= this.map.length;
-        break;
-      case "left":
-        playerNextPos[0]--;
-        playerNextPos[0]= playerNextPos[0]<0?this.map[0].length-1:playerNextPos[0];
-        break;
-      case "right":
-        playerNextPos[0]++;
-        playerNextPos[0] %= this.map[0].length;
-        break;
-      default:
-        break;
+        case "up":
+          playerNextPos[1]--;
+          playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
+          break;
+        case "down":
+          playerNextPos[1]++;
+          playerNextPos[1] %= this.map.length;
+          break;
+        case "left":
+          playerNextPos[0]--;
+          playerNextPos[0]= playerNextPos[0]<0?this.map[0].length-1:playerNextPos[0];
+          break;
+        case "right":
+          playerNextPos[0]++;
+          playerNextPos[0] %= this.map[0].length;
+          break;
+        default:
+          break;
       }
       /*get collision*/
       int collision = this.checkCollision(playerNextPos);
@@ -476,25 +476,26 @@ class Game {
 
         /*calculate next position again and check for collision*/
         playerNextPos=player.position.clone();
+
         switch(player.oldDirection) {
-        case "up":
-          playerNextPos[1]--;
-          playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
-          break;
-        case "down":
-          playerNextPos[1]++;
-          playerNextPos[1] %= this.map.length;
-          break;
-        case "left":
-          playerNextPos[0]--;
-          playerNextPos[0]= playerNextPos[0]<0?this.map[0].length-1:playerNextPos[0];
-          break;
-        case "right":
-          playerNextPos[0]++;
-          playerNextPos[0] %= this.map[0].length;
-          break;
-        default:
-          break;
+          case "up":
+            playerNextPos[1]--;
+            playerNextPos[1]= playerNextPos[1]<0?this.map.length-1:playerNextPos[1];
+            break;
+          case "down":
+            playerNextPos[1]++;
+            playerNextPos[1] %= this.map.length;
+            break;
+          case "left":
+            playerNextPos[0]--;
+            playerNextPos[0]= playerNextPos[0]<0?this.map[0].length-1:playerNextPos[0];
+            break;
+          case "right":
+            playerNextPos[0]++;
+            playerNextPos[0] %= this.map[0].length;
+            break;
+          default:
+            break;
         }
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
@@ -526,6 +527,7 @@ class Game {
         player.oldDirection=player.direction;
       }
 
+      collision = this.checkCollision(player.position);
       /*
         COIN
       */
@@ -545,12 +547,15 @@ class Game {
         frMil=millis();
       }
 
+
+
       if(FRIGHTENED_TIME>0&&frMil!=0&&millis()-frMil>=FRIGHTENED_TIME) {
         for(int i=0; i<ghosts.length; i++) {
           ghosts[i].frightened=false;
         }
         frMil=0;
       }
+
     }
   }
 
