@@ -2,7 +2,7 @@
 The well known game coded in processing. Status [WIP]
 
 ## Installation
-[TBD]
+[TBD] 
 
 ## Contributors
 [Felix Kröhnert](https://github.com/Elec42)   
