@@ -4,9 +4,9 @@ class Pinky extends Ghost{
 
   int[] goal;
 
-  Pinky(int position[]) {
+  Pinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Pinky",color(255,0,255), position);
+    super("Pinky",color(255,0,255), color(155,0,155), position, df);
 
   }
   //tries to cut off your path off by coming in front of you
@@ -85,24 +85,24 @@ class Pinky extends Ghost{
     //immer schauen, wo pacman in 4 schritten ist und da das neue ziel hinsetzen
 
     switch(pacmanDirection) {
-    case "up":
-      goal[1]-= 4;
-      break;
+      case "up":
+        goal[1]-= 4;
+        break;
 
-    case "down":
-      goal[1]+=4;
-      break;
+      case "down":
+        goal[1]+=4;
+        break;
 
-    case "left":
-      goal[0]-=4;
-      break;
+      case "left":
+        goal[0]-=4;
+        break;
 
-    case "right":
-      goal[0]+=4;
-      break;
+      case "right":
+        goal[0]+=4;
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
 
     goal = this.getValidPos(goal.clone(), pacmanDirection, false);

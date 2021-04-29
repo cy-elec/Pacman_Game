@@ -4,9 +4,9 @@ class Kinky extends Ghost{
 
   int[] target = new int[2];
 
-  Kinky(int position[]) {
+  Kinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Kinky",color(255,100,0), position);
+    super("Kinky",color(255,100,0), color(155,50,0), position, df);
   }
 
   void makeMove(int[] pacmanPosition, String pacmanDirection){

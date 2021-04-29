@@ -16,9 +16,9 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil2=0, mil3=0, mil4=0, frMil=0;
+  int mil=0, mil3=0, mil4=0, frMil=0;
   int GLOBALDELAY=250;
-  int GHOSTDELAY=300;
+  int DEFAULT_GHOSTDELAY=300;
   int FRIGHTENED_TIME=10000;
 
   int widthScale, heightScale;
@@ -62,7 +62,7 @@ class Game {
     	{1,2,1,2,2,2,1,2,1,2,2,2,1,2,1,1,1,2,1,2,1,1,2,2,2,1,2,1,1,1,2,1,2,1,2,2,1,2,1,2,2,2,2,1,1,1,1,2,2,1,},
     	{1,2,1,1,1,2,1,2,1,2,1,2,1,2,1,1,1,2,2,2,2,2,2,1,2,1,2,1,2,2,2,1,2,1,1,2,2,2,1,1,1,1,2,1,1,1,1,2,2,1,},
     	{1,2,2,2,1,2,1,2,1,2,1,2,1,2,2,1,1,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,2,1,1,2,1,1,2,2,2,2,1,2,2,2,1,2,1,},
-    	{1,2,1,2,1,2,2,2,1,2,1,2,1,1,2,2,2,2,2,2,2,1,2,1,2,2,2,1,2,1,2,1,1,2,2,1,2,1,1,2,1,1,1,1,2,1,2,2,2,1,},
+    	{1,2,1,2,1,2,2,2,1,2,1,2,1,1,3,2,2,2,2,2,2,1,2,1,2,2,2,1,2,1,2,1,1,2,2,1,2,1,1,2,1,1,1,1,2,1,2,2,2,1,},
     	{1,2,1,2,1,2,1,2,2,2,1,2,2,1,1,1,1,1,2,1,2,1,2,1,2,1,2,2,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,2,2,1,2,1,2,1,},
     	{1,2,1,2,1,2,1,1,1,1,1,1,2,1,2,2,2,1,2,2,2,1,2,1,2,1,2,1,2,1,2,2,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,},
     	{1,2,1,2,2,2,2,1,2,2,2,1,2,1,2,1,2,1,1,1,2,1,2,2,2,1,2,1,2,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,2,2,1,2,1,},
@@ -204,20 +204,17 @@ class Game {
 
 
     for (int i = 0; i< squaresToUpdate.length; i++){
-      if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
-        fill(200,200,100);
-        ellipse(this.widthScale*squaresToUpdate[i][0]+this.widthScale/2, this.heightScale*squaresToUpdate[i][1]+this.heightScale/2, this.widthScale, this.heightScale);
+
+      fill(this.colorMap[0]);
+      rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
+
+      if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]] == 2){
+        fill(this.colorMap[2]);
+        ellipse(this.widthScale*squaresToUpdate[i][0] + this.widthScale/2, this.heightScale*squaresToUpdate[i][1] +this.heightScale/2 , this.widthScale/2, this.heightScale/2);
       }
-      else{
-        fill(0);
-        rect(this.widthScale*squaresToUpdate[i][0], this.heightScale*squaresToUpdate[i][1], this.widthScale, this.heightScale);
-
-        if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]] == 2){
-          fill(200,200,100);
-          ellipse(this.widthScale*squaresToUpdate[i][0] + this.widthScale/2, this.heightScale*squaresToUpdate[i][1] +this.heightScale/2 , this.widthScale/2, this.heightScale/2);
-
-        }
-
+      else if (this.map[squaresToUpdate[i][1]][squaresToUpdate[i][0]]==3){
+        fill(this.colorMap[3]);
+        ellipse(this.widthScale*squaresToUpdate[i][0]+this.widthScale/2, this.heightScale*squaresToUpdate[i][1]+this.heightScale/2, this.widthScale, this.heightScale);
       }
     }
 
@@ -263,6 +260,7 @@ class Game {
     for (int i=0; i<this.ghosts.length; i++){
       if (ghosts[i].isAlive){
         fill(ghosts[i].ghostColor); //fill changes the colour for all draw functions
+        if(ghosts[i].frightened) fill(ghosts[i].ghostColorF); //fill changes the colour for all draw functions
         rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
@@ -356,62 +354,57 @@ class Game {
       this.player = new Pacman(pac_default_position);
 
 
-      ghosts = new Ghost[] {new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position), new Kinky(this.ghost_default_position)};
+      ghosts = new Ghost[]{new Blinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Pinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Inky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Kinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY)};
   }
 
 
 
 
-  /*movement control and collision check*/
+  /*movement control and collision check for ghosts*/
   void move(boolean keyMap[]) {
 
     /*update new input key immediately*/
     player.direction=keyMap['w']?"up":keyMap['a']?"left":keyMap['s']?"down":keyMap['d']?"right":player.direction;
 
-    //every 500ms
-    if(mil2==0) mil2=millis();
 
+    for(int j=0; j<this.ghosts.length; j++) {
+      if(ghosts[j].mayMove()==0) continue;
 
-    if (millis()-mil2>=GHOSTDELAY) {
-      mil2=millis();
-
-
-      //move ghosts
-      for(int i=0;i<this.ghosts.length;i++){
-
-        ghosts[i].oldPosition = ghosts[i].renderPosition;
-        if(ghosts[i] instanceof Blinky)
-          ghosts[i].makeMove(player.position.clone());
-        else if(ghosts[i] instanceof Inky)
-          ghosts[i].makeMove();
-        else if(ghosts[i] instanceof Pinky)
-          ghosts[i].makeMove(player.position.clone(), player.oldDirection);
-        else if(ghosts[i] instanceof Kinky)
-          ghosts[i].makeMove(player.position.clone(), player.oldDirection);
-        else
-          print("ghost", ghosts[i].name,"didnt move");
-
-      }
-
-
+      //move ghost
+      ghosts[j].oldPosition = ghosts[j].renderPosition;
+      if(ghosts[j] instanceof Blinky)
+        ghosts[j].makeMove(player.position.clone());
+      else if(ghosts[j] instanceof Inky)
+        ghosts[j].makeMove();
+      else if(ghosts[j] instanceof Pinky)
+        ghosts[j].makeMove(player.position.clone(), player.oldDirection);
+      else if(ghosts[j] instanceof Kinky)
+        ghosts[j].makeMove(player.position.clone(), player.oldDirection);
+      else
+        print("ghost", ghosts[j].name,"didnt move");
 
       int collision=this.checkCollision(player.position);
 
       //check if ghost is on Pacman
       /*End the game*/
       if (collision>=4) {
-        //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
-        if(!ghosts[collision-4].frightened) {
-          player.isAlive=false;
-          return;
-        }
-        else {
-          this.playerScore+=200;
-          ghosts[collision-4].kill();
+        while(collision>=4) {
+          //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
+          if(!ghosts[collision-4].frightened) {
+            player.isAlive=false;
+            return;
+          }
+          else {
+            this.playerScore+=200;
+            ghosts[collision-4].kill();
+          }
+          collision=this.checkCollision(player.position);
         }
       }
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Tracked no collision with ghosts");
     }
+
+
 
     //every 500ms
     if ((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
@@ -456,16 +449,18 @@ class Game {
       //check for collision and afterwards move
       /*Ghost collision*/
       if (collision>=4) {
-        //if he colides with a ghost we want to check if he has a power up, else he dies
-        if(!ghosts[collision-4].frightened) {
-          player.isAlive=false;
-          return;
+        while(collision>=4) {
+          //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
+          if(!ghosts[collision-4].frightened) {
+            player.isAlive=false;
+            return;
+          }
+          else {
+            this.playerScore+=200;
+            ghosts[collision-4].kill();
+          }
+          collision=this.checkCollision(player.position);
         }
-        else {
-          this.playerScore+=200;
-          ghosts[collision-4].kill();
-        }
-        /*END GAME*/
       }
       /*wall collision -> ignore key*/
       if (collision==1) {
@@ -500,14 +495,17 @@ class Game {
         collision = this.checkCollision(playerNextPos);
         /*if it's not a wall, move*/
         if (collision>=4) {
-          //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
-          if(!ghosts[collision-4].frightened) {
-            player.isAlive=false;
-            return;
-          }
-          else {
-            this.playerScore+=200;
-            ghosts[collision-4].kill();
+          while(collision>=4) {
+            //if he colides with a ghost we want to check if he has a power up, else he dies (powerups still have to be added to the game)
+            if(!ghosts[collision-4].frightened) {
+              player.isAlive=false;
+              return;
+            }
+            else {
+              this.playerScore+=200;
+              ghosts[collision-4].kill();
+            }
+            collision=this.checkCollision(player.position);
           }
         }
         if (collision!=1) {
@@ -593,15 +591,15 @@ class Game {
       player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
 
 
-    /*UPDATE BLINKY*/
+    /*UPDATE GHOSTS*/
 
     for (int i = 0; i<this.ghosts.length;i++){
       if(!ghosts[i].isAlive) continue;
       switch(ghosts[i].renderDirection) {
-        case "up":ghosts[i].renderFactor[1]-=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
-        case "down":ghosts[i].renderFactor[1]+=this.heightScale/(frames*this.GHOSTDELAY*0.001);break;
-        case "left":ghosts[i].renderFactor[0]-=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
-        case "right":ghosts[i].renderFactor[0]+=this.widthScale/(frames*this.GHOSTDELAY*0.001);break;
+        case "up":ghosts[i].renderFactor[1]-=this.heightScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
+        case "down":ghosts[i].renderFactor[1]+=this.heightScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
+        case "left":ghosts[i].renderFactor[0]-=this.widthScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
+        case "right":ghosts[i].renderFactor[0]+=this.widthScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
       }
 
       ghosts[i].renderFactor[0]=ghosts[i].renderFactor[0]<(-this.heightScale)?-this.heightScale:ghosts[i].renderFactor[0]>(this.heightScale)?this.heightScale:ghosts[i].renderFactor[0];
@@ -630,10 +628,9 @@ class Game {
   void reset(){
     this.rendered = false;
 
-    ghosts = new Ghost[]{new Blinky(this.ghost_default_position), new Pinky(this.ghost_default_position), new Inky(this.ghost_default_position), new Kinky(this.ghost_default_position)};
+    ghosts = new Ghost[]{new Blinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Pinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Inky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Kinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY)};
 
     this.mil=0;
-    this.mil2=0;
     this.mil3 = 0;
     this.mil4 = 0;
 

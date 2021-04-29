@@ -10,9 +10,9 @@ class Inky extends Ghost{
 
   int[] inkiesGoal = this.position;
 
-  Inky(int position[]) {
+  Inky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Inky",color(0,100,255), position);
+    super("Inky",color(0,100,255), color(0,50,155), position, df);
 
 
   }
