@@ -218,7 +218,7 @@ class Game {
       }
     }
 
-
+    this.updateSmoothPosition();
 
 
     /*SmartText pt1*/
@@ -555,7 +555,6 @@ class Game {
       }
 
     }
-    this.updateSmoothPosition();
   }
 
   void updatePosition(int[] playerNextPos){
