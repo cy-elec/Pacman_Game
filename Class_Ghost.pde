@@ -42,8 +42,8 @@ class Ghost {
   }
 
   int mayMove() {
-    if(dlTime==0||millis()-dlTime>=this.GHOSTDELAY) {
-      dlTime=millis();
+    if(dlTime==0||millis-dlTime>=this.GHOSTDELAY) {
+      dlTime=millis;
       if(this.frightened) this.GHOSTDELAY=this.GHOSTDELAY_N*2;
       else this.GHOSTDELAY=this.GHOSTDELAY_N;
 
@@ -53,7 +53,7 @@ class Ghost {
   }
 
   void resetSmooth() {
-    this.renderTime = millis();
+    this.renderTime = millis;
     this.renderPosition=this.position.clone();
     this.renderFactor[0]=0;
     this.renderFactor[1]=0;

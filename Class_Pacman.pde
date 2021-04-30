@@ -42,7 +42,7 @@ class Pacman {
   }
 
   void resetSmooth(){
-    this.renderTime = millis();
+    this.renderTime = millis;
     this.renderPosition=this.position.clone();
     this.renderFactor[0]=0;
     this.renderFactor[1]=0;

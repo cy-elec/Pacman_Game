@@ -5,11 +5,11 @@
 */
 boolean DEBUGMODE = true;
 
-int frames = 1000;
+int frames = 60;
 int sizeX = 1000;
 int sizeY = 1000;
 
-
+int millis = 0;
 
 //Language Reference:  https://processing.org/reference/
 
@@ -39,6 +39,8 @@ void setup()
 
 /*Update loop*/
 void draw(){
+  millis = millis();
+
   if (fullReset){
       fullReset = false;
       gameHandler=new Game();

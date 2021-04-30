@@ -102,7 +102,7 @@ class Game {
   Game() {
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Initialized gameHandler with map size["+this.map[0].length+"|"+this.map.length+"]");
-    this.frameCnt=millis();
+    this.frameCnt=millis;
     findTeleporters();
     setAllStartPosition(); //also creates instances
 
@@ -129,9 +129,9 @@ class Game {
     }
     else if (player.lives > 1){
       if (mil3 == 0)
-        mil3 = millis();
+        mil3 = millis;
       this.smartRender();
-      if (millis()-mil3 > 2000)
+      if (millis-mil3 > 2000)
         this.reset();
     }
       /*EndScreen*/
@@ -178,10 +178,10 @@ class Game {
 
 
     //frameRate
-    if(millis()-this.frameCnt>500) {
+    if(millis-this.frameCnt>500) {
       this.frameRate=(frameCount-this.oldFrames)*2;
       this.oldFrames=frameCount;
-      this.frameCnt=millis();
+      this.frameCnt=millis;
     }
 
     //first render here to avoid leftovers
@@ -291,9 +291,9 @@ class Game {
     text("Pacman",width/2, height/2);
     textAlign(LEFT);
     textFont(createFont("Arial", 18));
-    if(mil4==0) mil4=millis();
+    if(mil4==0) mil4=millis;
 
-    if(millis()-mil4>4000) {
+    if(millis-mil4>4000) {
       textFont(createFont("Arial", 18));
       player.isAlive=true;
       this.rendered = false;
@@ -407,9 +407,9 @@ class Game {
 
 
     //every 500ms
-    if ((mil==0&&player.direction!="")||millis()-mil>=GLOBALDELAY) {
+    if ((mil==0&&player.direction!="")||millis-mil>=GLOBALDELAY) {
       /*reset counter*/
-      mil=millis();
+      mil=millis;
 
 
       /*DEBUG*/
@@ -542,12 +542,12 @@ class Game {
         for(int i=0; i<ghosts.length; i++) {
           ghosts[i].frightened=true;
         }
-        frMil=millis();
+        frMil=millis;
       }
 
 
 
-      if(FRIGHTENED_TIME>0&&frMil!=0&&millis()-frMil>=FRIGHTENED_TIME) {
+      if(FRIGHTENED_TIME>0&&frMil!=0&&millis-frMil>=FRIGHTENED_TIME) {
         for(int i=0; i<ghosts.length; i++) {
           ghosts[i].frightened=false;
         }
@@ -582,10 +582,10 @@ class Game {
 
 
       switch(player.renderDirection) {
-        case "up":player.renderFactor[1]=-1*this.heightScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
-        case "down":player.renderFactor[1]=this.heightScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
-        case "left":player.renderFactor[0]=-1*this.widthScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
-        case "right":player.renderFactor[0]=this.widthScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
+        case "up":player.renderFactor[1]=-1*this.heightScale*((float)(millis-player.renderTime)/this.GLOBALDELAY);break;
+        case "down":player.renderFactor[1]=this.heightScale*((float)(millis-player.renderTime)/this.GLOBALDELAY);break;
+        case "left":player.renderFactor[0]=-1*this.widthScale*((float)(millis-player.renderTime)/this.GLOBALDELAY);break;
+        case "right":player.renderFactor[0]=this.widthScale*((float)(millis-player.renderTime)/this.GLOBALDELAY);break;
       }
       player.renderFactor[0]=player.renderFactor[0]<(-this.heightScale)?-this.heightScale:player.renderFactor[0]>(this.heightScale)?this.heightScale:player.renderFactor[0];
       player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
@@ -596,10 +596,10 @@ class Game {
     for (int i = 0; i<this.ghosts.length;i++){
       if(!ghosts[i].isAlive) continue;
       switch(ghosts[i].renderDirection) {
-        case "up":ghosts[i].renderFactor[1]=-1*this.heightScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
-        case "down":ghosts[i].renderFactor[1]=this.heightScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
-        case "left":ghosts[i].renderFactor[0]=-1*this.widthScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
-        case "right":ghosts[i].renderFactor[0]=this.widthScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "up":ghosts[i].renderFactor[1]=-1*this.heightScale*((float)(millis-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "down":ghosts[i].renderFactor[1]=this.heightScale*((float)(millis-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "left":ghosts[i].renderFactor[0]=-1*this.widthScale*((float)(millis-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "right":ghosts[i].renderFactor[0]=this.widthScale*((float)(millis-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
       }
 
       ghosts[i].renderFactor[0]=ghosts[i].renderFactor[0]<(-this.heightScale)?-this.heightScale:ghosts[i].renderFactor[0]>(this.heightScale)?this.heightScale:ghosts[i].renderFactor[0];
@@ -636,7 +636,7 @@ class Game {
 
     this.player.reset();
     this.player.lives--;
-    this.frameCnt=millis();
+    this.frameCnt=millis;
 
   }
 }
