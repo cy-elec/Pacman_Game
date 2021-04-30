@@ -5,7 +5,7 @@
 */
 boolean DEBUGMODE = true;
 
-int frames = 60;
+int frames = 1000;
 int sizeX = 1000;
 int sizeY = 1000;
 

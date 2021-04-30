@@ -7,6 +7,8 @@ class Pacman {
   float[] renderFactor = new float[2];
   String renderDirection="";
 
+  int renderTime = 0;
+
   int[] spawnpoint = new int[2];
   color pacmanColor = color(255, 255, 0);
   int lives = 3;
@@ -37,6 +39,13 @@ class Pacman {
     this.direction = "";
     this.oldDirection = "";
     this.renderDirection="";
+  }
+
+  void resetSmooth(){
+    this.renderTime = millis();
+    this.renderPosition=this.position.clone();
+    this.renderFactor[0]=0;
+    this.renderFactor[1]=0;
   }
 
 }

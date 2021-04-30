@@ -12,6 +12,8 @@ class Ghost {
   float[] renderFactor = new float[2];
   String renderDirection="";
 
+  int renderTime = 0;
+
   int deadTime = 6;
   int deadCount = 0;
 
@@ -50,7 +52,8 @@ class Ghost {
     return 0;
   }
 
-  void updateSmooth() {
+  void resetSmooth() {
+    this.renderTime = millis();
     this.renderPosition=this.position.clone();
     this.renderFactor[0]=0;
     this.renderFactor[1]=0;

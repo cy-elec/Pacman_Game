@@ -22,7 +22,7 @@ class Inky extends Ghost{
 
     if(this.isAlive){
 
-      updateSmooth();
+      resetSmooth();
       if(this.leereFelder.length==0) findeleereFelder();
       if(this.position[0]==inkiesGoal[0]&&this.position[1]==inkiesGoal[1])
       {

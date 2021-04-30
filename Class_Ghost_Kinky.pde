@@ -13,7 +13,7 @@ class Kinky extends Ghost{
 
     if(super.isAlive){
 
-      updateSmooth();
+      resetSmooth();
       findTarget(pacmanPosition, pacmanDirection);
 
       int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);

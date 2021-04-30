@@ -251,7 +251,7 @@ class Game {
       }
     }
 
-    this.updateSmoothPosition();
+
 
 
     fill(player.pacmanColor); //fill changes the colour for all draw functions
@@ -555,18 +555,18 @@ class Game {
       }
 
     }
+    this.updateSmoothPosition();
   }
 
   void updatePosition(int[] playerNextPos){
     /*update position*/
+
     player.oldPosition = player.renderPosition.clone();
 
-
-    player.renderPosition=player.position.clone();
+    player.resetSmooth();
 
     player.position=playerNextPos.clone();
-    player.renderFactor[0]=0;
-    player.renderFactor[1]=0;
+
   }
 
 
@@ -582,10 +582,10 @@ class Game {
 
 
       switch(player.renderDirection) {
-        case "up":player.renderFactor[1]-=this.heightScale/(frames*this.GLOBALDELAY*0.001);break;
-        case "down":player.renderFactor[1]+=this.heightScale/(frames*this.GLOBALDELAY*0.001);break;
-        case "left":player.renderFactor[0]-=this.widthScale/(frames*this.GLOBALDELAY*0.001);break;
-        case "right":player.renderFactor[0]+=this.widthScale/(frames*this.GLOBALDELAY*0.001);break;
+        case "up":player.renderFactor[1]=-1*this.heightScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
+        case "down":player.renderFactor[1]=this.heightScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
+        case "left":player.renderFactor[0]=-1*this.widthScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
+        case "right":player.renderFactor[0]=this.widthScale*((float)(millis()-player.renderTime)/this.GLOBALDELAY);break;
       }
       player.renderFactor[0]=player.renderFactor[0]<(-this.heightScale)?-this.heightScale:player.renderFactor[0]>(this.heightScale)?this.heightScale:player.renderFactor[0];
       player.renderFactor[1]=player.renderFactor[1]<(-this.widthScale)?-this.widthScale:player.renderFactor[1]>(this.widthScale)?this.widthScale:player.renderFactor[1];
@@ -596,10 +596,10 @@ class Game {
     for (int i = 0; i<this.ghosts.length;i++){
       if(!ghosts[i].isAlive) continue;
       switch(ghosts[i].renderDirection) {
-        case "up":ghosts[i].renderFactor[1]-=this.heightScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
-        case "down":ghosts[i].renderFactor[1]+=this.heightScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
-        case "left":ghosts[i].renderFactor[0]-=this.widthScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
-        case "right":ghosts[i].renderFactor[0]+=this.widthScale/(frames*this.ghosts[i].GHOSTDELAY*0.001);break;
+        case "up":ghosts[i].renderFactor[1]=-1*this.heightScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "down":ghosts[i].renderFactor[1]=this.heightScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "left":ghosts[i].renderFactor[0]=-1*this.widthScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
+        case "right":ghosts[i].renderFactor[0]=this.widthScale*((float)(millis()-this.ghosts[i].renderTime)/this.ghosts[i].GHOSTDELAY);break;
       }
 
       ghosts[i].renderFactor[0]=ghosts[i].renderFactor[0]<(-this.heightScale)?-this.heightScale:ghosts[i].renderFactor[0]>(this.heightScale)?this.heightScale:ghosts[i].renderFactor[0];

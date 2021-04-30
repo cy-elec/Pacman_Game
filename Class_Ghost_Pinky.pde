@@ -14,7 +14,7 @@ class Pinky extends Ghost{
   void makeMove(int[] pacmanPosition, String pacmanDirection){
 
     if(super.isAlive){
-      updateSmooth();
+      resetSmooth();
 
       this.goal = findGoal(pacmanPosition, pacmanDirection);
 

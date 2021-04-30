@@ -10,7 +10,7 @@ class Blinky extends Ghost{
   void makeMove(int[] pacmanPosition){
 
     if(super.isAlive){
-      updateSmooth();
+      resetSmooth();
 
       int[][] path = AStar(this.position, pacmanPosition, gameHandler.map, gameHandler.teleporters);
       if (path!=null) {
