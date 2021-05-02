@@ -1,5 +1,6 @@
 /* Kinky */
 
+
 class Kinky extends Ghost{
 
   int[] target = new int[2];
