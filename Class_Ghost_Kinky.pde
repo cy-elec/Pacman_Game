@@ -4,7 +4,6 @@ class Kinky extends Ghost{
 
   int[] target = new int[2];
 
-
   Kinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
     super("Kinky",color(255,100,0), color(155,50,0), position, df);
@@ -14,11 +13,11 @@ class Kinky extends Ghost{
 
     if(super.isAlive){
 
+
       resetSmooth();
       findTarget(pacmanPosition, pacmanDirection);
-
-
       int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
+
       if (path!=null) {
         int nPos[] = path[1].clone();
 
