@@ -3,7 +3,8 @@
 class Kinky extends Ghost{
 
   int[] target = new int[2];
-
+  int uP=0;
+  boolean init=false;
   Kinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
     super("Kinky",color(255,100,0), color(155,50,0), position, df);
@@ -13,9 +14,18 @@ class Kinky extends Ghost{
 
     if(super.isAlive){
 
-
       resetSmooth();
-      findTarget(pacmanPosition, pacmanDirection);
+      uP++;
+      if(!init|| (
+        (pacmanDirection=="left"&&pacmanPosition[0]<=this.target[0]) ||
+        (pacmanDirection=="right"&&pacmanPosition[0]>=this.target[0]) ||
+        (pacmanDirection=="up"&& pacmanPosition[1]<=this.target[1]) ||
+        (pacmanDirection=="down"&& pacmanPosition[1]>=this.target[1])
+      ) || (this.target[0]==this.position[0]&&this.target[1]==this.position[1])) {
+        uP=0;
+        findTarget(pacmanPosition, pacmanDirection);
+        init=true;
+      }
       int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
 
       if (path!=null) {

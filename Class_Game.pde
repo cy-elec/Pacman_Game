@@ -1,7 +1,6 @@
 /*
   Game class, main gameHandler
  */
-
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
   //will be Initialized in setAllStartPosition()
@@ -169,6 +168,7 @@ class Game {
 
   void smartRender(){
 
+
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
 
@@ -262,7 +262,6 @@ class Game {
         rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
-
 
     /*SmartText pt2*/
     fill(255);
