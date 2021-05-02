@@ -17,7 +17,6 @@ class Kinky extends Ghost{
       resetSmooth();
       findTarget(pacmanPosition, pacmanDirection);
 
-      Testposition=this.target.clone();
 
       int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
       if (path!=null) {
