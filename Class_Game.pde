@@ -1,6 +1,7 @@
 /*
   Game class, main gameHandler
  */
+   int Testposition[] = new int[2];
 
 class Game {
   /*creates instances for Pacman and 4 Ghosts (ghosts need to be updated)*/
@@ -169,6 +170,8 @@ class Game {
 
   void smartRender(){
 
+    this.renderMap();
+
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: smart Render:");
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"\tPacman position: "+player.position[0]+" "+player.position[1]);
 
@@ -199,8 +202,6 @@ class Game {
       squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].renderPosition);
       squaresToUpdate = (int[][]) append(squaresToUpdate, ghosts[i].position);
     }
-
-
 
 
     for (int i = 0; i< squaresToUpdate.length; i++){
@@ -264,6 +265,9 @@ class Game {
         rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
+
+    fill(255,255,255);
+    rect(Testposition[0]*this.widthScale, Testposition[1]*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
 
     /*SmartText pt2*/
     fill(255);

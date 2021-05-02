@@ -1,10 +1,9 @@
 /* Kinky */
 
-
-
 class Kinky extends Ghost{
 
   int[] target = new int[2];
+
 
   Kinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
@@ -17,6 +16,8 @@ class Kinky extends Ghost{
 
       resetSmooth();
       findTarget(pacmanPosition, pacmanDirection);
+
+      Testposition=this.target.clone();
 
       int[][] path = AStar(this.position, this.target, gameHandler.map, gameHandler.teleporters);
       if (path!=null) {
@@ -56,7 +57,24 @@ class Kinky extends Ghost{
       default : this.target = pacmanPosition; return;
     }
 
+    String nextDirection=pacmanDirection;
+    int foundNumber=0;
     do {
+      if(foundNumber!=0&&foundNumber<2) {
+        switch(nextDirection) {
+          case "up": directionVector[1]=-1;directionVector[0]=0;break;
+          case "down": directionVector[1]=1;directionVector[0]=0;break;
+          case "left": directionVector[0]=-1;directionVector[1]=0;break;
+          case "right": directionVector[0]=1;directionVector[1]=0;break;
+          default : break;
+        }
+      }
+      else if(foundNumber>=2) {
+        loop=false;
+        continue;
+      }
+      foundNumber=0;
+
       sPos[0]+=directionVector[0];
       sPos[1]+=directionVector[1];
       sPos[0] %= gameHandler.map[0].length;
@@ -67,6 +85,7 @@ class Kinky extends Ghost{
       if(sPos[0]==this.position[0]&&sPos[1]==this.position[1]) {
         loop = false;
         sPos = pacmanPosition.clone();
+        continue;
       }
       else if(gameHandler.map[sPos[1]][sPos[0]]==1) {
         sPos[0]-=directionVector[0];
@@ -76,13 +95,33 @@ class Kinky extends Ghost{
         sPos[0] = sPos[0]<0?gameHandler.map[0].length-1:sPos[0];
         sPos[1] = sPos[1]<0?gameHandler.map.length-1:sPos[1];
         loop=false;
+        continue;
       }
       else {
-        switch(pacmanDirection) {
-          case "up": if(gameHandler.map[sPos[1]][((sPos[0]-1)<0?gameHandler.map[0].length-1:sPos[0]-1)]!=1||gameHandler.map[sPos[1]][((sPos[0]+1)%gameHandler.map[0].length)]!=1){loop=false;}break;
-          case "down": if(gameHandler.map[sPos[1]][((sPos[0]-1)<0?gameHandler.map[0].length-1:sPos[0]-1)]!=1||gameHandler.map[sPos[1]][((sPos[0]+1)%gameHandler.map[0].length)]!=1){loop=false;}break;
-          case "left": if(gameHandler.map[((sPos[1]-1)<0?gameHandler.map.length-1:sPos[1]-1)][sPos[0]]!=1||gameHandler.map[((sPos[1]+1)%gameHandler.map.length)][sPos[0]]!=1){loop=false;}break;
-          case "right": if(gameHandler.map[((sPos[1]-1)<0?gameHandler.map.length-1:sPos[1]-1)][sPos[0]]!=1||gameHandler.map[((sPos[1]+1)%gameHandler.map.length)][sPos[0]]!=1){loop=false;}break;
+        switch(nextDirection) {
+          case "up":
+            if(gameHandler.map[((sPos[1]-1)<0?gameHandler.map.length-1:sPos[1]-1)][sPos[0]]!=1){nextDirection="up";foundNumber++;}
+            if(gameHandler.map[sPos[1]][((sPos[0]-1)<0?gameHandler.map[0].length-1:sPos[0]-1)]!=1){nextDirection="left";foundNumber++;}
+            if(gameHandler.map[sPos[1]][((sPos[0]+1)%gameHandler.map[0].length)]!=1){nextDirection="right";foundNumber++;}
+            break;
+
+          case "down":
+            if(gameHandler.map[((sPos[1]+1)%gameHandler.map.length)][sPos[0]]!=1){nextDirection="down";foundNumber++;}
+            if(gameHandler.map[sPos[1]][((sPos[0]-1)<0?gameHandler.map[0].length-1:sPos[0]-1)]!=1){nextDirection="left";foundNumber++;}
+            if(gameHandler.map[sPos[1]][((sPos[0]+1)%gameHandler.map[0].length)]!=1){nextDirection="right";foundNumber++;}
+            break;
+
+          case "left":
+            if(gameHandler.map[sPos[1]][((sPos[0]-1)<0?gameHandler.map[0].length-1:sPos[0]-1)]!=1){nextDirection="left";foundNumber++;}
+            if(gameHandler.map[((sPos[1]-1)<0?gameHandler.map.length-1:sPos[1]-1)][sPos[0]]!=1){nextDirection="up";foundNumber++;}
+            if(gameHandler.map[((sPos[1]+1)%gameHandler.map.length)][sPos[0]]!=1){nextDirection="down";foundNumber++;}
+            break;
+
+          case "right":
+            if(gameHandler.map[sPos[1]][((sPos[0]+1)%gameHandler.map[0].length)]!=1){nextDirection="right";foundNumber++;}
+            if(gameHandler.map[((sPos[1]-1)<0?gameHandler.map.length-1:sPos[1]-1)][sPos[0]]!=1){nextDirection="up";foundNumber++;}
+            if(gameHandler.map[((sPos[1]+1)%gameHandler.map.length)][sPos[0]]!=1){nextDirection="down";foundNumber++;}
+            break;
         }
       }
     }while(loop);
