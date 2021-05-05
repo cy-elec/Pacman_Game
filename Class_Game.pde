@@ -255,7 +255,16 @@ class Game {
 
 
     fill(player.pacmanColor); //fill changes the colour for all draw functions
-    rect(player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+
+    switch(player.renderDirection){
+      case"right":image(player.right, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"left":image(player.left, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"up":image(player.up, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"down":image(player.down, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      default: break;
+    }
+
+
 
     for (int i=0; i<this.ghosts.length; i++){
       if (ghosts[i].isAlive){
