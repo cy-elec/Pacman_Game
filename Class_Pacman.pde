@@ -16,10 +16,15 @@ class Pacman {
   String direction = "";
   String oldDirection = "";
 
-  PImage right = loadImage("pacman_right.png");
-  PImage left = loadImage("pacman_left.png");
-  PImage up = loadImage("pacman_up.png");
-  PImage down = loadImage("pacman_down.png");
+  PImage right0 = loadImage("pacman_right0.png");
+  PImage left0 = loadImage("pacman_left0.png");
+  PImage up0 = loadImage("pacman_up0.png");
+  PImage down0 = loadImage("pacman_down0.png");
+  PImage right1 = loadImage("pacman_right1.png");
+  PImage left1 = loadImage("pacman_left1.png");
+  PImage up1 = loadImage("pacman_up1.png");
+  PImage down1 = loadImage("pacman_down1.png");
+  PImage defaultI = loadImage("pacman_default.png");
 
   Pacman(int spawn[]){
     /*DEBUG*/
