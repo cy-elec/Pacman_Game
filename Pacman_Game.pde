@@ -25,7 +25,7 @@ Game gameHandler;
 void setup()
 {
   debugoutput = createWriter(".debug.log");
-
+  noStroke();
   frameRate(frames);
 
   /*DEBUG*/
