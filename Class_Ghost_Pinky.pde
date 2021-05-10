@@ -6,7 +6,7 @@ class Pinky extends Ghost{
 
   Pinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Pinky",color(255,0,255), color(155,0,155), position, df);
+    super("Pinky", loadImage("ghost_pinky_right0.png"), loadImage("ghost_pinky_right1.png"), loadImage("ghost_pinky_left0.png"), loadImage("ghost_pinky_left1.png"), loadImage("ghost_pinky_down0.png"), loadImage("ghost_pinky_down1.png"), loadImage("ghost_pinky_up0.png"), loadImage("ghost_pinky_up1.png"), loadImage("ghost_pinky_frightened.png"), loadImage("ghost_pinky_default.png"), position, df);
 
   }
   //tries to cut off your path off by coming in front of you

@@ -17,10 +17,10 @@ class Pacman {
   String oldDirection = "";
 
   boolean imgToggle=false;
-  PImage right;
-  PImage left;
-  PImage up;
-  PImage down;
+  PImage Iright;
+  PImage Ileft;
+  PImage Iup;
+  PImage Idown;
   PImage right0 = loadImage("pacman_right0.png");
   PImage left0 = loadImage("pacman_left0.png");
   PImage up0 = loadImage("pacman_up0.png");
@@ -29,7 +29,7 @@ class Pacman {
   PImage left1 = loadImage("pacman_left1.png");
   PImage up1 = loadImage("pacman_up1.png");
   PImage down1 = loadImage("pacman_down1.png");
-  PImage defaultI = loadImage("pacman_default.png");
+  PImage Idefault = loadImage("pacman_default.png");
 
   Pacman(int spawn[]){
     /*DEBUG*/
@@ -40,27 +40,27 @@ class Pacman {
     this.oldPosition = this.spawnpoint.clone();
     this.renderPosition = this.spawnpoint.clone();
 
-    this.right=this.right0;
-    this.left=this.left0;
-    this.up=this.up0;
-    this.down=this.down0;
+    this.Iright=this.right0;
+    this.Ileft=this.left0;
+    this.Iup=this.up0;
+    this.Idown=this.down0;
 
   }
 
   void toggleImg() {
-    if(imgToggle) {
-      this.right=this.right1;
-      this.left=this.left1;
-      this.up=this.up1;
-      this.down=this.down1;
+    if(this.imgToggle) {
+      this.Iright=this.right1;
+      this.Ileft=this.left1;
+      this.Iup=this.up1;
+      this.Idown=this.down1;
     }
     else {
-      this.right=this.right0;
-      this.left=this.left0;
-      this.up=this.up0;
-      this.down=this.down0;
+      this.Iright=this.right0;
+      this.Ileft=this.left0;
+      this.Iup=this.up0;
+      this.Idown=this.down0;
     }
-    imgToggle=!imgToggle;
+    this.imgToggle=!this.imgToggle;
   }
 
   void reset(){

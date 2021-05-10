@@ -12,8 +12,8 @@ class Inky extends Ghost{
 
   Inky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Inky",color(0,100,255), color(0,50,155), position, df);
-
+    super("Inky", loadImage("ghost_inky_right0.png"), loadImage("ghost_inky_right1.png"), loadImage("ghost_inky_left0.png"), loadImage("ghost_inky_left1.png"), loadImage("ghost_inky_down0.png"), loadImage("ghost_inky_down1.png"), loadImage("ghost_inky_up0.png"), loadImage("ghost_inky_up1.png"), loadImage("ghost_inky_frightened.png"), loadImage("ghost_inky_default.png"), position, df);
+this.isAlive=false;
 
   }
     //least predictable of the ghosts (probably just random moves)

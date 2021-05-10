@@ -15,7 +15,7 @@ class Game {
   int ghost_default_position[]= new int[2];
 
   /*delay handler. movement every 200ms*/
-  int mil=0, mil3=0, mil4=0, frMil=0;
+  int mil=0, mil2=0, mil3=0, mil4=0, frMil=0;
   int GLOBALDELAY=250;
   int DEFAULT_GHOSTDELAY=300;
   int FRIGHTENED_TIME=10000;
@@ -255,20 +255,30 @@ class Game {
     fill(player.pacmanColor); //fill changes the colour for all draw functions
 
     switch(player.renderDirection){
-      case"right":image(player.right, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
-      case"left":image(player.left, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
-      case"up":image(player.up, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
-      case"down":image(player.down, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
-      default: image(player.defaultI, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"right":image(player.Iright, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"left":image(player.Ileft, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"up":image(player.Iup, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      case"down":image(player.Idown, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
+      default: image(player.Idefault, player.renderPosition[0]*this.widthScale+player.renderFactor[0], player.renderPosition[1]*this.heightScale+player.renderFactor[1], this.widthScale, this.heightScale);break;
     }
 
 
 
     for (int i=0; i<this.ghosts.length; i++){
       if (ghosts[i].isAlive){
-        fill(ghosts[i].ghostColor); //fill changes the colour for all draw functions
-        if(ghosts[i].frightened) fill(ghosts[i].ghostColorF); //fill changes the colour for all draw functions
-        rect(ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);//rect draws a rect you idiot
+        if(ghosts[i].frightened&&millis-frMil<=(FRIGHTENED_TIME-1500)) image(ghosts[i].Ifrightened, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);
+        else if(ghosts[i].frightened&&millis-frMil>=(FRIGHTENED_TIME-1500)) {
+          if(ghosts[i].imgToggle) image(ghosts[i].Ifrightened, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);
+          else image(ghosts[i].Idefault, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);
+        }
+        else
+          switch(ghosts[i].renderDirection){
+            case"right":image(ghosts[i].Iright, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);break;
+            case"left":image(ghosts[i].Ileft, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);break;
+            case"up":image(ghosts[i].Iup, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);break;
+            case"down":image(ghosts[i].Idown, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);break;
+            default: image(ghosts[i].Idefault, ghosts[i].renderPosition[0]*this.widthScale+ghosts[i].renderFactor[0], ghosts[i].renderPosition[1]*this.heightScale+ghosts[i].renderFactor[1], this.widthScale, this.heightScale);break;
+          }
       }
     }
 
@@ -412,13 +422,18 @@ class Game {
     }
 
 
+    if(mil2==0||millis-mil2>=GLOBALDELAY/1.5) {
+      mil2=millis;
+      player.toggleImg();
+      for(int i=0; i<this.ghosts.length; i++) this.ghosts[i].toggleImg();
+    }
 
     //every 500ms
     if ((mil==0&&player.direction!="")||millis-mil>=GLOBALDELAY) {
       /*reset counter*/
       mil=millis;
 
-      player.toggleImg();
+
 
       /*DEBUG*/
       debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: update movement");
@@ -641,6 +656,7 @@ class Game {
     ghosts = new Ghost[]{new Blinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Pinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Inky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY), new Kinky(this.ghost_default_position,this.DEFAULT_GHOSTDELAY)};
 
     this.mil=0;
+    this.mil2=0;
     this.mil3 = 0;
     this.mil4 = 0;
 
