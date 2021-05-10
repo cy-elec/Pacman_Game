@@ -16,6 +16,11 @@ class Pacman {
   String direction = "";
   String oldDirection = "";
 
+  boolean imgToggle=false;
+  PImage right;
+  PImage left;
+  PImage up;
+  PImage down;
   PImage right0 = loadImage("pacman_right0.png");
   PImage left0 = loadImage("pacman_left0.png");
   PImage up0 = loadImage("pacman_up0.png");
@@ -35,6 +40,27 @@ class Pacman {
     this.oldPosition = this.spawnpoint.clone();
     this.renderPosition = this.spawnpoint.clone();
 
+    this.right=this.right0;
+    this.left=this.left0;
+    this.up=this.up0;
+    this.down=this.down0;
+
+  }
+
+  void toggleImg() {
+    if(imgToggle) {
+      this.right=this.right1;
+      this.left=this.left1;
+      this.up=this.up1;
+      this.down=this.down1;
+    }
+    else {
+      this.right=this.right0;
+      this.left=this.left0;
+      this.up=this.up0;
+      this.down=this.down0;
+    }
+    imgToggle=!imgToggle;
   }
 
   void reset(){
