@@ -144,6 +144,8 @@ class Game {
   /*renders the whole map*/
   void renderMap() {
 
+    stroke();
+
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering map:");
 
@@ -165,6 +167,8 @@ class Game {
       }
     }
   }
+  noStroke();
+
 
   void smartRender(){
 
