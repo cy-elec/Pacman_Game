@@ -245,7 +245,8 @@ class Game {
     int toClear[][] = {score_clear_pos, lives_clear_pos, status_clear_pos};
 
     if(DEBUGMODE) toClear = (int[][])append(toClear, framerate_clear_pos);
-
+    
+    stroke(1);
     for(int i=0; i<toClear.length; i++) {
       for(int j=toClear[i][0]; j<toClear[i][1]; j++) {
         fill(this.colorMap[map[toClear[i][2]][j]]);//fill changes the colour for all draw functions
@@ -253,7 +254,7 @@ class Game {
         else rect(j*this.widthScale, toClear[i][2]*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
-
+    noStroke();
 
 
 
