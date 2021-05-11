@@ -144,7 +144,7 @@ class Game {
   /*renders the whole map*/
   void renderMap() {
 
-    stroke();
+    stroke(1);
 
     /*DEBUG*/
     debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Game: Rendering map:");
@@ -166,8 +166,9 @@ class Game {
         else rect(i*this.widthScale, j*this.heightScale, this.widthScale, this.heightScale);//rect draws a rect you idiot
       }
     }
+    noStroke();
   }
-  noStroke();
+
 
 
   void smartRender(){

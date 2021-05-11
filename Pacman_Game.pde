@@ -25,7 +25,7 @@ Game gameHandler;
 void settings(){
 
   size(sizeX, sizeY);
-  frameRate(frames);
+
 
 }
 
@@ -33,6 +33,7 @@ void setup()
 {
   debugoutput = createWriter(".debug.log");
 
+  frameRate(frames);
   noStroke();
   /*DEBUG*/
   debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
