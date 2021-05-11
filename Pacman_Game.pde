@@ -22,6 +22,12 @@ boolean fullReset = true;
 Game gameHandler;
 
 
+void settings(){
+
+  fullScreen(P2D, SPAN);
+
+}
+
 void setup()
 {
   debugoutput = createWriter(".debug.log");
@@ -32,8 +38,7 @@ void setup()
   debugoutput.println(hour()+":"+minute()+":"+second()+": "+"Main: Initialized Window");
 
   //display
-  surface.setResizable(false);
-  surface.setSize(sizeX, sizeY);
+
 
 }
 
