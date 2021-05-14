@@ -10,7 +10,7 @@ class Kinky extends Ghost{
 
   Kinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Kinky", loadImage("ghost_kinky_right0.png"), loadImage("ghost_kinky_right1.png"), loadImage("ghost_kinky_left0.png"), loadImage("ghost_kinky_left1.png"), loadImage("ghost_kinky_down0.png"), loadImage("ghost_kinky_down1.png"), loadImage("ghost_kinky_up0.png"), loadImage("ghost_kinky_up1.png"), loadImage("ghost_kinky_frightened.png"), loadImage("ghost_kinky_default.png"), position, df);
+    super("Kinky", ghost_kinky_right0_img, ghost_kinky_right1_img, ghost_kinky_left0_img, ghost_kinky_left1_img, ghost_kinky_down0_img, ghost_kinky_down1_img, ghost_kinky_up0_img, ghost_kinky_up1_img, ghost_kinky_frightened_img, ghost_kinky_default_img, position, df);
   }
 
   void makeMove(int[] pacmanPosition, String pacmanDirection){

@@ -12,7 +12,7 @@ class Inky extends Ghost{
 
   Inky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Inky", loadImage("ghost_inky_right0.png"), loadImage("ghost_inky_right1.png"), loadImage("ghost_inky_left0.png"), loadImage("ghost_inky_left1.png"), loadImage("ghost_inky_down0.png"), loadImage("ghost_inky_down1.png"), loadImage("ghost_inky_up0.png"), loadImage("ghost_inky_up1.png"), loadImage("ghost_inky_frightened.png"), loadImage("ghost_inky_default.png"), position, df);
+    super("Inky", ghost_inky_right0_img, ghost_inky_right1_img, ghost_inky_left0_img, ghost_inky_left1_img, ghost_inky_down0_img, ghost_inky_down1_img, ghost_inky_up0_img, ghost_inky_up1_img, ghost_inky_frightened_img, ghost_inky_default_img, position, df);
 
 
   }

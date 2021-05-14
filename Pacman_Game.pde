@@ -33,6 +33,8 @@ void setup()
 {
   debugoutput = createWriter(".debug.log");
 
+  ref_loadImage();
+
   frameRate(frames);
   noStroke();
   /*DEBUG*/

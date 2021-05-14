@@ -21,15 +21,15 @@ class Pacman {
   PImage Ileft;
   PImage Iup;
   PImage Idown;
-  PImage right0 = loadImage("pacman_right0.png");
-  PImage left0 = loadImage("pacman_left0.png");
-  PImage up0 = loadImage("pacman_up0.png");
-  PImage down0 = loadImage("pacman_down0.png");
-  PImage right1 = loadImage("pacman_right1.png");
-  PImage left1 = loadImage("pacman_left1.png");
-  PImage up1 = loadImage("pacman_up1.png");
-  PImage down1 = loadImage("pacman_down1.png");
-  PImage Idefault = loadImage("pacman_default.png");
+  PImage right0 = pacman_right0_img;
+  PImage left0 = pacman_left0_img;
+  PImage up0 = pacman_up0_img;
+  PImage down0 = pacman_down0_img;
+  PImage right1 = pacman_right1_img;
+  PImage left1 = pacman_left1_img;
+  PImage up1 = pacman_up1_img;
+  PImage down1 = pacman_down1_img;
+  PImage Idefault = pacman_default_img;
 
   Pacman(int spawn[]){
     /*DEBUG*/

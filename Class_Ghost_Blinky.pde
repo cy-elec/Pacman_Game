@@ -4,7 +4,7 @@ class Blinky extends Ghost{
 
   Blinky(int position[], int df) {
     //calls constructor of parent class. Must be first action in child class' constructor
-    super("Blinky", loadImage("ghost_blinky_right0.png"), loadImage("ghost_blinky_right1.png"), loadImage("ghost_blinky_left0.png"), loadImage("ghost_blinky_left1.png"), loadImage("ghost_blinky_down0.png"), loadImage("ghost_blinky_down1.png"), loadImage("ghost_blinky_up0.png"), loadImage("ghost_blinky_up1.png"), loadImage("ghost_blinky_frightened.png"), loadImage("ghost_blinky_default.png"), position, df);
+    super("Blinky", ghost_blinky_right0_img, ghost_blinky_right1_img, ghost_blinky_left0_img, ghost_blinky_left1_img, ghost_blinky_down0_img, ghost_blinky_down1_img, ghost_blinky_up0_img, ghost_blinky_up1_img, ghost_blinky_frightened_img, ghost_blinky_default_img, position, df);
   }
 
   void makeMove(int[] pacmanPosition){
