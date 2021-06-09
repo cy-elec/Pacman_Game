@@ -1,6 +1,11 @@
 *.exe linguist-documentation
 *.jar linguist-documentation
-*.png linguist-documentation
 *.o linguist-documentation
-*.txt linguist-documentation
+
+*.linux-arm64 linguist-documentation
+*.linux-armv6hf linguist-documentation
+*.linux32 linguist-documentation
+*.linux64 linguist-documentation
+*.windows32 linguist-documentation
+*.windows64 linguist-documentation
 
