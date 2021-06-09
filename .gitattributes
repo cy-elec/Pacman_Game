@@ -2,10 +2,5 @@
 *.jar linguist-documentation
 *.o linguist-documentation
 
-*.linux-arm64 linguist-documentation
-*.linux-armv6hf linguist-documentation
-*.linux32 linguist-documentation
-*.linux64 linguist-documentation
-*.windows32 linguist-documentation
-*.windows64 linguist-documentation
+*.1 linguist-documentation
 
