@@ -1,1 +1,3 @@
 *.exe linguist-documentation
+*.jar linguist-documentation
+*.png linguist-documentation
